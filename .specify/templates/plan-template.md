@@ -31,7 +31,11 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- **I. Simplicity**: Is the proposed solution the simplest possible?
+- **II. Test-Driven Development (TDD)**: Are tests written before implementation?
+- **III. Clear and Consistent Naming**: Is the naming clear and self-documenting?
+- **IV. Separation of Concerns**: Is there a clean separation between frontend and backend?
+- **V. API First**: Is the API contract defined before implementation?
 
 ## Project Structure
 
