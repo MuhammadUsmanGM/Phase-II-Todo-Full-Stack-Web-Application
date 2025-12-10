@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie"; // Import js-cookie
 
 interface AuthContextType {
   token: string | null;
@@ -22,11 +23,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
-    // On mount, try to load token from localStorage
-    const storedToken = localStorage.getItem("token");
+    // On mount, try to load token from cookies
+    const storedToken = Cookies.get("token"); // Use js-cookie to get token
     if (storedToken) {
-      // Decode JWT to get user ID
-      // This is a simplified client-side decode, in a real app you might validate with backend
       try {
         const payloadBase64 = storedToken.split(".")[1];
         const decodedPayload = JSON.parse(atob(payloadBase64));
@@ -36,14 +35,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setIsAuthenticated(true);
       } catch (error) {
         console.error("Failed to decode token:", error);
-        localStorage.removeItem("token"); // Remove invalid token
+        Cookies.remove("token"); // Remove invalid token
       }
     }
     setIsLoading(false);
   }, []);
 
   const login = (newToken: string) => {
-    localStorage.setItem("token", newToken);
+    Cookies.set("token", newToken, { expires: 7 }); // Store token in cookies for 7 days
     const payloadBase64 = newToken.split(".")[1];
     const decodedPayload = JSON.parse(atob(payloadBase64));
     const sub = decodedPayload.sub;
@@ -54,7 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    Cookies.remove("token"); // Remove token from cookies
     setToken(null);
     setUserId(null);
     setIsAuthenticated(false);
