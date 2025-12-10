@@ -38,7 +38,7 @@ class Task(SQLModel, table=True):
     updated_at: datetime.datetime = Field(default_factory=datetime.datetime.utcnow, nullable=False)
 
     owner_id: int = Field(foreign_key="user.id")
-    owner: "User" = Relationship(back_populates="tasks")
+    owner: Optional["User"] = Relationship(back_populates="tasks")
 ```
 ## Notes
 - `updated_at` should be programmatically updated on every modification.
