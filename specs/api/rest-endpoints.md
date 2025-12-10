@@ -3,7 +3,45 @@
 This document defines the API contract for the backend. All endpoints require a valid JWT for an authenticated user. The backend must validate that the user ID in the token matches the `{user_id}` in the URL path.
 
 ---
-## `GET /api/{user_id}/tasks`
+## Authentication
+
+### `POST /auth/register`
+- **Description:** Creates a new user account.
+- **Request Body:**
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "a-strong-password"
+  }
+  ```
+- **Success Response (201 Created):**
+  ```json
+  {
+    "access_token": "your_jwt_token_here",
+    "token_type": "bearer"
+  }
+  ```
+- **Error Responses:**
+  - `400 Bad Request`: If email is invalid or already exists.
+  - `422 Unprocessable Entity`: If validation fails.
+
+### `POST /auth/login`
+- **Description:** Authenticates a user and returns a JWT.
+- **Request Body (form data):**
+  ```
+  username=user@example.com&password=a-strong-password
+  ```
+- **Success Response (200 OK):**
+  ```json
+  {
+    "access_token": "your_jwt_token_here",
+    "token_type": "bearer"
+  }
+  ```
+- **Error Response (401 Unauthorized):** If credentials are incorrect.
+
+---
+## Todos (Requires Authentication)
 - **Description:** Get all tasks for a specific user.
 - **Request Body:** None.
 - **Success Response (200 OK):**
