@@ -22,8 +22,8 @@ This document defines the API contract for the backend. All endpoints require a 
   }
   ```
 - **Error Responses:**
-  - `400 Bad Request`: If email is invalid or already exists.
-  - `422 Unprocessable Entity`: If validation fails.
+  - `400 Bad Request`: If email is already registered.
+  - `422 Unprocessable Entity`: If validation (e.g., email format, password strength) fails.
 
 ### `POST /auth/login`
 - **Description:** Authenticates a user and returns a JWT.
@@ -41,7 +41,9 @@ This document defines the API contract for the backend. All endpoints require a 
 - **Error Response (401 Unauthorized):** If credentials are incorrect.
 
 ---
-## Todos (Requires Authentication)
+## Todos (Requires Authentication and Authorization)
+
+### `GET /api/{user_id}/tasks`
 - **Description:** Get all tasks for a specific user.
 - **Request Body:** None.
 - **Success Response (200 OK):**
@@ -51,25 +53,32 @@ This document defines the API contract for the backend. All endpoints require a 
       "id": 1,
       "title": "Task 1",
       "description": "Description for task 1",
-      "completed": false
+      "completed": false,
+      "created_at": "2025-12-10T09:00:00.000Z",
+      "updated_at": "2025-12-10T09:30:00.000Z",
+      "owner_id": 1
     },
     {
       "id": 2,
       "title": "Task 2",
       "description": null,
-      "completed": true
+      "completed": true,
+      "created_at": "2025-12-10T09:00:00.000Z",
+      "updated_at": "2025-12-10T09:30:00.000Z",
+      "owner_id": 1
     }
   ]
   ```
-- **Error Response (403 Forbidden):** If token user ID does not match `{user_id}`.
+- **Error Responses:**
+  - `401 Unauthorized`: Invalid or missing JWT.
+  - `403 Forbidden`: If token user ID does not match `{user_id}`.
 
----
-## `POST /api/{user_id}/tasks`
+### `POST /api/{user_id}/tasks`
 - **Description:** Create a new task for a user.
 - **Request Body:**
   ```json
   {
-    "title": "A new task",
+    "title": "A brand new task",
     "description": "Optional description."
   }
   ```
@@ -77,17 +86,20 @@ This document defines the API contract for the backend. All endpoints require a 
   ```json
   {
     "id": 3,
-    "title": "A new task",
+    "title": "A brand new task",
     "description": "Optional description.",
     "completed": false,
-    "created_at": "2025-12-10T10:00:00Z",
-    "updated_at": "2025-12-10T10:00:00Z"
+    "created_at": "2025-12-10T10:00:00.000Z",
+    "updated_at": "2025-12-10T10:00:00.000Z",
+    "owner_id": 1
   }
   ```
-- **Error Response (403 Forbidden):** If token user ID does not match `{user_id}`.
+- **Error Responses:**
+  - `401 Unauthorized`: Invalid or missing JWT.
+  - `403 Forbidden`: If token user ID does not match `{user_id}`.
+  - `422 Unprocessable Entity`: If validation (e.g., missing title) fails.
 
----
-## `GET /api/{user_id}/tasks/{id}`
+### `GET /api/{user_id}/tasks/{id}`
 - **Description:** Get a single task by its ID.
 - **Request Body:** None.
 - **Success Response (200 OK):**
@@ -97,22 +109,24 @@ This document defines the API contract for the backend. All endpoints require a 
     "title": "Task 1",
     "description": "Description for task 1",
     "completed": false,
-    "created_at": "2025-12-10T09:00:00Z",
-    "updated_at": "2025-12-10T09:30:00Z"
+    "created_at": "2025-12-10T09:00:00.000Z",
+    "updated_at": "2025-12-10T09:30:00.000Z",
+    "owner_id": 1
   }
   ```
 - **Error Responses:**
+  - `401 Unauthorized`: Invalid or missing JWT.
   - `403 Forbidden`: If token user ID does not match `{user_id}`.
-  - `404 Not Found`: If task with `{id}` does not exist for this user.
+  - `404 Not Found`: If task with `{id}` does not exist or does not belong to the user.
 
----
-## `PUT /api/{user_id}/tasks/{id}`
-- **Description:** Update a task's title and/or description.
+### `PUT /api/{user_id}/tasks/{id}`
+- **Description:** **Partially update** a task's title and/or description and/or completed status. (Behaves like PATCH, allowing optional fields).
 - **Request Body:**
   ```json
   {
     "title": "Updated title",
-    "description": "Updated description."
+    "description": "Updated description.",
+    "completed": true
   }
   ```
 - **Success Response (200 OK):** The full updated task object.
@@ -122,25 +136,27 @@ This document defines the API contract for the backend. All endpoints require a 
     "title": "Updated title",
     "description": "Updated description.",
     "completed": false,
-    "created_at": "2025-12-10T09:00:00Z",
-    "updated_at": "2025-12-10T11:00:00Z"
+    "created_at": "2025-12-10T09:00:00.000Z",
+    "updated_at": "2025-12-10T11:00:00.000Z",
+    "owner_id": 1
   }
   ```
 - **Error Responses:**
+  - `401 Unauthorized`: Invalid or missing JWT.
   - `403 Forbidden`: If token user ID does not match `{user_id}`.
-  - `404 Not Found`: If task with `{id}` does not exist for this user.
+  - `404 Not Found`: If task with `{id}` does not exist or does not belong to the user.
+  - `422 Unprocessable Entity`: If validation fails.
 
----
-## `DELETE /api/{user_id}/tasks/{id}`
+### `DELETE /api/{user_id}/tasks/{id}`
 - **Description:** Delete a task.
 - **Request Body:** None.
 - **Success Response (204 No Content):** An empty response.
 - **Error Responses:**
+  - `401 Unauthorized`: Invalid or missing JWT.
   - `403 Forbidden`: If token user ID does not match `{user_id}`.
-  - `404 Not Found`: If task with `{id}` does not exist for this user.
+  - `404 Not Found`: If task with `{id}` does not exist or does not belong to the user.
 
----
-## `PATCH /api/{user_id}/tasks/{id}/complete`
+### `PATCH /api/{user_id}/tasks/{id}/complete`
 - **Description:** Toggle the completion status of a task.
 - **Request Body:**
   ```json
@@ -155,10 +171,12 @@ This document defines the API contract for the backend. All endpoints require a 
     "title": "Updated title",
     "description": "Updated description.",
     "completed": true,
-    "created_at": "2025-12-10T09:00:00Z",
-    "updated_at": "2025-12-10T12:00:00Z"
+    "created_at": "2025-12-10T09:00:00.000Z",
+    "updated_at": "2025-12-10T12:00:00.000Z",
+    "owner_id": 1
   }
   ```
 - **Error Responses:**
+  - `401 Unauthorized`: Invalid or missing JWT.
   - `403 Forbidden`: If token user ID does not match `{user_id}`.
-  - `404 Not Found`: If task with `{id}` does not exist for this user.
+  - `404 Not Found`: If task with `{id}` does not exist or does not belong to the user.
