@@ -36,3 +36,6 @@ class TaskRead(TaskBase):
     created_at: datetime.datetime
     updated_at: datetime.datetime
     owner_id: int # Include owner_id for API response
+
+class TaskCompletionStatus(SQLModel):
+    completed: bool
