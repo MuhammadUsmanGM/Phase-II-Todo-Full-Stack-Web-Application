@@ -35,3 +35,8 @@ This spec defines multi-user behavior and data isolation using "Better Auth" JWT
 - **Then** the backend **MUST** verify that my JWT's user ID matches `{user_id}`.
 - **And if** the IDs do not match, the API **MUST** return a `403 Forbidden` error.
 - **And if** the IDs match, the API **MUST** only perform database operations on tasks owned by me.
+
+## JWT Structure and User ID Derivation
+- **JWT Content:** The JSON Web Tokens (JWTs) issued by the backend are standard JWS Compact Serialization format.
+- **User ID Claim:** The authenticated user's unique identifier (ID) is stored within the JWT's `sub` (subject) claim.
+- **Derivation:** Both the frontend (for client-side routing and display) and the backend (for authorization) extract the `user_id` by decoding the `sub` claim from the JWT payload.
