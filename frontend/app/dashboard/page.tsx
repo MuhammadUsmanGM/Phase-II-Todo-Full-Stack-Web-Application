@@ -103,12 +103,15 @@ export default function DashboardPage() {
       <header className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-40">
         <div className="container mx-auto px-4 py-6 flex justify-between items-center">
           <div className="flex items-center space-x-2">
-            <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-2 rounded-lg">
+            <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-2 rounded-lg cursor-pointer hover:from-indigo-700 hover:to-purple-700 transition-all duration-300" onClick={() => router.push('/')}>
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
             </div>
-            <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+            <h1
+              className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 cursor-pointer hover:from-indigo-700 hover:to-purple-700 transition-all duration-300"
+              onClick={() => router.push('/')}
+            >
               Todo<span className="font-extrabold">App</span>
             </h1>
           </div>
@@ -132,28 +135,47 @@ export default function DashboardPage() {
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white/90 backdrop-blur-sm bg-gradient-to-br from-white to-indigo-50 rounded-3xl shadow-2xl p-8 mb-8 border border-gray-100">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
-              <div>
-                <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Your Tasks</h2>
-                <div className="flex space-x-6 mt-2 text-sm">
-                  <span className="text-indigo-600 font-medium">
-                    {tasks.filter(t => !t.completed).length} pending
-                  </span>
-                  <span className="text-purple-600 font-medium">
-                    {tasks.filter(t => t.completed).length} completed
-                  </span>
-                  <span className="text-gray-600">
-                    Total: {tasks.length}
-                  </span>
+            <div className="mb-8">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+                <div>
+                  <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Your Tasks</h2>
+                  <div className="flex flex-wrap gap-6 mt-3">
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 rounded-full bg-indigo-500 mr-2"></div>
+                      <span className="text-indigo-600 font-medium">
+                        {tasks.filter(t => !t.completed).length} pending
+                      </span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+                      <span className="text-green-600 font-medium">
+                        {tasks.filter(t => t.completed).length} completed
+                      </span>
+                    </div>
+                    <div className="flex items-center">
+                      <span className="text-gray-600 font-medium">
+                        Total: {tasks.length}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="h-2 w-full bg-gradient-to-r from-indigo-200 via-purple-200 to-indigo-200 rounded-full overflow-hidden">
+
+              {/* Progress Bar */}
+              <div className="h-3.5 w-full bg-gradient-to-r from-gray-200 to-gray-300 rounded-full overflow-hidden shadow-inner">
                 <div
-                  className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full transition-all duration-500 ease-out"
+                  className="h-full bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 rounded-full transition-all duration-700 ease-out shadow-md"
                   style={{
                     width: tasks.length > 0 ? `${(tasks.filter(t => t.completed).length / tasks.length) * 100}%` : '0%'
                   }}
                 ></div>
+              </div>
+
+              {/* Productivity Stats */}
+              <div className="flex justify-between mt-2 text-xs text-gray-500">
+                <span>0%</span>
+                <span>{tasks.length > 0 ? Math.round((tasks.filter(t => t.completed).length / tasks.length) * 100) : 0}% completed</span>
+                <span>100%</span>
               </div>
             </div>
 
@@ -167,15 +189,23 @@ export default function DashboardPage() {
             )}
 
             {loadingTasks ? (
-              <div className="flex justify-center items-center py-20">
-                <div className="flex flex-col items-center">
+              <div className="py-20">
+                <div className="flex justify-center mb-8">
                   <div className="relative w-20 h-20">
                     <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 animate-ping opacity-20"></div>
                     <div className="w-full h-full flex items-center justify-center">
                       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
                     </div>
                   </div>
-                  <p className="text-gray-600 mt-4">Loading your tasks...</p>
+                </div>
+                <div className="space-y-4">
+                  {[...Array(3)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="bg-gray-100 rounded-2xl h-20 animate-pulse"
+                      style={{ animationDelay: `${i * 0.1}s` }}
+                    ></div>
+                  ))}
                 </div>
               </div>
             ) : tasks.length === 0 ? (
@@ -206,7 +236,7 @@ export default function DashboardPage() {
                   <div className="flex justify-center mb-8">
                     <button
                       onClick={() => setShowAddTaskCard(true)}
-                      className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg flex items-center"
+                      className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center transform hover:scale-105 hover:-translate-y-0.5"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
@@ -216,27 +246,42 @@ export default function DashboardPage() {
                   </div>
                 )}
                 {showAddTaskCard && (
-                  <div className="bg-white rounded-2xl shadow-xl p-8 mb-8 border border-gray-100 transform transition-all duration-300 animate-fadeIn">
+                  <div className="bg-gradient-to-br from-white to-indigo-50 rounded-2xl shadow-xl p-8 mb-8 border border-indigo-100/50 transform transition-all duration-300 animate-fadeIn">
                     <div className="mb-6">
-                      <h3 className="text-2xl font-bold text-gray-800 mb-6">Create New Task</h3>
+                      <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mb-6 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Create New Task
+                      </h3>
                       <div className="space-y-6">
-                        <input
-                          type="text"
-                          placeholder="What needs to be done?"
-                          value={newTaskTitle}
-                          onChange={(e) => setNewTaskTitle(e.target.value)}
-                          className="w-full px-5 py-4 bg-white text-gray-800 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm hover:shadow-md focus:shadow-lg"
-                          disabled={loadingTasks}
-                          autoFocus
-                        />
-                        <textarea
-                          placeholder="Add details (optional)..."
-                          value={newTaskDescription}
-                          onChange={(e) => setNewTaskDescription(e.target.value)}
-                          className="w-full px-5 py-3 bg-white text-gray-800 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm hover:shadow-md focus:shadow-lg resize-none"
-                          rows={3}
-                          disabled={loadingTasks}
-                        />
+                        <div className="relative">
+                          <input
+                            type="text"
+                            placeholder="What needs to be done?"
+                            value={newTaskTitle}
+                            onChange={(e) => setNewTaskTitle(e.target.value)}
+                            className="w-full px-5 py-4 bg-white/80 backdrop-blur-sm text-gray-800 border-2 border-indigo-200/50 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm hover:shadow-md focus:shadow-lg"
+                            disabled={loadingTasks}
+                            autoFocus
+                          />
+                          {newTaskTitle && (
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                          )}
+                        </div>
+                        <div className="relative">
+                          <textarea
+                            placeholder="Add details (optional)..."
+                            value={newTaskDescription}
+                            onChange={(e) => setNewTaskDescription(e.target.value)}
+                            className="w-full px-5 py-3 bg-white/80 backdrop-blur-sm text-gray-800 border-2 border-indigo-200/50 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm hover:shadow-md focus:shadow-lg resize-none"
+                            rows={3}
+                            disabled={loadingTasks}
+                          />
+                          {newTaskDescription && (
+                            <div className="absolute right-3 top-3 w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
+                          )}
+                        </div>
                       </div>
                     </div>
                     <div className="flex justify-end space-x-4">
@@ -246,14 +291,14 @@ export default function DashboardPage() {
                           setNewTaskTitle("");
                           setNewTaskDescription("");
                         }}
-                        className="px-6 py-3 text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition duration-300 font-medium"
+                        className="px-6 py-3 text-gray-700 bg-gradient-to-r from-gray-100 to-gray-200 rounded-xl hover:from-gray-200 hover:to-gray-300 transition-all duration-300 font-medium shadow-sm hover:shadow-md"
                         disabled={loadingTasks}
                       >
                         Cancel
                       </button>
                       <button
                         onClick={handleCreateNewTask}
-                        className="px-6 py-3 text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg flex items-center"
+                        className="px-6 py-3 text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg flex items-center transform hover:scale-105"
                         disabled={loadingTasks || !newTaskTitle.trim()}
                       >
                         {loadingTasks ? (

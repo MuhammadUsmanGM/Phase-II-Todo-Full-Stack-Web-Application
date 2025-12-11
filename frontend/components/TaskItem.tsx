@@ -78,7 +78,7 @@ export default function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
   };
 
   return (
-    <div className={`p-6 bg-white rounded-2xl shadow-lg border-2 transition-all duration-300 hover:shadow-xl ${
+    <div className={`p-6 bg-gradient-to-br rounded-2xl shadow-lg border-2 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-0.5 ${
       task.completed
         ? 'border-green-200 bg-gradient-to-r from-green-50 to-emerald-50'
         : 'border-indigo-200 bg-gradient-to-r from-white to-indigo-50'
@@ -95,8 +95,8 @@ export default function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
           <div
             className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
               task.completed
-                ? 'border-green-500 bg-green-500'
-                : 'border-indigo-400 bg-white hover:border-indigo-500'
+                ? 'border-green-500 bg-gradient-to-r from-green-500 to-emerald-500'
+                : 'border-indigo-400 bg-gradient-to-r from-indigo-100 to-purple-100 hover:border-indigo-500'
             }`}
           >
             {task.completed && (
@@ -173,14 +173,18 @@ export default function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
               <div className="mt-4 flex space-x-4">
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="text-sm text-indigo-600 hover:text-indigo-800 font-medium bg-indigo-50 px-3 py-1.5 rounded-lg transition-all hover:bg-indigo-100 hover:scale-105"
+                  className={`text-sm font-medium px-3 py-1.5 rounded-lg transition-all transform hover:scale-105 ${
+                    task.completed
+                      ? 'text-green-600 hover:text-green-800 bg-green-100 hover:bg-green-200'
+                      : 'text-indigo-600 hover:text-indigo-800 bg-indigo-100 hover:bg-indigo-200'
+                  }`}
                   disabled={loading}
                 >
                   Edit
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="text-sm text-red-600 hover:text-red-800 font-medium bg-red-50 px-3 py-1.5 rounded-lg transition-all hover:bg-red-100 hover:scale-105"
+                  className="text-sm text-red-600 hover:text-red-800 font-medium bg-red-100 hover:bg-red-200 px-3 py-1.5 rounded-lg transition-all hover:scale-105"
                   disabled={loading}
                 >
                   Delete
@@ -199,8 +203,8 @@ export default function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
         </div>
         <div className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${
           task.completed
-            ? 'bg-green-100 text-green-800'
-            : 'bg-yellow-100 text-yellow-800'
+            ? 'bg-gradient-to-r from-green-100 to-emerald-100 text-green-800'
+            : 'bg-gradient-to-r from-yellow-100 to-amber-100 text-yellow-800'
         }`}>
           <span className="flex items-center">
             {task.completed ? (
