@@ -36,6 +36,13 @@ export default function Home() {
           <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-purple-300/30 to-pink-300/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
           <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-r from-indigo-300/30 to-blue-300/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
           <div className="absolute top-20 left-40 w-80 h-80 bg-gradient-to-r from-yellow-300/30 to-orange-300/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
+
+          {/* Floating animated shapes - Green, Yellow, Red */}
+          <div className="absolute top-1/4 left-1/4 w-16 h-16 bg-green-400/20 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
+          <div className="absolute top-1/3 right-1/3 w-12 h-12 bg-yellow-400/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
+          <div className="absolute bottom-1/4 left-1/3 w-20 h-20 bg-red-400/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
+          <div className="absolute top-3/4 right-1/4 w-14 h-14 bg-green-500/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
+          <div className="absolute top-1/5 right-1/5 w-10 h-10 bg-red-500/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
         </div>
 
         <div className="container relative mx-auto px-4 z-10">
@@ -107,8 +114,8 @@ export default function Home() {
             <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto mt-12 lg:mt-0">
               <div className="relative flex justify-center animate-slideUp delay-500">
                 <div className="relative w-full max-w-sm">
-                  {/* Macbook-style Frame */}
-                  <div className="relative bg-gradient-to-b from-gray-100 to-gray-50 rounded-t-3xl shadow-2xl p-3 border-b-[6px] border-gray-300">
+                  {/* Macbook-style Frame with enhanced styling */}
+                  <div className="relative bg-gradient-to-b from-gray-200 to-gray-100 rounded-t-3xl shadow-2xl p-3 border-b-[6px] border-gray-300">
                     <div className="flex space-x-2 px-4 py-2">
                       <div className="w-3 h-3 bg-red-500 rounded-full shadow-sm"></div>
                       <div className="w-3 h-3 bg-yellow-500 rounded-full shadow-sm"></div>
@@ -116,75 +123,61 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Laptop Screen Content */}
-                  <div className="bg-gradient-to-br from-gray-900 to-black rounded-b-2xl shadow-2xl border border-gray-700 overflow-hidden">
-                    {/* Screen content */}
-                    <div className="p-5 bg-gradient-to-b from-gray-800 to-gray-900">
-                      {/* Task Header */}
-                      <div className="flex justify-between items-center mb-4">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                          <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                        </div>
-                        <h3 className="text-lg font-bold text-white">My Tasks</h3>
-                        <div className="opacity-0 w-12"></div> {/* Spacer for alignment */}
-                      </div>
-
-                      {/* Task Counter */}
-                      <div className="flex justify-between items-center mb-4">
-                        <div className="text-gray-400 text-xs">Today, December 11</div>
-                        <div className="px-2.5 py-0.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xs font-semibold rounded-full">
+                  {/* Stunning Card Content */}
+                  <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-b-2xl shadow-2xl border border-gray-200 overflow-hidden">
+                    {/* Glassmorphism Header */}
+                    <div className="p-5 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 backdrop-blur-sm border-b border-gray-200/50">
+                      <div className="flex justify-between items-center">
+                        <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">My Tasks</h3>
+                        <div className="px-3 py-1 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs font-bold rounded-full shadow">
                           1 Remaining
                         </div>
                       </div>
+                      <p className="text-gray-500 text-xs mt-1">Today, December 11</p>
+                    </div>
 
-                      {/* Task List */}
-                      <div className="space-y-3 mb-4">
-                        {/* Task Item 1 - Completed */}
-                        <div className="flex items-center p-3 bg-gray-800/50 backdrop-blur-sm rounded-lg border border-gray-700">
-                          <div className="flex items-center justify-center w-5 h-5 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 border-2 border-transparent mr-3 flex-shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                            </svg>
-                          </div>
-                          <span className="text-gray-300 line-through text-sm">Design the new landing page</span>
+                    {/* Task List with Enhanced Styling */}
+                    <div className="p-5 space-y-4">
+                      {/* Task Item 1 - Completed */}
+                      <div className="flex items-center p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200/50 shadow-sm group hover:shadow-md transition-shadow duration-300">
+                        <div className="flex items-center justify-center w-6 h-6 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 border-2 border-transparent mr-3 flex-shrink-0">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                          </svg>
                         </div>
-
-                        {/* Task Item 2 - Active */}
-                        <div className="flex items-center p-3 bg-gradient-to-r from-indigo-900/30 to-purple-900/30 backdrop-blur-sm rounded-lg border border-indigo-500/50">
-                          <div className="flex items-center justify-center w-5 h-5 rounded-full border-2 border-indigo-400 mr-3 flex-shrink-0">
-                            <div className="w-2 h-2 bg-indigo-400 rounded-full opacity-100"></div>
-                          </div>
-                          <span className="text-white text-sm font-medium">Implement backend API endpoints</span>
-                        </div>
-
-                        {/* Task Item 3 - Input field styled as a task */}
-                        <div className="flex items-center p-3 bg-gray-800/30 backdrop-blur-sm rounded-lg border-2 border-dashed border-indigo-500/50">
-                          <div className="flex items-center justify-center w-5 h-5 rounded-full border-2 border-gray-500 mr-3 flex-shrink-0 opacity-50">
-                          </div>
-                          <input
-                            type="text"
-                            placeholder="Add a new task..."
-                            className="w-full bg-transparent focus:outline-none text-gray-400 placeholder-gray-600 text-sm"
-                          />
-                        </div>
+                        <span className="text-gray-500 line-through text-sm">Design the new landing page</span>
                       </div>
 
-                      {/* Action Button */}
-                      <div className="pt-2">
-                        <button className="w-full py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-sm">
-                          Add Task
-                        </button>
+                      {/* Task Item 2 - Active */}
+                      <div className="flex items-center p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border-2 border-indigo-300/50 shadow-md transform -translate-y-0.5 group hover:shadow-lg transition-all duration-300">
+                        <div className="flex items-center justify-center w-6 h-6 rounded-full border-2 border-indigo-400 mr-3 flex-shrink-0">
+                          <div className="w-2 h-2 bg-indigo-400 rounded-full opacity-100"></div>
+                        </div>
+                        <span className="text-gray-800 font-medium text-sm">Implement backend API endpoints</span>
+                      </div>
+
+                      {/* Task Item 3 - Input field styled as a task */}
+                      <div className="flex items-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border-2 border-dashed border-indigo-300/50 group hover:shadow-sm transition-shadow duration-300">
+                        <div className="flex items-center justify-center w-6 h-6 rounded-full border-2 border-gray-300 mr-3 flex-shrink-0 opacity-60">
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Add a new task..."
+                          className="w-full bg-transparent focus:outline-none text-gray-700 placeholder-gray-500 text-sm"
+                        />
                       </div>
                     </div>
 
-                    {/* Laptop Base */}
-                    <div className="h-3 bg-gradient-to-b from-gray-700 to-gray-800 rounded-b-2xl"></div>
+                    {/* Action Button with Stunning Design */}
+                    <div className="p-5 pt-2 bg-gradient-to-r from-gray-50 to-gray-100 border-t border-gray-200/50">
+                      <button className="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center group">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 group-hover:rotate-12 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Add New Task
+                      </button>
+                    </div>
                   </div>
-
-                  {/* Laptop Stand */}
-                  <div className="h-6 w-1/3 mx-auto -mt-1 bg-gradient-to-b from-gray-800 to-gray-900 rounded-t-md"></div>
                 </div>
               </div>
             </div>
@@ -355,95 +348,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How it Works */}
-      <section id="how-it-works" className="py-24 bg-gradient-to-b from-indigo-50 to-white">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap items-center">
-            <div className="w-full md:w-4/12 px-4 mr-auto ml-auto mb-12 md:mb-0">
-              <div className="relative flex justify-center">
-                <div className="relative w-full max-w-sm">
-                  {/* Animated dashboard preview */}
-                  <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-xl p-6 transform rotate-3 animate-pulse">
-                    <div className="flex justify-between items-center mb-4">
-                      <div className="w-3/4 h-4 bg-white bg-opacity-30 rounded animate-pulse"></div>
-                      <div className="w-6 h-6 bg-white bg-opacity-30 rounded-full animate-pulse"></div>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="flex items-center">
-                        <div className="w-5 h-5 bg-white bg-opacity-30 rounded animate-pulse mr-2"></div>
-                        <div className="h-4 bg-white bg-opacity-30 rounded flex-grow animate-pulse"></div>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="w-5 h-5 bg-white bg-opacity-30 rounded animate-pulse mr-2"></div>
-                        <div className="h-4 bg-white bg-opacity-30 rounded flex-grow animate-pulse"></div>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="w-5 h-5 bg-white bg-opacity-30 rounded animate-pulse mr-2"></div>
-                        <div className="h-4 bg-white bg-opacity-30 rounded flex-grow animate-pulse"></div>
-                      </div>
-                    </div>
-
-                    <div className="mt-6 h-10 bg-white bg-opacity-30 rounded-lg animate-pulse"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="w-full md:w-5/12 px-4 ml-auto">
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100 animate-slideUp delay-700">
-                <h3 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mb-6">How It Works</h3>
-                <p className="text-lg text-gray-700 mb-8">
-                  Our simple three-step process helps you get organized in no time:
-                </p>
-                <div className="space-y-8">
-                  <div className="flex animate-slideUp delay-800">
-                    <div className="flex-shrink-0 mr-6">
-                      <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xl font-bold rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
-                        1
-                      </div>
-                    </div>
-                    <div className="pt-1">
-                      <h4 className="text-xl font-bold text-gray-800 mb-2">Create Account</h4>
-                      <p className="text-gray-600">
-                        Sign up for your free account in seconds with our simple registration process
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex animate-slideUp delay-900">
-                    <div className="flex-shrink-0 mr-6">
-                      <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xl font-bold rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
-                        2
-                      </div>
-                    </div>
-                    <div className="pt-1">
-                      <h4 className="text-xl font-bold text-gray-800 mb-2">Add Your Tasks</h4>
-                      <p className="text-gray-600">
-                        Create, organize, and prioritize your tasks to stay on track and boost productivity
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex animate-slideUp delay-1000">
-                    <div className="flex-shrink-0 mr-6">
-                      <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xl font-bold rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
-                        3
-                      </div>
-                    </div>
-                    <div className="pt-1">
-                      <h4 className="text-xl font-bold text-gray-800 mb-2">Track & Achieve</h4>
-                      <p className="text-gray-600">
-                        Monitor your progress, complete tasks, and accomplish your goals efficiently
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Testimonials Section */}
       <section id="testimonials" className="py-24 bg-gradient-to-b from-white to-indigo-50">
