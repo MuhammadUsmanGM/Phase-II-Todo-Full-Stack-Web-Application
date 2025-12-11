@@ -37,12 +37,12 @@ export default function Home() {
           <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-r from-indigo-300/30 to-blue-300/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
           <div className="absolute top-20 left-40 w-80 h-80 bg-gradient-to-r from-yellow-300/30 to-orange-300/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
 
-          {/* Floating animated shapes - Green, Yellow, Red */}
-          <div className="absolute top-1/4 left-1/4 w-16 h-16 bg-green-400/20 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
-          <div className="absolute top-1/3 right-1/3 w-12 h-12 bg-yellow-400/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
-          <div className="absolute bottom-1/4 left-1/3 w-20 h-20 bg-red-400/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
-          <div className="absolute top-3/4 right-1/4 w-14 h-14 bg-green-500/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
-          <div className="absolute top-1/5 right-1/5 w-10 h-10 bg-red-500/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
+          {/* Enhanced floating animated shapes - Green, Yellow, Red */}
+          <div className="absolute top-1/4 left-1/4 w-16 h-16 bg-gradient-to-r from-green-400/20 to-emerald-400/20 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
+          <div className="absolute top-1/3 right-1/3 w-12 h-12 bg-gradient-to-r from-yellow-400/20 to-amber-400/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-3000"></div>
+          <div className="absolute bottom-1/4 left-1/3 w-20 h-20 bg-gradient-to-r from-red-400/20 to-rose-400/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-5000"></div>
+          <div className="absolute top-3/4 right-1/4 w-14 h-14 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
+          <div className="absolute top-1/5 right-1/5 w-10 h-10 bg-gradient-to-r from-red-500/20 to-rose-500/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
         </div>
 
         <div className="container relative mx-auto px-4 z-10">
@@ -53,13 +53,13 @@ export default function Home() {
                   <span className="h-2 w-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
                   <span className="text-indigo-800 font-medium text-sm">Boost your productivity today</span>
                 </div>
-                <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight animate-slideUp delay-200">
+                <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight animate-slideUp delay-200 tracking-tight">
                   <span className="block">Organize Your Life</span>
                   <span className="block bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
                     One Task at a Time
                   </span>
                 </h1>
-                <p className="mt-6 text-xl text-gray-800 max-w-lg mx-auto lg:mx-0 animate-slideUp delay-300">
+                <p className="mt-6 text-xl text-gray-800 max-w-lg mx-auto lg:mx-0 animate-slideUp delay-300 leading-relaxed">
                   {isAuthenticated ? (
                     "Welcome back! Manage your tasks and boost your productivity with our powerful tools."
                   ) : (
@@ -184,7 +184,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section id="features" className="py-24 bg-gradient-to-b from-white to-indigo-50">
+      <section id="features" className="py-32 bg-gradient-to-b from-white to-indigo-50">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap justify-center text-center mb-16">
             <div className="w-full lg:w-6/12 px-4">
@@ -192,7 +192,7 @@ export default function Home() {
                 <span className="h-2 w-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
                 <span className="text-indigo-800 font-medium text-sm">Why choose our platform</span>
               </div>
-              <h2 className="text-4xl font-extrabold text-gray-900 mb-6 animate-slideUp delay-200">Powerful Features</h2>
+              <h2 className="text-4xl font-extrabold text-gray-900 mb-6 animate-slideUp delay-200 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Powerful Features</h2>
               <p className="text-lg leading-relaxed text-gray-600 max-w-xl mx-auto animate-slideUp delay-300">
                 Everything you need to stay organized and boost your productivity
               </p>
@@ -201,14 +201,14 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             <div className="group animate-slideUp delay-400">
-              <div className="relative bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-indigo-500 transform hover:-translate-y-3 transition-transform duration-300 h-full">
-                <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-14 h-14 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center group-hover:from-indigo-600 group-hover:to-purple-600 transition-all duration-300">
+              <div className="relative bg-gradient-to-b from-white/80 to-indigo-50/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-indigo-500 transform hover:-translate-y-3 transition-transform duration-300 h-full">
+                <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-14 h-14 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center group-hover:from-indigo-700 group-hover:to-purple-700 transition-all duration-300 shadow-lg">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                   </svg>
                 </div>
                 <div className="pt-8 text-center mt-4">
-                  <h5 className="text-xl font-bold text-gray-800 mb-4">Task Management</h5>
+                  <h5 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mb-4">Task Management</h5>
                   <p className="text-gray-600">
                     Create, update, and organize your tasks with our intuitive interface for maximum efficiency
                   </p>
@@ -217,14 +217,14 @@ export default function Home() {
             </div>
 
             <div className="group animate-slideUp delay-500">
-              <div className="relative bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-purple-500 transform hover:-translate-y-3 transition-transform duration-300 h-full">
-                <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center group-hover:from-purple-600 group-hover:to-pink-600 transition-all duration-300">
+              <div className="relative bg-gradient-to-b from-white/80 to-indigo-50/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-purple-500 transform hover:-translate-y-3 transition-transform duration-300 h-full">
+                <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-14 h-14 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full flex items-center justify-center group-hover:from-purple-700 group-hover:to-indigo-700 transition-all duration-300 shadow-lg">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
                 </div>
                 <div className="pt-8 text-center mt-4">
-                  <h5 className="text-xl font-bold text-gray-800 mb-4">Secure & Private</h5>
+                  <h5 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mb-4">Secure & Private</h5>
                   <p className="text-gray-600">
                     Your data is protected with industry-standard security measures and encryption
                   </p>
@@ -233,14 +233,14 @@ export default function Home() {
             </div>
 
             <div className="group animate-slideUp delay-600">
-              <div className="relative bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-pink-500 transform hover:-translate-y-3 transition-transform duration-300 h-full">
-                <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-14 h-14 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center group-hover:from-pink-600 group-hover:to-rose-600 transition-all duration-300">
+              <div className="relative bg-gradient-to-b from-white/80 to-indigo-50/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-indigo-500 transform hover:-translate-y-3 transition-transform duration-300 h-full">
+                <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-14 h-14 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center group-hover:from-indigo-700 group-hover:to-purple-700 transition-all duration-300 shadow-lg">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
                 <div className="pt-8 text-center mt-4">
-                  <h5 className="text-xl font-bold text-gray-800 mb-4">Real-time Sync</h5>
+                  <h5 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mb-4">Real-time Sync</h5>
                   <p className="text-gray-600">
                     Access your tasks from anywhere, anytime with seamless synchronization
                   </p>
@@ -252,7 +252,7 @@ export default function Home() {
       </section>
 
       {/* How it Works Section */}
-      <section id="how-it-works" className="py-24 bg-gradient-to-b from-indigo-50 to-white">
+      <section id="how-it-works" className="py-32 bg-gradient-to-b from-indigo-50 to-white">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap justify-center text-center mb-16">
             <div className="w-full lg:w-6/12 px-4">
@@ -260,7 +260,7 @@ export default function Home() {
                 <span className="h-2 w-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
                 <span className="text-indigo-800 font-medium text-sm">How it works</span>
               </div>
-              <h2 className="text-4xl font-extrabold text-gray-900 mb-6 animate-slideUp delay-200">Simple 3-Step Process</h2>
+              <h2 className="text-4xl font-extrabold text-gray-900 mb-6 animate-slideUp delay-200 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Simple 3-Step Process</h2>
               <p className="text-lg leading-relaxed text-gray-600 max-w-xl mx-auto animate-slideUp delay-300">
                 Get started with our simple three-step process to boost your productivity
               </p>
@@ -303,13 +303,13 @@ export default function Home() {
               <div className="space-y-12">
                 <div className="flex group animate-slideUp delay-400">
                   <div className="flex-shrink-0 mr-6">
-                    <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xl font-bold rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
+                    <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xl font-bold rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
                       1
                     </div>
                   </div>
                   <div className="pt-1">
-                    <h4 className="text-xl font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">Sign Up</h4>
-                    <p className="text-gray-600">
+                    <h4 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 group-hover:from-indigo-700 group-hover:to-purple-700 transition-all">Sign Up</h4>
+                    <p className="text-gray-600 mt-2">
                       Create your free account in seconds with our simple registration process
                     </p>
                   </div>
@@ -317,13 +317,13 @@ export default function Home() {
 
                 <div className="flex group animate-slideUp delay-500">
                   <div className="flex-shrink-0 mr-6">
-                    <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xl font-bold rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
+                    <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xl font-bold rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
                       2
                     </div>
                   </div>
                   <div className="pt-1">
-                    <h4 className="text-xl font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">Add Your Tasks</h4>
-                    <p className="text-gray-600">
+                    <h4 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 group-hover:from-indigo-700 group-hover:to-purple-700 transition-all">Add Your Tasks</h4>
+                    <p className="text-gray-600 mt-2">
                       Create, organize, and prioritize your tasks to stay on track and boost productivity
                     </p>
                   </div>
@@ -331,13 +331,13 @@ export default function Home() {
 
                 <div className="flex group animate-slideUp delay-600">
                   <div className="flex-shrink-0 mr-6">
-                    <div className="w-14 h-14 flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xl font-bold rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
+                    <div className="w-14 h-14 flex items-center justify-center bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xl font-bold rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
                       3
                     </div>
                   </div>
                   <div className="pt-1">
-                    <h4 className="text-xl font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">Track & Achieve</h4>
-                    <p className="text-gray-600">
+                    <h4 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 group-hover:from-indigo-700 group-hover:to-purple-700 transition-all">Track & Achieve</h4>
+                    <p className="text-gray-600 mt-2">
                       Monitor your progress, complete tasks, and accomplish your goals efficiently
                     </p>
                   </div>
