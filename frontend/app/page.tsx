@@ -366,7 +366,7 @@ export default function Home() {
       {/* Modals */}
       {/* About Modal */}
       {showAbout && (
-        <div className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-white bg-opacity-60 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-gray-200 relative">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
@@ -400,7 +400,7 @@ export default function Home() {
 
       {/* Privacy Modal */}
       {showPrivacy && (
-        <div className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-white bg-opacity-60 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-gray-200 relative">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
@@ -453,7 +453,7 @@ export default function Home() {
 
       {/* Terms Modal */}
       {showTerms && (
-        <div className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-white bg-opacity-60 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-gray-200 relative">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
@@ -520,7 +520,7 @@ export default function Home() {
 
       {/* Contact Modal */}
       {showContact && (
-        <div className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-white bg-opacity-60 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-gray-200 relative">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
