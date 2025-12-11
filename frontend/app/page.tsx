@@ -330,44 +330,101 @@ export default function Home() {
       </section>
 
       {/* Call to Action */}
-      <section className="pb-32 relative block bg-gradient-to-r from-indigo-600 to-purple-600">
-        <div className="container mx-auto px-4 pt-32 pb-24">
-          <div className="flex flex-wrap text-center justify-center">
-            <div className="w-full lg:w-6/12 px-4">
-              <h2 className="text-4xl font-bold text-white mb-6">Ready to Transform Your Productivity?</h2>
-              <p className="text-xl text-indigo-100 mb-10 max-w-lg mx-auto">
-                {isAuthenticated ? (
-                  "You're already signed in! Go to your dashboard to manage your tasks."
-                ) : (
-                  "Join our community today and take control of your tasks. Sign up for a free account and start organizing your life right away."
-                )}
-              </p>
+      <section className="pb-32 relative block bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-800">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/10 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+          <div className="absolute -top-20 -left-20 w-80 h-80 bg-indigo-300/20 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+          <div className="absolute -bottom-40 -right-20 w-80 h-80 bg-purple-300/20 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+        </div>
+        <div className="container mx-auto px-4 pt-32 pb-24 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-flex items-center justify-center px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium mb-6">
+              <span className="h-2 w-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
+              Trusted by thousands of users worldwide
             </div>
-          </div>
-          <div className="flex flex-wrap justify-center gap-4">
-            {isAuthenticated ? (
-              <Link
-                href="/dashboard"
-                className="px-8 py-4 bg-white text-indigo-600 font-bold rounded-xl shadow-lg hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl"
-              >
-                Go to Dashboard
-              </Link>
-            ) : (
-              <>
+            <h2 className="text-5xl font-extrabold text-white mb-6 leading-tight">
+              Ready to Transform <br />Your Productivity?
+            </h2>
+            <p className="text-xl leading-relaxed mb-10 text-indigo-100 max-w-2xl mx-auto">
+              {isAuthenticated ? (
+                "You're already signed in! Access your dashboard to manage your tasks and boost your productivity."
+              ) : (
+                "Join our thriving community and take control of your tasks. Create a free account and revolutionize the way you organize your life."
+              )}
+            </p>
+
+            <div className="flex flex-wrap justify-center gap-6 mb-16">
+              {isAuthenticated ? (
                 <Link
-                  href="/register"
-                  className="px-8 py-4 bg-white text-indigo-600 font-bold rounded-xl shadow-lg hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl"
+                  href="/dashboard"
+                  className="px-10 py-5 bg-white text-indigo-600 font-bold text-lg rounded-2xl shadow-2xl hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl backdrop-blur-sm relative overflow-hidden group"
                 >
-                  Create Account
+                  <span className="flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3 group-hover:rotate-12 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h2M7 7h10" />
+                    </svg>
+                    Go to Dashboard
+                  </span>
                 </Link>
-                <Link
-                  href="/login"
-                  className="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-xl hover:bg-white hover:text-indigo-600 transition-all duration-300 transform hover:-translate-y-1"
-                >
-                  Sign In
-                </Link>
-              </>
-            )}
+              ) : (
+                <>
+                  <Link
+                    href="/register"
+                    className="px-10 py-5 bg-white text-indigo-600 font-bold text-lg rounded-2xl shadow-2xl hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl backdrop-blur-sm relative overflow-hidden group"
+                  >
+                    <span className="flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3 group-hover:rotate-12 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                      </svg>
+                      Create Account
+                    </span>
+                  </Link>
+                  <Link
+                    href="/login"
+                    className="px-10 py-5 bg-transparent border-2 border-white text-white font-bold text-lg rounded-2xl hover:bg-white hover:text-indigo-600 transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm relative overflow-hidden group"
+                  >
+                    <span className="flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3 group-hover:rotate-12 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                      </svg>
+                      Sign In
+                    </span>
+                  </Link>
+                </>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20 transform transition-all duration-300 hover:scale-105">
+                <div className="w-12 h-12 bg-indigo-500/30 rounded-xl flex items-center justify-center mb-4 mx-auto">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">Achieve Goals</h3>
+                <p className="text-indigo-200">Break down big goals into manageable tasks and track your progress</p>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20 transform transition-all duration-300 hover:scale-105">
+                <div className="w-12 h-12 bg-purple-500/30 rounded-xl flex items-center justify-center mb-4 mx-auto">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">Team Collaboration</h3>
+                <p className="text-indigo-200">Share tasks with your team and collaborate on projects seamlessly</p>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20 transform transition-all duration-300 hover:scale-105">
+                <div className="w-12 h-12 bg-pink-500/30 rounded-xl flex items-center justify-center mb-4 mx-auto">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">Smart Insights</h3>
+                <p className="text-indigo-200">Gain insights into your productivity patterns and habits</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

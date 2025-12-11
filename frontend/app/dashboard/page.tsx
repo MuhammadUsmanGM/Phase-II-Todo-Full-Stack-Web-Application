@@ -12,6 +12,9 @@ export default function DashboardPage() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
   const [showContact, setShowContact] = useState(false);
+  const [showAddTaskCard, setShowAddTaskCard] = useState(false);
+  const [newTaskTitle, setNewTaskTitle] = useState("");
+  const [newTaskDescription, setNewTaskDescription] = useState("");
   const { userId, token, isAuthenticated, isLoading, logout } = useAuth();
   const router = useRouter();
   const [tasks, setTasks] = useState<any[]>([]);
@@ -53,6 +56,26 @@ export default function DashboardPage() {
       setTasks((prevTasks) => [...prevTasks, newTask]);
     } catch (err: any) {
       setError(err.message || "Failed to create task.");
+    }
+  };
+
+  const handleCreateNewTask = async () => {
+    if (!newTaskTitle.trim() || !userId || !token) return;
+    try {
+      setLoadingTasks(true);
+      const newTask = await tasksApi.createTask(userId, token, {
+        title: newTaskTitle,
+        description: newTaskDescription
+      });
+      setTasks((prevTasks) => [...prevTasks, newTask]);
+      // Reset form and hide card
+      setNewTaskTitle("");
+      setNewTaskDescription("");
+      setShowAddTaskCard(false);
+    } catch (err: any) {
+      setError(err.message || "Failed to create task.");
+    } finally {
+      setLoadingTasks(false);
     }
   };
 
@@ -107,38 +130,152 @@ export default function DashboardPage() {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-white bg-gradient-to-br from-white to-indigo-50 rounded-2xl shadow-xl p-8 mb-8">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold text-gray-800">Your Tasks</h2>
-              <div className="text-sm text-gray-500">
-                {tasks.filter(t => !t.completed).length} pending, {tasks.filter(t => t.completed).length} completed
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-white/90 backdrop-blur-sm bg-gradient-to-br from-white to-indigo-50 rounded-3xl shadow-2xl p-8 mb-8 border border-gray-100">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
+              <div>
+                <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Your Tasks</h2>
+                <div className="flex space-x-6 mt-2 text-sm">
+                  <span className="text-indigo-600 font-medium">
+                    {tasks.filter(t => !t.completed).length} pending
+                  </span>
+                  <span className="text-purple-600 font-medium">
+                    {tasks.filter(t => t.completed).length} completed
+                  </span>
+                  <span className="text-gray-600">
+                    Total: {tasks.length}
+                  </span>
+                </div>
+              </div>
+              <div className="h-2 w-full bg-gradient-to-r from-indigo-200 via-purple-200 to-indigo-200 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full transition-all duration-500 ease-out"
+                  style={{
+                    width: tasks.length > 0 ? `${(tasks.filter(t => t.completed).length / tasks.length) * 100}%` : '0%'
+                  }}
+                ></div>
               </div>
             </div>
-            
-            {error && <p className="text-red-500 text-center mb-6 bg-red-50 p-4 rounded-xl">{error}</p>}
-            
-            <NewTaskForm onCreate={handleCreateTask} loading={loadingTasks} />
-            
-            <div className="mt-10">
-              {loadingTasks ? (
-                <div className="flex justify-center items-center py-16">
-                  <div className="flex flex-col items-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500 mb-4"></div>
-                    <p className="text-gray-600">Loading your tasks...</p>
+
+            {error && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-2xl flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {error}
+              </div>
+            )}
+
+            {loadingTasks ? (
+              <div className="flex justify-center items-center py-20">
+                <div className="flex flex-col items-center">
+                  <div className="relative w-20 h-20">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 animate-ping opacity-20"></div>
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+                    </div>
                   </div>
+                  <p className="text-gray-600 mt-4">Loading your tasks...</p>
                 </div>
-              ) : tasks.length === 0 ? (
-                <div className="text-center py-16">
-                  <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 mb-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </div>
+            ) : tasks.length === 0 ? (
+              <div className="text-center py-20">
+                <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 mb-8 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM34 56c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm37 11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-7 30c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z\' fill=\'%2391a0ef\' fill-opacity=\'0.1\' fill-rule=\'evenodd\'/%3E%3C/svg%3E')] opacity-20"></div>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-indigo-500 relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                  </svg>
+                </div>
+                <h3 className="text-3xl font-bold text-gray-800 mb-2">No tasks yet</h3>
+                <p className="text-gray-600 max-w-md mx-auto mb-8">Get started by adding your first task and boost your productivity!</p>
+                <button
+                  onClick={() => setShowAddTaskCard(true)}
+                  className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+                >
+                  <span className="flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
                     </svg>
+                    Add Your First Task
+                  </span>
+                </button>
+              </div>
+            ) : (
+              <>
+                {!showAddTaskCard && (
+                  <div className="flex justify-center mb-8">
+                    <button
+                      onClick={() => setShowAddTaskCard(true)}
+                      className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg flex items-center"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+                      </svg>
+                      Add New Task
+                    </button>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-2">No tasks yet</h3>
-                  <p className="text-gray-600 max-w-md mx-auto">Add your first task to get started, and watch your productivity soar!</p>
-                </div>
-              ) : (
+                )}
+                {showAddTaskCard && (
+                  <div className="bg-white rounded-2xl shadow-xl p-8 mb-8 border border-gray-100 transform transition-all duration-300 animate-fadeIn">
+                    <div className="mb-6">
+                      <h3 className="text-2xl font-bold text-gray-800 mb-6">Create New Task</h3>
+                      <div className="space-y-6">
+                        <input
+                          type="text"
+                          placeholder="What needs to be done?"
+                          value={newTaskTitle}
+                          onChange={(e) => setNewTaskTitle(e.target.value)}
+                          className="w-full px-5 py-4 bg-white text-gray-800 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm hover:shadow-md focus:shadow-lg"
+                          disabled={loadingTasks}
+                          autoFocus
+                        />
+                        <textarea
+                          placeholder="Add details (optional)..."
+                          value={newTaskDescription}
+                          onChange={(e) => setNewTaskDescription(e.target.value)}
+                          className="w-full px-5 py-3 bg-white text-gray-800 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm hover:shadow-md focus:shadow-lg resize-none"
+                          rows={3}
+                          disabled={loadingTasks}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-end space-x-4">
+                      <button
+                        onClick={() => {
+                          setShowAddTaskCard(false);
+                          setNewTaskTitle("");
+                          setNewTaskDescription("");
+                        }}
+                        className="px-6 py-3 text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition duration-300 font-medium"
+                        disabled={loadingTasks}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleCreateNewTask}
+                        className="px-6 py-3 text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg flex items-center"
+                        disabled={loadingTasks || !newTaskTitle.trim()}
+                      >
+                        {loadingTasks ? (
+                          <span className="flex items-center">
+                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Adding...
+                          </span>
+                        ) : (
+                          <span className="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                            Add Task
+                          </span>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                )}
                 <div className="space-y-4">
                   <TaskList
                     tasks={tasks}
@@ -146,8 +283,8 @@ export default function DashboardPage() {
                     onTaskDelete={handleDeleteTask}
                   />
                 </div>
-              )}
-            </div>
+              </>
+            )}
           </div>
         </div>
       </main>

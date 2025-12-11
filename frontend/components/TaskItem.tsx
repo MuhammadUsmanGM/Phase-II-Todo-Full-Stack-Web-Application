@@ -78,18 +78,26 @@ export default function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
   };
 
   return (
-    <div className={`p-6 bg-white rounded-2xl shadow-lg border-l-4 ${task.completed ? 'border-green-500 bg-gradient-to-r from-green-50 to-white' : 'border-indigo-500 bg-gradient-to-r from-white to-indigo-50'} transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1`}>
+    <div className={`p-6 bg-white rounded-2xl shadow-lg border-2 transition-all duration-300 hover:shadow-xl ${
+      task.completed
+        ? 'border-green-200 bg-gradient-to-r from-green-50 to-emerald-50'
+        : 'border-indigo-200 bg-gradient-to-r from-white to-indigo-50'
+    }`}>
       <div className="flex items-start">
-        <div className="relative">
+        <div className="relative flex-shrink-0">
           <input
             type="checkbox"
             checked={task.completed}
             onChange={handleToggleComplete}
-            className="mt-1 h-6 w-6 text-indigo-600 rounded focus:ring-indigo-500 cursor-pointer opacity-0 absolute"
+            className="mt-1 h-6 w-6 text-indigo-600 rounded-full focus:ring-indigo-500 cursor-pointer opacity-0 absolute"
             disabled={loading}
           />
           <div
-            className={`w-6 h-6 flex items-center justify-center rounded-full border-2 ${task.completed ? 'border-green-500 bg-green-500' : 'border-indigo-300 hover:border-indigo-500'} transition-colors duration-300`}
+            className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
+              task.completed
+                ? 'border-green-500 bg-green-500'
+                : 'border-indigo-400 bg-white hover:border-indigo-500'
+            }`}
           >
             {task.completed && (
               <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -100,22 +108,30 @@ export default function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
         </div>
         <div className="ml-4 flex-grow">
           {isEditing ? (
-            <div className="space-y-3 animate-fadeIn">
+            <div className="space-y-4 animate-fadeIn">
               <input
                 type="text"
                 value={editedTitle}
                 onChange={(e) => setEditedTitle(e.target.value)}
-                className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                className={`w-full px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-800 ${
+                  task.completed
+                    ? 'bg-green-100 border border-green-300'
+                    : 'bg-indigo-50 border border-indigo-200'
+                }`}
                 disabled={loading}
               />
               <textarea
                 value={editedDescription}
                 onChange={(e) => setEditedDescription(e.target.value)}
-                className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                className={`w-full px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-800 ${
+                  task.completed
+                    ? 'bg-green-100 border border-green-300'
+                    : 'bg-indigo-50 border border-indigo-200'
+                }`}
                 rows={2}
                 disabled={loading}
               />
-              <div className="flex space-x-3 mt-3">
+              <div className="flex space-x-3 mt-4">
                 <button
                   onClick={handleSaveEdit}
                   className="px-4 py-2 text-sm text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg"
@@ -146,7 +162,7 @@ export default function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
             </div>
           ) : (
             <>
-              <h4 className={`text-lg font-bold ${task.completed ? "line-through text-gray-500" : "text-gray-800"}`}>
+              <h4 className={`text-lg font-semibold ${task.completed ? "line-through text-gray-500" : "text-gray-800"}`}>
                 {task.title}
               </h4>
               {task.description && (
@@ -157,14 +173,14 @@ export default function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
               <div className="mt-4 flex space-x-4">
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="text-sm text-indigo-600 hover:text-indigo-800 font-medium bg-indigo-50 px-3 py-1.5 rounded-lg transition-all hover:bg-indigo-100"
+                  className="text-sm text-indigo-600 hover:text-indigo-800 font-medium bg-indigo-50 px-3 py-1.5 rounded-lg transition-all hover:bg-indigo-100 hover:scale-105"
                   disabled={loading}
                 >
                   Edit
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="text-sm text-red-600 hover:text-red-800 font-medium bg-red-50 px-3 py-1.5 rounded-lg transition-all hover:bg-red-100"
+                  className="text-sm text-red-600 hover:text-red-800 font-medium bg-red-50 px-3 py-1.5 rounded-lg transition-all hover:bg-red-100 hover:scale-105"
                   disabled={loading}
                 >
                   Delete
@@ -174,25 +190,36 @@ export default function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
           )}
         </div>
       </div>
-      <div className="mt-4 text-xs text-gray-500 flex justify-between items-center">
-        <span className="bg-gray-100 px-2 py-1 rounded-full">Added: {new Date(task.created_at).toLocaleDateString()}</span>
-        <span className={`px-2 py-1 rounded-full text-xs font-medium ${task.completed ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
-          {task.completed ? (
-            <span className="flex items-center">
-              <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Completed
-            </span>
-          ) : (
-            <span className="flex items-center">
-              <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              Pending
-            </span>
-          )}
-        </span>
+      <div className="mt-5 text-xs text-gray-500 flex justify-between items-center">
+        <div className="flex items-center space-x-2">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span>Added: {new Date(task.created_at).toLocaleDateString()}</span>
+        </div>
+        <div className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${
+          task.completed
+            ? 'bg-green-100 text-green-800'
+            : 'bg-yellow-100 text-yellow-800'
+        }`}>
+          <span className="flex items-center">
+            {task.completed ? (
+              <>
+                <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Completed
+              </>
+            ) : (
+              <>
+                <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Pending
+              </>
+            )}
+          </span>
+        </div>
       </div>
     </div>
   );
