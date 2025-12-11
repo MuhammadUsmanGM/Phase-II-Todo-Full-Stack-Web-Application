@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { useAuth } from "@/context/AuthContext";
@@ -11,6 +11,21 @@ export default function Home() {
   const [showTerms, setShowTerms] = useState(false);
   const [showContact, setShowContact] = useState(false);
   const { isAuthenticated } = useAuth();
+  // Handle scroll-based animations
+  useEffect(() => {
+    const handleScroll = () => {
+      // Add a class to body when scrolled for navbar
+      if (window.scrollY > 10) {
+        document.body.classList.add('scrolled');
+      } else {
+        document.body.classList.remove('scrolled');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <Navbar />
@@ -18,33 +33,33 @@ export default function Home() {
       <section className="relative pt-32 pb-32 flex content-center items-center justify-center min-h-screen overflow-hidden">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-          <div className="absolute top-20 left-40 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-purple-300/30 to-pink-300/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-r from-indigo-300/30 to-blue-300/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+          <div className="absolute top-20 left-40 w-80 h-80 bg-gradient-to-r from-yellow-300/30 to-orange-300/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
         </div>
 
         <div className="container relative mx-auto px-4 z-10">
           <div className="items-center flex flex-wrap">
             <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto">
-              <div className="text-center lg:text-left">
-                <div className="inline-flex items-center px-4 py-1.5 bg-indigo-100/80 backdrop-blur-sm rounded-full mb-6">
+              <div className="text-center lg:text-left animate-slideUp">
+                <div className="inline-flex items-center px-4 py-1.5 bg-indigo-100/80 backdrop-blur-sm rounded-full mb-6 animate-slideUp delay-100">
                   <span className="h-2 w-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
                   <span className="text-indigo-800 font-medium text-sm">Boost your productivity today</span>
                 </div>
-                <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
+                <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight animate-slideUp delay-200">
                   <span className="block">Organize Your Life</span>
                   <span className="block bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
                     One Task at a Time
                   </span>
                 </h1>
-                <p className="mt-6 text-xl text-gray-700 max-w-lg mx-auto lg:mx-0">
+                <p className="mt-6 text-xl text-gray-800 max-w-lg mx-auto lg:mx-0 animate-slideUp delay-300">
                   {isAuthenticated ? (
                     "Welcome back! Manage your tasks and boost your productivity with our powerful tools."
                   ) : (
                     "A powerful and intuitive task management application designed to boost your productivity and simplify your daily routine."
                   )}
                 </p>
-                <div className="mt-10 flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+                <div className="mt-10 flex flex-col sm:flex-row justify-center lg:justify-start gap-4 animate-slideUp delay-400">
                   {isAuthenticated ? (
                     <Link
                       href="/dashboard"
@@ -90,61 +105,169 @@ export default function Home() {
               </div>
             </div>
             <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto mt-12 lg:mt-0">
+              <div className="relative flex justify-center animate-slideUp delay-500">
+                {/* This div was unclosed */}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="features" className="py-24 bg-gradient-to-b from-white to-indigo-50">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-wrap justify-center text-center mb-16">
+            <div className="w-full lg:w-6/12 px-4">
+              <div className="inline-flex items-center px-4 py-1.5 bg-indigo-100/30 backdrop-blur-sm rounded-full mb-8 animate-slideUp delay-100">
+                <span className="h-2 w-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                <span className="text-indigo-800 font-medium text-sm">Why choose our platform</span>
+              </div>
+              <h2 className="text-4xl font-extrabold text-gray-900 mb-6 animate-slideUp delay-200">Powerful Features</h2>
+              <p className="text-lg leading-relaxed text-gray-600 max-w-xl mx-auto animate-slideUp delay-300">
+                Everything you need to stay organized and boost your productivity
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="group animate-slideUp delay-400">
+              <div className="relative bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-indigo-500 transform hover:-translate-y-3 transition-transform duration-300 h-full">
+                <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-14 h-14 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center group-hover:from-indigo-600 group-hover:to-purple-600 transition-all duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                  </svg>
+                </div>
+                <div className="pt-8 text-center mt-4">
+                  <h5 className="text-xl font-bold text-gray-800 mb-4">Task Management</h5>
+                  <p className="text-gray-600">
+                    Create, update, and organize your tasks with our intuitive interface for maximum efficiency
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="group animate-slideUp delay-500">
+              <div className="relative bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-purple-500 transform hover:-translate-y-3 transition-transform duration-300 h-full">
+                <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center group-hover:from-purple-600 group-hover:to-pink-600 transition-all duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                </div>
+                <div className="pt-8 text-center mt-4">
+                  <h5 className="text-xl font-bold text-gray-800 mb-4">Secure & Private</h5>
+                  <p className="text-gray-600">
+                    Your data is protected with industry-standard security measures and encryption
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="group animate-slideUp delay-600">
+              <div className="relative bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-pink-500 transform hover:-translate-y-3 transition-transform duration-300 h-full">
+                <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-14 h-14 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center group-hover:from-pink-600 group-hover:to-rose-600 transition-all duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <div className="pt-8 text-center mt-4">
+                  <h5 className="text-xl font-bold text-gray-800 mb-4">Real-time Sync</h5>
+                  <p className="text-gray-600">
+                    Access your tasks from anywhere, anytime with seamless synchronization
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How it Works Section */}
+      <section id="how-it-works" className="py-24 bg-gradient-to-b from-indigo-50 to-white">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-wrap justify-center text-center mb-16">
+            <div className="w-full lg:w-6/12 px-4">
+              <div className="inline-flex items-center px-4 py-1.5 bg-indigo-100/30 backdrop-blur-sm rounded-full mb-8 animate-slideUp">
+                <span className="h-2 w-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                <span className="text-indigo-800 font-medium text-sm">How it works</span>
+              </div>
+              <h2 className="text-4xl font-extrabold text-gray-900 mb-6 animate-slideUp delay-200">Simple 3-Step Process</h2>
+              <p className="text-lg leading-relaxed text-gray-600 max-w-xl mx-auto animate-slideUp delay-300">
+                Get started with our simple three-step process to boost your productivity
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center">
+            <div className="w-full md:w-4/12 px-4 mr-auto ml-auto mb-12 md:mb-0">
               <div className="relative flex justify-center">
-                <div className="relative w-full max-w-md">
-                  {/* Card with enhanced floating animation */}
-                  <div className="absolute -top-8 left-0 w-full h-32 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-3xl opacity-20 blur-xl animate-pulse"></div>
-                  <div className="relative bg-white rounded-2xl shadow-2xl p-8 transform transition-all duration-500 hover:shadow-3xl hover:-translate-y-2 border border-indigo-100/30 backdrop-blur-sm">
-                    <div className="flex justify-between items-center mb-6">
+                <div className="relative w-full max-w-sm">
+                  {/* Animated dashboard preview */}
+                  <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-xl p-6 transform rotate-3 animate-pulse">
+                    <div className="flex justify-between items-center mb-4">
+                      <div className="w-3/4 h-4 bg-white bg-opacity-30 rounded animate-pulse"></div>
+                      <div className="w-6 h-6 bg-white bg-opacity-30 rounded-full animate-pulse"></div>
+                    </div>
+
+                    <div className="space-y-3">
                       <div className="flex items-center">
-                        <div className="w-3 h-3 bg-red-400 rounded-full mr-2"></div>
-                        <div className="w-3 h-3 bg-yellow-400 rounded-full mr-2"></div>
-                        <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                        <div className="w-5 h-5 bg-white bg-opacity-30 rounded animate-pulse mr-2"></div>
+                        <div className="h-4 bg-white bg-opacity-30 rounded flex-grow animate-pulse"></div>
                       </div>
-                      <div className="text-sm text-indigo-600 font-semibold flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        TodoApp Dashboard
+                      <div className="flex items-center">
+                        <div className="w-5 h-5 bg-white bg-opacity-30 rounded animate-pulse mr-2"></div>
+                        <div className="h-4 bg-white bg-opacity-30 rounded flex-grow animate-pulse"></div>
                       </div>
-                    </div>
-
-                    <div className="space-y-4">
-                      <div className="flex items-center p-4 bg-gradient-to-r from-gray-50 to-indigo-50 rounded-xl hover:from-indigo-50 hover:to-purple-50 transition-all duration-300 transform hover:scale-[1.02] group">
-                        <input type="checkbox" className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500" defaultChecked />
-                        <span className="ml-3 text-gray-700 line-through group-hover:text-gray-500 transition-colors">
-                          Review quarterly reports
-                        </span>
-                        <div className="ml-auto text-sm text-gray-500">Completed</div>
-                      </div>
-                      <div className="flex items-center p-4 bg-gradient-to-r from-gray-50 to-indigo-50 rounded-xl hover:from-indigo-50 hover:to-purple-50 transition-all duration-300 transform hover:scale-[1.02] group">
-                        <input type="checkbox" className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500" />
-                        <span className="ml-3 text-gray-700 group-hover:text-indigo-700 transition-colors">
-                          Prepare project presentation
-                        </span>
-                        <div className="ml-auto text-sm text-gray-500">Due: Today</div>
-                      </div>
-                      <div className="flex items-center p-4 bg-gradient-to-r from-gray-50 to-indigo-50 rounded-xl hover:from-indigo-50 hover:to-purple-50 transition-all duration-300 transform hover:scale-[1.02] group">
-                        <input type="checkbox" className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500" />
-                        <span className="ml-3 text-gray-700 group-hover:text-indigo-700 transition-colors">
-                          Team meeting with design team
-                        </span>
-                        <div className="ml-auto text-sm text-gray-500">Tomorrow</div>
+                      <div className="flex items-center">
+                        <div className="w-5 h-5 bg-white bg-opacity-30 rounded animate-pulse mr-2"></div>
+                        <div className="h-4 bg-white bg-opacity-30 rounded flex-grow animate-pulse"></div>
                       </div>
                     </div>
 
-                    <div className="mt-6 flex">
-                      <input
-                        type="text"
-                        placeholder="Add a new task..."
-                        className="flex-grow px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/80 backdrop-blur-sm transition-all"
-                      />
-                      <button className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-2 rounded-r-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                        </svg>
-                      </button>
+                    <div className="mt-6 h-10 bg-white bg-opacity-30 rounded-lg animate-pulse"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full md:w-5/12 px-4 ml-auto">
+              <div className="space-y-12">
+                <div className="flex group animate-slideUp delay-400">
+                  <div className="flex-shrink-0 mr-6">
+                    <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xl font-bold rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
+                      1
                     </div>
+                  </div>
+                  <div className="pt-1">
+                    <h4 className="text-xl font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">Sign Up</h4>
+                    <p className="text-gray-600">
+                      Create your free account in seconds with our simple registration process
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex group animate-slideUp delay-500">
+                  <div className="flex-shrink-0 mr-6">
+                    <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xl font-bold rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
+                      2
+                    </div>
+                  </div>
+                  <div className="pt-1">
+                    <h4 className="text-xl font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">Add Your Tasks</h4>
+                    <p className="text-gray-600">
+                      Create, organize, and prioritize your tasks to stay on track and boost productivity
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex group animate-slideUp delay-600">
+                  <div className="flex-shrink-0 mr-6">
+                    <div className="w-14 h-14 flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xl font-bold rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
+                      3
+                    </div>
+                  </div>
+                  <div className="pt-1">
+                    <h4 className="text-xl font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">Track & Achieve</h4>
+                    <p className="text-gray-600">
+                      Monitor your progress, complete tasks, and accomplish your goals efficiently
+                    </p>
                   </div>
                 </div>
               </div>
@@ -153,72 +276,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="py-20 bg-gradient-to-b from-white to-indigo-50">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-center text-center mb-20">
-            <div className="w-full lg:w-6/12 px-4">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">Powerful Features</h2>
-              <p className="text-lg leading-relaxed text-gray-600">
-                Everything you need to stay organized and boost your productivity
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-8">
-            <div className="w-full md:w-4/12 lg:w-3/12 px-4 group">
-              <div className="relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-indigo-500 transform hover:-translate-y-2 transition-transform duration-300">
-                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center group-hover:bg-indigo-500 transition-colors duration-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-indigo-600 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                  </svg>
-                </div>
-                <div className="pt-10 text-center">
-                  <h5 className="text-xl font-bold text-gray-800 mb-2">Task Management</h5>
-                  <p className="text-gray-600">
-                    Create, update, and organize your tasks with ease
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="w-full md:w-4/12 lg:w-3/12 px-4 group">
-              <div className="relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-purple-500 transform hover:-translate-y-2 transition-transform duration-300">
-                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center group-hover:bg-purple-500 transition-colors duration-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-purple-600 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                </div>
-                <div className="pt-10 text-center">
-                  <h5 className="text-xl font-bold text-gray-800 mb-2">Secure & Private</h5>
-                  <p className="text-gray-600">
-                    Your data is protected with industry-standard security measures
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="w-full md:w-4/12 lg:w-3/12 px-4 group">
-              <div className="relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-pink-500 transform hover:-translate-y-2 transition-transform duration-300">
-                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center group-hover:bg-pink-500 transition-colors duration-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-pink-600 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <div className="pt-10 text-center">
-                  <h5 className="text-xl font-bold text-gray-800 mb-2">Real-time Sync</h5>
-                  <p className="text-gray-600">
-                    Access your tasks from anywhere, anytime
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* How it Works */}
-      <section id="how-it-works" className="py-20 bg-white">
+      <section id="how-it-works" className="py-24 bg-gradient-to-b from-indigo-50 to-white">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center">
             <div className="w-full md:w-4/12 px-4 mr-auto ml-auto mb-12 md:mb-0">
@@ -253,44 +312,52 @@ export default function Home() {
             </div>
 
             <div className="w-full md:w-5/12 px-4 ml-auto">
-              <h3 className="text-3xl font-bold text-gray-900 mb-6">How It Works</h3>
-              <p className="text-lg text-gray-600 mb-8">
-                Our simple three-step process helps you get organized in no time:
-              </p>
-              <div className="space-y-6">
-                <div className="flex group">
-                  <div className="flex-shrink-0 mr-4">
-                    <div className="flex items-center justify-center w-12 h-12 bg-indigo-100 text-indigo-600 text-xl font-bold rounded-full group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300">
-                      1
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100 animate-slideUp delay-700">
+                <h3 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mb-6">How It Works</h3>
+                <p className="text-lg text-gray-700 mb-8">
+                  Our simple three-step process helps you get organized in no time:
+                </p>
+                <div className="space-y-8">
+                  <div className="flex animate-slideUp delay-800">
+                    <div className="flex-shrink-0 mr-6">
+                      <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xl font-bold rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
+                        1
+                      </div>
+                    </div>
+                    <div className="pt-1">
+                      <h4 className="text-xl font-bold text-gray-800 mb-2">Create Account</h4>
+                      <p className="text-gray-600">
+                        Sign up for your free account in seconds with our simple registration process
+                      </p>
                     </div>
                   </div>
-                  <div className="pt-1">
-                    <h4 className="text-xl font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">Sign Up</h4>
-                    <p className="text-gray-600">Create your free account in seconds</p>
-                  </div>
-                </div>
 
-                <div className="flex group">
-                  <div className="flex-shrink-0 mr-4">
-                    <div className="flex items-center justify-center w-12 h-12 bg-indigo-100 text-indigo-600 text-xl font-bold rounded-full group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300">
-                      2
+                  <div className="flex animate-slideUp delay-900">
+                    <div className="flex-shrink-0 mr-6">
+                      <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xl font-bold rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
+                        2
+                      </div>
+                    </div>
+                    <div className="pt-1">
+                      <h4 className="text-xl font-bold text-gray-800 mb-2">Add Your Tasks</h4>
+                      <p className="text-gray-600">
+                        Create, organize, and prioritize your tasks to stay on track and boost productivity
+                      </p>
                     </div>
                   </div>
-                  <div className="pt-1">
-                    <h4 className="text-xl font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">Create Tasks</h4>
-                    <p className="text-gray-600">Add your tasks and organize them by priority</p>
-                  </div>
-                </div>
 
-                <div className="flex group">
-                  <div className="flex-shrink-0 mr-4">
-                    <div className="flex items-center justify-center w-12 h-12 bg-indigo-100 text-indigo-600 text-xl font-bold rounded-full group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300">
-                      3
+                  <div className="flex animate-slideUp delay-1000">
+                    <div className="flex-shrink-0 mr-6">
+                      <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xl font-bold rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
+                        3
+                      </div>
                     </div>
-                  </div>
-                  <div className="pt-1">
-                    <h4 className="text-xl font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">Track & Accomplish</h4>
-                    <p className="text-gray-600">Monitor your progress and celebrate your achievements</p>
+                    <div className="pt-1">
+                      <h4 className="text-xl font-bold text-gray-800 mb-2">Track & Achieve</h4>
+                      <p className="text-gray-600">
+                        Monitor your progress, complete tasks, and accomplish your goals efficiently
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -300,20 +367,24 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 bg-gradient-to-b from-indigo-50 to-white">
+      <section id="testimonials" className="py-24 bg-gradient-to-b from-white to-indigo-50">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap justify-center text-center mb-16">
             <div className="w-full lg:w-6/12 px-4">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">What Our Users Say</h2>
-              <p className="text-lg text-gray-600">
-                Join thousands of satisfied users who have transformed their productivity
+              <div className="inline-flex items-center px-4 py-1.5 bg-indigo-100/30 backdrop-blur-sm rounded-full mb-6 animate-slideUp">
+                <span className="h-2 w-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                <span className="text-indigo-800 font-medium text-sm">Trusted by thousands of users</span>
+              </div>
+              <h2 className="text-4xl font-extrabold text-gray-900 mb-6 animate-slideUp delay-200">What Our Users Say</h2>
+              <p className="text-lg text-gray-600 animate-slideUp delay-300">
+                Join our community of satisfied users who have transformed their productivity
               </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-8">
-            <div className="w-full md:w-5/12 lg:w-4/12 px-4">
-              <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 border-l-4 border-indigo-500 transform hover:-translate-y-2 transition-transform duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            <div className="w-full px-4 animate-slideUp delay-400">
+              <div className="bg-gradient-to-br from-white to-indigo-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-indigo-100 transform hover:-translate-y-2 hover:shadow-2xl h-full">
                 <div className="flex items-center mb-4">
                   <div className="text-yellow-400 flex">
                     {[...Array(5)].map((_, i) => (
@@ -338,8 +409,8 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="w-full md:w-5/12 lg:w-4/12 px-4">
-              <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 border-l-4 border-purple-500 transform hover:-translate-y-2 transition-transform duration-300">
+            <div className="w-full px-4 animate-slideUp delay-500">
+              <div className="bg-gradient-to-br from-white to-indigo-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-purple-100 transform hover:-translate-y-2 hover:shadow-2xl h-full">
                 <div className="flex items-center mb-4">
                   <div className="text-yellow-400 flex">
                     {[...Array(5)].map((_, i) => (
@@ -353,7 +424,7 @@ export default function Home() {
                   "The interface is intuitive and the task management features are exactly what I needed for my projects."
                 </p>
                 <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-bold text-lg">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-100 to-indigo-100 flex items-center justify-center text-purple-600 font-bold text-lg">
                     SM
                   </div>
                   <div className="ml-4">
@@ -376,14 +447,14 @@ export default function Home() {
         </div>
         <div className="container mx-auto px-4 pt-32 pb-24 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center justify-center px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium mb-6">
+            <div className="inline-flex items-center justify-center px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium mb-6 animate-slideUp delay-100">
               <span className="h-2 w-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
               Trusted by thousands of users worldwide
             </div>
-            <h2 className="text-5xl font-extrabold text-white mb-6 leading-tight">
+            <h2 className="text-5xl font-extrabold text-white mb-6 leading-tight animate-slideUp delay-200">
               Ready to Transform <br />Your Productivity?
             </h2>
-            <p className="text-xl leading-relaxed mb-10 text-indigo-100 max-w-2xl mx-auto">
+            <p className="text-xl leading-relaxed mb-10 text-indigo-100 max-w-2xl mx-auto animate-slideUp delay-300">
               {isAuthenticated ? (
                 "You're already signed in! Access your dashboard to manage your tasks and boost your productivity."
               ) : (
@@ -391,11 +462,11 @@ export default function Home() {
               )}
             </p>
 
-            <div className="flex flex-wrap justify-center gap-6 mb-16">
+            <div className="flex flex-wrap justify-center gap-6 mb-16 animate-slideUp delay-400">
               {isAuthenticated ? (
                 <Link
                   href="/dashboard"
-                  className="px-10 py-5 bg-white text-indigo-600 font-bold text-lg rounded-2xl shadow-2xl hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl backdrop-blur-sm relative overflow-hidden group"
+                  className="px-10 py-5 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold text-lg rounded-2xl shadow-2xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl backdrop-blur-sm relative overflow-hidden group"
                 >
                   <span className="flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3 group-hover:rotate-12 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -403,12 +474,13 @@ export default function Home() {
                     </svg>
                     Go to Dashboard
                   </span>
+                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-indigo-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
                 </Link>
               ) : (
                 <>
                   <Link
                     href="/register"
-                    className="px-10 py-5 bg-white text-indigo-600 font-bold text-lg rounded-2xl shadow-2xl hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl backdrop-blur-sm relative overflow-hidden group"
+                    className="px-10 py-5 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold text-lg rounded-2xl shadow-2xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl backdrop-blur-sm relative overflow-hidden group"
                   >
                     <span className="flex items-center justify-center">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3 group-hover:rotate-12 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -416,6 +488,7 @@ export default function Home() {
                       </svg>
                       Create Account
                     </span>
+                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-indigo-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
                   </Link>
                   <Link
                     href="/login"
@@ -427,12 +500,13 @@ export default function Home() {
                       </svg>
                       Sign In
                     </span>
+                    <div className="absolute inset-0 w-full h-full bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300 -z-10"></div>
                   </Link>
                 </>
               )}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto animate-slideUp delay-500">
               <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20 transform transition-all duration-300 hover:scale-105">
                 <div className="w-12 h-12 bg-indigo-500/30 rounded-xl flex items-center justify-center mb-4 mx-auto">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -716,5 +790,6 @@ export default function Home() {
         </div>
       )}
     </div>
+  {/* Closing all conditional blocks and main JSX structure */}
   );
 }
