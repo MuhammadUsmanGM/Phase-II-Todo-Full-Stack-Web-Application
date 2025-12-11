@@ -10,6 +10,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: (token: string) => void;
   logout: () => void;
+  mockLogin: () => void;
   isLoading: boolean;
 }
 
@@ -49,7 +50,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setToken(newToken);
     setUserId(sub);
     setIsAuthenticated(true);
-    router.push("/"); // Redirect to dashboard after login
+    router.push("/dashboard"); // Redirect to dashboard after login
+  };
+
+  // Mock login for testing without backend
+  const mockLogin = () => {
+    // Create a mock JWT with a fake user ID
+    const mockPayload = {
+      sub: "1", // Mock user ID
+      email: "test@gmail.com",
+      exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24) // 24 hours from now
+    };
+
+    // Encode the payload as base64 (simplified - not a true JWT but works for testing)
+    const header = btoa(JSON.stringify({ alg: "none", typ: "JWT" }));
+    const payload = btoa(JSON.stringify(mockPayload));
+    const signature = btoa("fake-signature"); // In a real JWT, signature would be calculated
+
+    const mockToken = `${header}.${payload}.${signature}`;
+
+    Cookies.set("token", mockToken, { expires: 7 });
+    setToken(mockToken);
+    setUserId("1");
+    setIsAuthenticated(true);
+    router.push("/dashboard");
   };
 
   const logout = () => {
@@ -57,12 +81,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setToken(null);
     setUserId(null);
     setIsAuthenticated(false);
-    router.push("/login"); // Redirect to login page after logout
+    router.push("/"); // Redirect to landing page after logout
   };
 
   return (
     <AuthContext.Provider
-      value={{ token, userId, isAuthenticated, login, logout, isLoading }}
+      value={{ token, userId, isAuthenticated, login, logout, mockLogin, isLoading }}
     >
       {children}
     </AuthContext.Provider>

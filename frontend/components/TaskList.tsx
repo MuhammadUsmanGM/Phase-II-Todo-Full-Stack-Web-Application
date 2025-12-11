@@ -16,7 +16,7 @@ export default function TaskList({ tasks, onTaskUpdate, onTaskDelete }: TaskList
   }
 
   return (
-    <div className="bg-white shadow-md rounded-lg overflow-hidden">
+    <div className="space-y-4">
       {tasks.map((task) => (
         <TaskItem
           key={task.id}
