@@ -790,6 +790,5 @@ export default function Home() {
         </div>
       )}
     </div>
-  {/* Closing all conditional blocks and main JSX structure */}
   );
 }
