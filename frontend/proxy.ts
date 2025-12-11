@@ -1,27 +1,28 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export function middleware(request: NextRequest) {
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+export function proxy(request: NextRequest) {
   const token = request.cookies.get('token')?.value; // Get token from cookies
   const { pathname } = request.nextUrl;
 
-  // Define protected routes (dashboard, any task-related pages)
-  // The /dashboard path is protected and requires authentication
-  const protectedPaths = ['/dashboard'];
+  const publicPaths = ['/login', '/register'];
+  const isPublicPath = publicPaths.includes(pathname);
 
-  // Define public routes that do not require authentication
-  const publicPaths = ['/', '/login', '/register'];
-
-  // Redirect authenticated users from login/register pages to dashboard
-  if (token && (pathname === '/login' || pathname === '/register')) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
-  }
-
-  // Redirect unauthenticated users from protected pages to login
-  if (!token && protectedPaths.some(path => pathname.startsWith(path))) {
-    // Only redirect if not already on a public path
-    if (!publicPaths.includes(pathname)) {
-        return NextResponse.redirect(new URL('/login', request.url));
+  // If the user is authenticated
+  if (token) {
+    // And trying to access a public-only path, redirect to the dashboard
+    if (isPublicPath) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+  } 
+  // If the user is not authenticated
+  else {
+    // And trying to access a protected path, redirect to login
+    if (!isPublicPath) {
+      return NextResponse.redirect(new URL('/login', request.url));
     }
   }
 
@@ -30,15 +31,9 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Matcher for paths where this middleware should run.
-  // This will apply to all routes except API routes, static files, and _next/assets.
-  // Make sure to exclude Next.js internal paths, static files, and API routes.
+  // Matcher to run on all paths except for API routes, static files, and image optimization.
   matcher: [
-    '/',
-    '/dashboard',
-    '/login',
-    '/register',
-    // Match all other paths that are not static files or API routes
-    // '/((?!api|_next/static|_next/image|favicon.ico).*)', // More generic approach if needed
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 };
+
