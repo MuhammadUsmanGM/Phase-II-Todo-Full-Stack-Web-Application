@@ -3,12 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Home() {
   const [showAbout, setShowAbout] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
   const [showContact, setShowContact] = useState(false);
+  const { isAuthenticated } = useAuth();
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <Navbar />
@@ -32,21 +34,36 @@ export default function Home() {
                   </span>
                 </h1>
                 <p className="mt-6 text-xl text-gray-700 max-w-lg mx-auto">
-                  A powerful and intuitive task management application designed to boost your productivity and simplify your daily routine.
+                  {isAuthenticated ? (
+                    "Welcome back! Manage your tasks and boost your productivity."
+                  ) : (
+                    "A powerful and intuitive task management application designed to boost your productivity and simplify your daily routine."
+                  )}
                 </p>
                 <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-                  <Link
-                    href="/login"
-                    className="px-8 py-4 bg-white text-indigo-600 font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 ease-in-out border-2 border-indigo-200 hover:border-indigo-400"
-                  >
-                    Sign In
-                  </Link>
-                  <Link
-                    href="/register"
-                    className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 ease-in-out"
-                  >
-                    Sign Up Free
-                  </Link>
+                  {isAuthenticated ? (
+                    <Link
+                      href="/dashboard"
+                      className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 ease-in-out"
+                    >
+                      Go to Dashboard
+                    </Link>
+                  ) : (
+                    <>
+                      <Link
+                        href="/login"
+                        className="px-8 py-4 bg-white text-indigo-600 font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 ease-in-out border-2 border-indigo-200 hover:border-indigo-400"
+                      >
+                        Sign In
+                      </Link>
+                      <Link
+                        href="/register"
+                        className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 ease-in-out"
+                      >
+                        Sign Up Free
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -319,23 +336,38 @@ export default function Home() {
             <div className="w-full lg:w-6/12 px-4">
               <h2 className="text-4xl font-bold text-white mb-6">Ready to Transform Your Productivity?</h2>
               <p className="text-xl text-indigo-100 mb-10 max-w-lg mx-auto">
-                Join our community today and take control of your tasks. Sign up for a free account and start organizing your life right away.
+                {isAuthenticated ? (
+                  "You're already signed in! Go to your dashboard to manage your tasks."
+                ) : (
+                  "Join our community today and take control of your tasks. Sign up for a free account and start organizing your life right away."
+                )}
               </p>
             </div>
           </div>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              href="/register"
-              className="px-8 py-4 bg-white text-indigo-600 font-bold rounded-xl shadow-lg hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl"
-            >
-              Create Account
-            </Link>
-            <Link
-              href="/login"
-              className="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-xl hover:bg-white hover:text-indigo-600 transition-all duration-300 transform hover:-translate-y-1"
-            >
-              Sign In
-            </Link>
+            {isAuthenticated ? (
+              <Link
+                href="/dashboard"
+                className="px-8 py-4 bg-white text-indigo-600 font-bold rounded-xl shadow-lg hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl"
+              >
+                Go to Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/register"
+                  className="px-8 py-4 bg-white text-indigo-600 font-bold rounded-xl shadow-lg hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl"
+                >
+                  Create Account
+                </Link>
+                <Link
+                  href="/login"
+                  className="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-xl hover:bg-white hover:text-indigo-600 transition-all duration-300 transform hover:-translate-y-1"
+                >
+                  Sign In
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </section>
