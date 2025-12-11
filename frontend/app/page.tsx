@@ -532,13 +532,13 @@ export default function Home() {
               <p className="text-gray-600">&copy; {new Date().getFullYear()} TodoApp. All rights reserved.</p>
             </div>
             <div className="flex flex-wrap justify-center gap-8 mb-6 md:mb-0">
-              <a href="#" className="text-gray-600 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1">
+              <a href="#" className="text-gray-600 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1" onClick={(e) => { e.preventDefault(); setShowAbout(true); }}>
                 About
               </a>
-              <a href="#" className="text-gray-600 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1">
+              <a href="#" className="text-gray-600 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1" onClick={(e) => { e.preventDefault(); setShowPrivacy(true); }}>
                 Privacy
               </a>
-              <a href="#" className="text-gray-600 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1">
+              <a href="#" className="text-gray-600 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1" onClick={(e) => { e.preventDefault(); setShowTerms(true); }}>
                 Terms
               </a>
             </div>
@@ -563,35 +563,48 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Modals */}
+      {/* Stunning Modals */}
       {/* About Modal */}
       {showAbout && (
-        <div className="fixed inset-0 bg-white bg-opacity-60 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-gray-200 relative">
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-2xl font-bold text-gray-800">About TodoApp</h3>
+        <div className="fixed inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 backdrop-blur-sm flex items-center justify-center z-50 p-4 min-h-screen overflow-hidden">
+          <div className="bg-gradient-to-br from-white to-indigo-50 rounded-3xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-gray-200/50 relative transform transition-all duration-300 scale-95 animate-fadeIn hide-scrollbar">
+            <div className="p-8">
+              <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
+                <h3 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">About TodoApp</h3>
                 <button
                   onClick={() => setShowAbout(false)}
-                  className="text-gray-500 hover:text-gray-700 text-2xl"
+                  className="text-gray-500 hover:text-indigo-600 text-2xl w-10 h-10 rounded-full bg-gray-100 hover:bg-indigo-100 transition-all duration-300 flex items-center justify-center"
                 >
                   &times;
                 </button>
               </div>
-              <div className="text-gray-600">
-                <p className="mb-4">
-                  TodoApp is a powerful task management application designed to help you organize your life and boost productivity.
+              <div className="text-gray-700 space-y-5">
+                <p className="leading-relaxed">
+                  <span className="font-bold text-indigo-600">TodoApp</span> is a powerful task management application designed to help you organize your life and boost productivity.
                   Our mission is to simplify task management with an intuitive and user-friendly interface.
                 </p>
-                <p className="mb-4">
+                <p className="leading-relaxed">
                   Whether you're managing personal tasks, work projects, or team collaborations, TodoApp provides the tools you need
                   to stay organized and on track. Our platform is built with the latest technology to ensure a seamless experience
                   across all devices.
                 </p>
-                <p>
+                <p className="leading-relaxed">
                   We believe in helping people achieve their goals one task at a time, and our platform is designed with that
                   philosophy at its core. Join thousands of users who have transformed their productivity with TodoApp.
                 </p>
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                  <div className="flex items-center space-x-4">
+                    <div className="bg-gradient-to-r from-indigo-100 to-purple-100 p-3 rounded-lg">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-800">Secure & Reliable</h4>
+                      <p className="text-sm text-gray-600">Your data is protected with industry-standard security</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -600,49 +613,79 @@ export default function Home() {
 
       {/* Privacy Modal */}
       {showPrivacy && (
-        <div className="fixed inset-0 bg-white bg-opacity-60 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-gray-200 relative">
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-2xl font-bold text-gray-800">Privacy Policy</h3>
+        <div className="fixed inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 backdrop-blur-sm flex items-center justify-center z-50 p-4 min-h-screen overflow-hidden">
+          <div className="bg-gradient-to-br from-white to-indigo-50 rounded-3xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-gray-200/50 relative transform transition-all duration-300 scale-95 animate-fadeIn hide-scrollbar">
+            <div className="p-8">
+              <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
+                <h3 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Privacy Policy</h3>
                 <button
                   onClick={() => setShowPrivacy(false)}
-                  className="text-gray-500 hover:text-gray-700 text-2xl"
+                  className="text-gray-500 hover:text-indigo-600 text-2xl w-10 h-10 rounded-full bg-gray-100 hover:bg-indigo-100 transition-all duration-300 flex items-center justify-center"
                 >
                   &times;
                 </button>
               </div>
-              <div className="text-gray-600 space-y-3">
-                <p>
-                  At TodoApp, we are committed to protecting your privacy and personal information.
+              <div className="text-gray-700 space-y-5">
+                <p className="leading-relaxed">
+                  At <span className="font-bold text-indigo-600">TodoApp</span>, we are committed to protecting your privacy and personal information.
                   This Privacy Policy outlines how we collect, use, and protect your data when you use our services.
                 </p>
 
-                <h4 className="font-bold text-lg mt-4">Information We Collect</h4>
-                <p>
-                  We only collect the information necessary for you to use our services, including your email address
-                  and any tasks or personal information you choose to store in your TodoApp account.
-                </p>
+                <div className="mt-4 space-y-4">
+                  <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
+                    <h4 className="font-bold text-lg text-indigo-600 flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                      </svg>
+                      Information We Collect
+                    </h4>
+                    <p className="mt-2">
+                      We only collect the information necessary for you to use our services, including your email address
+                      and any tasks or personal information you choose to store in your TodoApp account.
+                    </p>
+                  </div>
 
-                <h4 className="font-bold text-lg mt-4">How We Use Your Information</h4>
-                <p>
-                  Your information is used solely to provide and improve our services, including personalizing your
-                  task management experience and communicating with you about your account.
-                </p>
+                  <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
+                    <h4 className="font-bold text-lg text-indigo-600 flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                      How We Use Your Information
+                    </h4>
+                    <p className="mt-2">
+                      Your information is used solely to provide and improve our services, including personalizing your
+                      task management experience and communicating with you about your account.
+                    </p>
+                  </div>
 
-                <h4 className="font-bold text-lg mt-4">Data Security</h4>
-                <p>
-                  We implement appropriate security measures to protect your personal information against
-                  unauthorized access, alteration, disclosure, or destruction.
-                </p>
+                  <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
+                    <h4 className="font-bold text-lg text-indigo-600 flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                      </svg>
+                      Data Security
+                    </h4>
+                    <p className="mt-2">
+                      We implement appropriate security measures to protect your personal information against
+                      unauthorized access, alteration, disclosure, or destruction.
+                    </p>
+                  </div>
 
-                <h4 className="font-bold text-lg mt-4">Third-Party Services</h4>
-                <p>
-                  We do not share your personal information with third parties except as required by law
-                  or to provide our services (e.g., cloud hosting providers).
-                </p>
+                  <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
+                    <h4 className="font-bold text-lg text-indigo-600 flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9" />
+                      </svg>
+                      Third-Party Services
+                    </h4>
+                    <p className="mt-2">
+                      We do not share your personal information with third parties except as required by law
+                      or to provide our services (e.g., cloud hosting providers).
+                    </p>
+                  </div>
+                </div>
 
-                <p className="mt-4">
+                <p className="mt-6 pt-4 border-t border-gray-200">
                   For any questions about this Privacy Policy, please contact us through our Contact page.
                 </p>
               </div>
@@ -653,120 +696,109 @@ export default function Home() {
 
       {/* Terms Modal */}
       {showTerms && (
-        <div className="fixed inset-0 bg-white bg-opacity-60 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-gray-200 relative">
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-2xl font-bold text-gray-800">Terms of Service</h3>
+        <div className="fixed inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 backdrop-blur-sm flex items-center justify-center z-50 p-4 min-h-screen overflow-hidden">
+          <div className="bg-gradient-to-br from-white to-indigo-50 rounded-3xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-gray-200/50 relative transform transition-all duration-300 scale-95 animate-fadeIn hide-scrollbar">
+            <div className="p-8">
+              <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
+                <h3 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Terms of Service</h3>
                 <button
                   onClick={() => setShowTerms(false)}
-                  className="text-gray-500 hover:text-gray-700 text-2xl"
+                  className="text-gray-500 hover:text-indigo-600 text-2xl w-10 h-10 rounded-full bg-gray-100 hover:bg-indigo-100 transition-all duration-300 flex items-center justify-center"
                 >
                   &times;
                 </button>
               </div>
-              <div className="text-gray-600 space-y-3">
-                <p>
-                  Welcome to TodoApp. These Terms of Service govern your use of our platform and
+              <div className="text-gray-700 space-y-5">
+                <p className="leading-relaxed">
+                  Welcome to <span className="font-bold text-indigo-600">TodoApp</span>. These Terms of Service govern your use of our platform and
                   constitute an agreement between you and TodoApp.
                 </p>
 
-                <h4 className="font-bold text-lg mt-4">Acceptance of Terms</h4>
-                <p>
-                  By creating an account and using TodoApp, you agree to be bound by these Terms and
-                  all applicable laws and regulations.
-                </p>
+                <div className="mt-4 space-y-4">
+                  <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
+                    <h4 className="font-bold text-lg text-indigo-600 flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                      </svg>
+                      Acceptance of Terms
+                    </h4>
+                    <p className="mt-2">
+                      By creating an account and using TodoApp, you agree to be bound by these Terms and
+                      all applicable laws and regulations.
+                    </p>
+                  </div>
 
-                <h4 className="font-bold text-lg mt-4">User Responsibilities</h4>
-                <p>
-                  You are responsible for maintaining the security of your account and for any
-                  activities that occur under your account.
-                </p>
+                  <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
+                    <h4 className="font-bold text-lg text-indigo-600 flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                      User Responsibilities
+                    </h4>
+                    <p className="mt-2">
+                      You are responsible for maintaining the security of your account and for any
+                      activities that occur under your account.
+                    </p>
+                  </div>
 
-                <h4 className="font-bold text-lg mt-4">Account Registration</h4>
-                <p>
-                  You must provide accurate and complete information when registering for TodoApp.
-                  You are responsible for keeping your account information up-to-date.
-                </p>
+                  <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
+                    <h4 className="font-bold text-lg text-indigo-600 flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                      Account Registration
+                    </h4>
+                    <p className="mt-2">
+                      You must provide accurate and complete information when registering for TodoApp.
+                      You are responsible for keeping your account information up-to-date.
+                    </p>
+                  </div>
 
-                <h4 className="font-bold text-lg mt-4">Acceptable Use</h4>
-                <p>
-                  You agree not to use TodoApp for any unlawful purposes or in any way that
-                  could damage or impair our services.
-                </p>
+                  <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
+                    <h4 className="font-bold text-lg text-indigo-600 flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
+                      Acceptable Use
+                    </h4>
+                    <p className="mt-2">
+                      You agree not to use TodoApp for any unlawful purposes or in any way that
+                      could damage or impair our services.
+                    </p>
+                  </div>
 
-                <h4 className="font-bold text-lg mt-4">Data and Content</h4>
-                <p>
-                  You retain ownership of any content you store in your TodoApp account.
-                  By using our services, you grant us a limited license to access and use your
-                  content solely to provide the TodoApp services.
-                </p>
+                  <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
+                    <h4 className="font-bold text-lg text-indigo-600 flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      Data and Content
+                    </h4>
+                    <p className="mt-2">
+                      You retain ownership of any content you store in your TodoApp account.
+                      By using our services, you grant us a limited license to access and use your
+                      content solely to provide the TodoApp services.
+                    </p>
+                  </div>
 
-                <h4 className="font-bold text-lg mt-4">Limitation of Liability</h4>
-                <p>
-                  TodoApp shall not be liable for any indirect, incidental, or consequential
-                  damages arising from your use of our services.
-                </p>
+                  <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
+                    <h4 className="font-bold text-lg text-indigo-600 flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
+                      Limitation of Liability
+                    </h4>
+                    <p className="mt-2">
+                      TodoApp shall not be liable for any indirect, incidental, or consequential
+                      damages arising from your use of our services.
+                    </p>
+                  </div>
+                </div>
 
-                <p className="mt-4">
+                <p className="mt-6 pt-4 border-t border-gray-200">
                   We reserve the right to modify these terms at any time. Continued use of
                   TodoApp after such modifications constitutes your acceptance of the updated terms.
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Contact Modal */}
-      {showContact && (
-        <div className="fixed inset-0 bg-white bg-opacity-60 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-gray-200 relative">
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-2xl font-bold text-gray-800">Contact Us</h3>
-                <button
-                  onClick={() => setShowContact(false)}
-                  className="text-gray-500 hover:text-gray-700 text-2xl"
-                >
-                  &times;
-                </button>
-              </div>
-              <div className="text-gray-600 space-y-4">
-                <p>
-                  Have questions or feedback? We'd love to hear from you! Reach out to us through any of the following channels:
-                </p>
-
-                <div className="space-y-3 mt-6">
-                  <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                    <a href="mailto:mu.ai.dev@gmail.com" className="text-indigo-600 hover:text-indigo-800">mu.ai.dev@gmail.com</a>
-                  </div>
-
-                  <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                    </svg>
-                    <a href="https://github.com/MuhammadUsmanGM" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800">github.com/MuhammadUsmanGM</a>
-                  </div>
-
-                  <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9" />
-                    </svg>
-                    <a href="https://www.linkedin.com/in/muhammad-usman-ai-dev" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800">linkedin.com/in/muhammad-usman-ai-dev</a>
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  <h4 className="font-bold text-lg mb-3">Connect with Us</h4>
-                  <p>
-                    Feel free to reach out for support, feature requests, feedback, or just to say hello.
-                    We value our community and look forward to connecting with you.
-                  </p>
-                </div>
               </div>
             </div>
           </div>
