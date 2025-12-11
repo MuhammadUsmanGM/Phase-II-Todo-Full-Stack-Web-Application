@@ -106,29 +106,46 @@ export default function Home() {
             </div>
             <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto mt-12 lg:mt-0">
               <div className="relative flex justify-center animate-slideUp delay-500">
-                {/* Animated dashboard preview */}
-                <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-xl p-6 transform rotate-3 animate-pulse">
-                  <div className="flex justify-between items-center mb-4">
-                    <div className="w-3/4 h-4 bg-white bg-opacity-30 rounded animate-pulse"></div>
-                    <div className="w-6 h-6 bg-white bg-opacity-30 rounded-full animate-pulse"></div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <div className="flex items-center">
-                      <div className="w-5 h-5 bg-white bg-opacity-30 rounded animate-pulse mr-2"></div>
-                      <div className="h-4 bg-white bg-opacity-30 rounded flex-grow animate-pulse"></div>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-5 h-5 bg-white bg-opacity-30 rounded animate-pulse mr-2"></div>
-                      <div className="h-4 bg-white bg-opacity-30 rounded flex-grow animate-pulse"></div>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-5 h-5 bg-white bg-opacity-30 rounded animate-pulse mr-2"></div>
-                      <div className="h-4 bg-white bg-opacity-30 rounded flex-grow animate-pulse"></div>
+                <div className="relative w-full max-w-sm">
+                  {/* Macbook-style Frame */}
+                  <div className="relative bg-white rounded-t-2xl shadow-2xl p-2 border-b-8 border-gray-300">
+                    <div className="flex space-x-1.5">
+                      <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                      <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                      <div className="w-3 h-3 bg-green-400 rounded-full"></div>
                     </div>
                   </div>
-
-                  <div className="mt-6 h-10 bg-white bg-opacity-30 rounded-lg animate-pulse"></div>
+                  {/* Inner card content - The REAL final version */}
+                  <div className="bg-gray-50 rounded-b-2xl shadow-inner p-6 transform -rotate-1 border border-gray-200">
+                    <div className="flex justify-between items-center pb-3 border-b-2 border-gray-200">
+                      <h3 className="text-xl font-bold text-gray-800">My Tasks</h3>
+                      <div className="px-3 py-1 bg-indigo-200 text-indigo-800 text-sm font-semibold rounded-full">
+                        2 Remaining
+                      </div>
+                    </div>
+                    <div className="mt-4 space-y-3">
+                      {/* Task Item 1 - Completed */}
+                      <div className="flex items-center p-2 bg-white rounded-lg shadow-sm">
+                        <input type="checkbox" checked readOnly className="form-checkbox h-5 w-5 text-gray-400 rounded mr-3" />
+                        <span className="text-gray-500 line-through">Design the new landing page</span>
+                      </div>
+                      {/* Task Item 2 - Active */}
+                      <div className="flex items-center p-3 bg-white rounded-lg shadow-sm ring-2 ring-indigo-500">
+                        <input type="checkbox" className="form-checkbox h-5 w-5 text-indigo-600 rounded mr-3" />
+                        <span className="text-gray-800 font-semibold">Implement backend API endpoints</span>
+                      </div>
+                      {/* Task Item 3 - Input field styled as a task */}
+                      <div className="flex items-center p-2 bg-white rounded-lg shadow-sm">
+                        <input type="checkbox" disabled className="form-checkbox h-5 w-5 text-gray-300 rounded mr-3" />
+                        <input type="text" placeholder="Add a new task..." className="w-full bg-transparent focus:outline-none text-gray-700" />
+                      </div>
+                    </div>
+                    <div className="mt-6 flex items-center justify-end">
+                      <button className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75">
+                        Add Task
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
