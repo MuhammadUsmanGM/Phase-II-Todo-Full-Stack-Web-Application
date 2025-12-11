@@ -26,41 +26,63 @@ export default function Home() {
         <div className="container relative mx-auto px-4 z-10">
           <div className="items-center flex flex-wrap">
             <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto">
-              <div className="text-center">
+              <div className="text-center lg:text-left">
+                <div className="inline-flex items-center px-4 py-1.5 bg-indigo-100/80 backdrop-blur-sm rounded-full mb-6">
+                  <span className="h-2 w-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                  <span className="text-indigo-800 font-medium text-sm">Boost your productivity today</span>
+                </div>
                 <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
                   <span className="block">Organize Your Life</span>
                   <span className="block bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
                     One Task at a Time
                   </span>
                 </h1>
-                <p className="mt-6 text-xl text-gray-700 max-w-lg mx-auto">
+                <p className="mt-6 text-xl text-gray-700 max-w-lg mx-auto lg:mx-0">
                   {isAuthenticated ? (
-                    "Welcome back! Manage your tasks and boost your productivity."
+                    "Welcome back! Manage your tasks and boost your productivity with our powerful tools."
                   ) : (
                     "A powerful and intuitive task management application designed to boost your productivity and simplify your daily routine."
                   )}
                 </p>
-                <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                <div className="mt-10 flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
                   {isAuthenticated ? (
                     <Link
                       href="/dashboard"
-                      className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 ease-in-out"
+                      className="relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 ease-in-out overflow-hidden group"
                     >
-                      Go to Dashboard
+                      <span className="relative z-10 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 group-hover:rotate-12 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h2M7 7h10" />
+                        </svg>
+                        Go to Dashboard
+                      </span>
+                      <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-indigo-800 to-purple-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
                     </Link>
                   ) : (
                     <>
                       <Link
                         href="/login"
-                        className="px-8 py-4 bg-white text-indigo-600 font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 ease-in-out border-2 border-indigo-200 hover:border-indigo-400"
+                        className="relative px-8 py-4 bg-white text-indigo-600 font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 ease-in-out border-2 border-indigo-200 hover:border-indigo-400 overflow-hidden group"
                       >
-                        Sign In
+                        <span className="relative z-10 flex items-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 group-hover:-rotate-12 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                          </svg>
+                          Sign In
+                        </span>
+                        <div className="absolute inset-0 w-full h-full bg-indigo-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
                       </Link>
                       <Link
                         href="/register"
-                        className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 ease-in-out"
+                        className="relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 ease-in-out overflow-hidden group"
                       >
-                        Sign Up Free
+                        <span className="relative z-10 flex items-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 group-hover:rotate-12 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                          </svg>
+                          Sign Up Free
+                        </span>
+                        <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-indigo-800 to-purple-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
                       </Link>
                     </>
                   )}
@@ -70,30 +92,44 @@ export default function Home() {
             <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto mt-12 lg:mt-0">
               <div className="relative flex justify-center">
                 <div className="relative w-full max-w-md">
-                  {/* Card with floating animation */}
-                  <div className="absolute -top-6 left-0 w-full h-24 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl opacity-20 blur-lg transform rotate-6"></div>
-                  <div className="relative bg-white rounded-2xl shadow-2xl p-8 transform transition-all duration-300 hover:shadow-3xl">
+                  {/* Card with enhanced floating animation */}
+                  <div className="absolute -top-8 left-0 w-full h-32 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-3xl opacity-20 blur-xl animate-pulse"></div>
+                  <div className="relative bg-white rounded-2xl shadow-2xl p-8 transform transition-all duration-500 hover:shadow-3xl hover:-translate-y-2 border border-indigo-100/30 backdrop-blur-sm">
                     <div className="flex justify-between items-center mb-6">
                       <div className="flex items-center">
                         <div className="w-3 h-3 bg-red-400 rounded-full mr-2"></div>
                         <div className="w-3 h-3 bg-yellow-400 rounded-full mr-2"></div>
                         <div className="w-3 h-3 bg-green-400 rounded-full"></div>
                       </div>
-                      <div className="text-sm text-indigo-600 font-semibold">TodoApp Dashboard</div>
+                      <div className="text-sm text-indigo-600 font-semibold flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        TodoApp Dashboard
+                      </div>
                     </div>
 
                     <div className="space-y-4">
-                      <div className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-indigo-50 transition-colors">
+                      <div className="flex items-center p-4 bg-gradient-to-r from-gray-50 to-indigo-50 rounded-xl hover:from-indigo-50 hover:to-purple-50 transition-all duration-300 transform hover:scale-[1.02] group">
                         <input type="checkbox" className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500" defaultChecked />
-                        <span className="ml-3 text-gray-700 line-through">Review quarterly reports</span>
+                        <span className="ml-3 text-gray-700 line-through group-hover:text-gray-500 transition-colors">
+                          Review quarterly reports
+                        </span>
+                        <div className="ml-auto text-sm text-gray-500">Completed</div>
                       </div>
-                      <div className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-indigo-50 transition-colors">
+                      <div className="flex items-center p-4 bg-gradient-to-r from-gray-50 to-indigo-50 rounded-xl hover:from-indigo-50 hover:to-purple-50 transition-all duration-300 transform hover:scale-[1.02] group">
                         <input type="checkbox" className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500" />
-                        <span className="ml-3 text-gray-700">Prepare project presentation</span>
+                        <span className="ml-3 text-gray-700 group-hover:text-indigo-700 transition-colors">
+                          Prepare project presentation
+                        </span>
+                        <div className="ml-auto text-sm text-gray-500">Due: Today</div>
                       </div>
-                      <div className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-indigo-50 transition-colors">
+                      <div className="flex items-center p-4 bg-gradient-to-r from-gray-50 to-indigo-50 rounded-xl hover:from-indigo-50 hover:to-purple-50 transition-all duration-300 transform hover:scale-[1.02] group">
                         <input type="checkbox" className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500" />
-                        <span className="ml-3 text-gray-700">Team meeting with design team</span>
+                        <span className="ml-3 text-gray-700 group-hover:text-indigo-700 transition-colors">
+                          Team meeting with design team
+                        </span>
+                        <div className="ml-auto text-sm text-gray-500">Tomorrow</div>
                       </div>
                     </div>
 
@@ -101,10 +137,12 @@ export default function Home() {
                       <input
                         type="text"
                         placeholder="Add a new task..."
-                        className="flex-grow px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        className="flex-grow px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/80 backdrop-blur-sm transition-all"
                       />
-                      <button className="bg-indigo-600 text-white px-4 py-2 rounded-r-lg hover:bg-indigo-700 transition-colors">
-                        +
+                      <button className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-2 rounded-r-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
                       </button>
                     </div>
                   </div>
@@ -332,9 +370,9 @@ export default function Home() {
       {/* Call to Action */}
       <section className="pb-32 relative block bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-800">
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/10 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-          <div className="absolute -top-20 -left-20 w-80 h-80 bg-indigo-300/20 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-40 -right-20 w-80 h-80 bg-purple-300/20 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/20 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
+          <div className="absolute -top-20 -left-20 w-80 h-80 bg-indigo-300/30 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
+          <div className="absolute -bottom-40 -right-20 w-80 h-80 bg-purple-300/30 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-4000"></div>
         </div>
         <div className="container mx-auto px-4 pt-32 pb-24 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
@@ -430,24 +468,40 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 bg-white">
+      <footer className="py-8 bg-white border-t border-gray-100">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-center gap-6">
-            <a href="#" className="text-gray-600 hover:text-indigo-600 transition-colors" onClick={(e) => { e.preventDefault(); setShowAbout(true); }}>
-              About
-            </a>
-            <a href="#" className="text-gray-600 hover:text-indigo-600 transition-colors" onClick={(e) => { e.preventDefault(); setShowPrivacy(true); }}>
-              Privacy
-            </a>
-            <a href="#" className="text-gray-600 hover:text-indigo-600 transition-colors" onClick={(e) => { e.preventDefault(); setShowTerms(true); }}>
-              Terms
-            </a>
-            <a href="#" className="text-gray-600 hover:text-indigo-600 transition-colors" onClick={(e) => { e.preventDefault(); setShowContact(true); }}>
-              Contact
-            </a>
-          </div>
-          <div className="mt-8 text-center text-gray-500">
-            <p>&copy; {new Date().getFullYear()} TodoApp. All rights reserved.</p>
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-6 md:mb-0">
+              <p className="text-gray-600">&copy; {new Date().getFullYear()} TodoApp. All rights reserved.</p>
+            </div>
+            <div className="flex flex-wrap justify-center gap-8 mb-6 md:mb-0">
+              <a href="#" className="text-gray-600 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1">
+                About
+              </a>
+              <a href="#" className="text-gray-600 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1">
+                Privacy
+              </a>
+              <a href="#" className="text-gray-600 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1">
+                Terms
+              </a>
+            </div>
+            <div className="flex space-x-6 text-gray-500">
+              <a href="https://github.com/MuhammadUsmanGM" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 transition-all duration-300 transform hover:scale-125 hover:-translate-y-1">
+                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                </svg>
+              </a>
+              <a href="https://www.linkedin.com/in/muhammad-usman-ai-dev" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 transition-all duration-300 transform hover:scale-125 hover:-translate-y-1">
+                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                </svg>
+              </a>
+              <a href="mailto:mu.ai.dev@gmail.com" className="hover:text-indigo-600 transition-all duration-300 transform hover:scale-125 hover:-translate-y-1">
+                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </footer>
