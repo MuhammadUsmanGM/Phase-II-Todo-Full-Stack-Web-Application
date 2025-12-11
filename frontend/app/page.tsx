@@ -106,7 +106,30 @@ export default function Home() {
             </div>
             <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto mt-12 lg:mt-0">
               <div className="relative flex justify-center animate-slideUp delay-500">
-                {/* This div was unclosed */}
+                {/* Animated dashboard preview */}
+                <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-xl p-6 transform rotate-3 animate-pulse">
+                  <div className="flex justify-between items-center mb-4">
+                    <div className="w-3/4 h-4 bg-white bg-opacity-30 rounded animate-pulse"></div>
+                    <div className="w-6 h-6 bg-white bg-opacity-30 rounded-full animate-pulse"></div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="flex items-center">
+                      <div className="w-5 h-5 bg-white bg-opacity-30 rounded animate-pulse mr-2"></div>
+                      <div className="h-4 bg-white bg-opacity-30 rounded flex-grow animate-pulse"></div>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-5 h-5 bg-white bg-opacity-30 rounded animate-pulse mr-2"></div>
+                      <div className="h-4 bg-white bg-opacity-30 rounded flex-grow animate-pulse"></div>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-5 h-5 bg-white bg-opacity-30 rounded animate-pulse mr-2"></div>
+                      <div className="h-4 bg-white bg-opacity-30 rounded flex-grow animate-pulse"></div>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 h-10 bg-white bg-opacity-30 rounded-lg animate-pulse"></div>
+                </div>
               </div>
             </div>
           </div>
