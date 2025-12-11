@@ -108,44 +108,83 @@ export default function Home() {
               <div className="relative flex justify-center animate-slideUp delay-500">
                 <div className="relative w-full max-w-sm">
                   {/* Macbook-style Frame */}
-                  <div className="relative bg-white rounded-t-2xl shadow-2xl p-2 border-b-8 border-gray-300">
-                    <div className="flex space-x-1.5">
-                      <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-                      <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                      <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                  <div className="relative bg-gradient-to-b from-gray-100 to-gray-50 rounded-t-3xl shadow-2xl p-3 border-b-[6px] border-gray-300">
+                    <div className="flex space-x-2 px-4 py-2">
+                      <div className="w-3 h-3 bg-red-500 rounded-full shadow-sm"></div>
+                      <div className="w-3 h-3 bg-yellow-500 rounded-full shadow-sm"></div>
+                      <div className="w-3 h-3 bg-green-500 rounded-full shadow-sm"></div>
                     </div>
                   </div>
-                  {/* Inner card content - The REAL final version */}
-                  <div className="bg-gray-50 rounded-b-2xl shadow-inner p-6 transform -rotate-1 border border-gray-200">
-                    <div className="flex justify-between items-center pb-3 border-b-2 border-gray-200">
-                      <h3 className="text-xl font-bold text-gray-800">My Tasks</h3>
-                      <div className="px-3 py-1 bg-indigo-200 text-indigo-800 text-sm font-semibold rounded-full">
-                        2 Remaining
+
+                  {/* Laptop Screen Content */}
+                  <div className="bg-gradient-to-br from-gray-900 to-black rounded-b-2xl shadow-2xl border border-gray-700 overflow-hidden">
+                    {/* Screen content */}
+                    <div className="p-5 bg-gradient-to-b from-gray-800 to-gray-900">
+                      {/* Task Header */}
+                      <div className="flex justify-between items-center mb-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                          <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <h3 className="text-lg font-bold text-white">My Tasks</h3>
+                        <div className="opacity-0 w-12"></div> {/* Spacer for alignment */}
+                      </div>
+
+                      {/* Task Counter */}
+                      <div className="flex justify-between items-center mb-4">
+                        <div className="text-gray-400 text-xs">Today, December 11</div>
+                        <div className="px-2.5 py-0.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xs font-semibold rounded-full">
+                          1 Remaining
+                        </div>
+                      </div>
+
+                      {/* Task List */}
+                      <div className="space-y-3 mb-4">
+                        {/* Task Item 1 - Completed */}
+                        <div className="flex items-center p-3 bg-gray-800/50 backdrop-blur-sm rounded-lg border border-gray-700">
+                          <div className="flex items-center justify-center w-5 h-5 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 border-2 border-transparent mr-3 flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <span className="text-gray-300 line-through text-sm">Design the new landing page</span>
+                        </div>
+
+                        {/* Task Item 2 - Active */}
+                        <div className="flex items-center p-3 bg-gradient-to-r from-indigo-900/30 to-purple-900/30 backdrop-blur-sm rounded-lg border border-indigo-500/50">
+                          <div className="flex items-center justify-center w-5 h-5 rounded-full border-2 border-indigo-400 mr-3 flex-shrink-0">
+                            <div className="w-2 h-2 bg-indigo-400 rounded-full opacity-100"></div>
+                          </div>
+                          <span className="text-white text-sm font-medium">Implement backend API endpoints</span>
+                        </div>
+
+                        {/* Task Item 3 - Input field styled as a task */}
+                        <div className="flex items-center p-3 bg-gray-800/30 backdrop-blur-sm rounded-lg border-2 border-dashed border-indigo-500/50">
+                          <div className="flex items-center justify-center w-5 h-5 rounded-full border-2 border-gray-500 mr-3 flex-shrink-0 opacity-50">
+                          </div>
+                          <input
+                            type="text"
+                            placeholder="Add a new task..."
+                            className="w-full bg-transparent focus:outline-none text-gray-400 placeholder-gray-600 text-sm"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Action Button */}
+                      <div className="pt-2">
+                        <button className="w-full py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-sm">
+                          Add Task
+                        </button>
                       </div>
                     </div>
-                    <div className="mt-4 space-y-3">
-                      {/* Task Item 1 - Completed */}
-                      <div className="flex items-center p-2 bg-white rounded-lg shadow-sm">
-                        <input type="checkbox" checked readOnly className="form-checkbox h-5 w-5 text-gray-400 rounded mr-3" />
-                        <span className="text-gray-500 line-through">Design the new landing page</span>
-                      </div>
-                      {/* Task Item 2 - Active */}
-                      <div className="flex items-center p-3 bg-white rounded-lg shadow-sm ring-2 ring-indigo-500">
-                        <input type="checkbox" className="form-checkbox h-5 w-5 text-indigo-600 rounded mr-3" />
-                        <span className="text-gray-800 font-semibold">Implement backend API endpoints</span>
-                      </div>
-                      {/* Task Item 3 - Input field styled as a task */}
-                      <div className="flex items-center p-2 bg-white rounded-lg shadow-sm">
-                        <input type="checkbox" disabled className="form-checkbox h-5 w-5 text-gray-300 rounded mr-3" />
-                        <input type="text" placeholder="Add a new task..." className="w-full bg-transparent focus:outline-none text-gray-700" />
-                      </div>
-                    </div>
-                    <div className="mt-6 flex items-center justify-end">
-                      <button className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75">
-                        Add Task
-                      </button>
-                    </div>
+
+                    {/* Laptop Base */}
+                    <div className="h-3 bg-gradient-to-b from-gray-700 to-gray-800 rounded-b-2xl"></div>
                   </div>
+
+                  {/* Laptop Stand */}
+                  <div className="h-6 w-1/3 mx-auto -mt-1 bg-gradient-to-b from-gray-800 to-gray-900 rounded-t-md"></div>
                 </div>
               </div>
             </div>
