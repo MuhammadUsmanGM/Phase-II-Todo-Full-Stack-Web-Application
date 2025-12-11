@@ -37,9 +37,9 @@ export default function DashboardPage() {
           // If 403 or 401, token might be invalid, force logout
           if (err.message.includes("401") || err.message.includes("403")) {
             logout();
-          } finally {
-            setLoadingTasks(false);
           }
+        } finally {
+          setLoadingTasks(false);
         }
       }
     }
@@ -178,13 +178,13 @@ export default function DashboardPage() {
       {/* Modals */}
       {/* About Modal */}
       {showAbout && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-gray-200 relative">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-2xl font-bold text-gray-800">About TodoApp</h3>
-                <button 
-                  onClick={() => setShowAbout(false)} 
+                <button
+                  onClick={() => setShowAbout(false)}
                   className="text-gray-500 hover:text-gray-700 text-2xl"
                 >
                   &times;
@@ -192,16 +192,16 @@ export default function DashboardPage() {
               </div>
               <div className="text-gray-600">
                 <p className="mb-4">
-                  TodoApp is a powerful task management application designed to help you organize your life and boost productivity. 
+                  TodoApp is a powerful task management application designed to help you organize your life and boost productivity.
                   Our mission is to simplify task management with an intuitive and user-friendly interface.
                 </p>
                 <p className="mb-4">
-                  Whether you're managing personal tasks, work projects, or team collaborations, TodoApp provides the tools you need 
-                  to stay organized and on track. Our platform is built with the latest technology to ensure a seamless experience 
+                  Whether you're managing personal tasks, work projects, or team collaborations, TodoApp provides the tools you need
+                  to stay organized and on track. Our platform is built with the latest technology to ensure a seamless experience
                   across all devices.
                 </p>
                 <p>
-                  We believe in helping people achieve their goals one task at a time, and our platform is designed with that 
+                  We believe in helping people achieve their goals one task at a time, and our platform is designed with that
                   philosophy at its core. Join thousands of users who have transformed their productivity with TodoApp.
                 </p>
               </div>
@@ -209,16 +209,16 @@ export default function DashboardPage() {
           </div>
         </div>
       )}
-      
+
       {/* Privacy Modal */}
       {showPrivacy && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-gray-200 relative">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-2xl font-bold text-gray-800">Privacy Policy</h3>
-                <button 
-                  onClick={() => setShowPrivacy(false)} 
+                <button
+                  onClick={() => setShowPrivacy(false)}
                   className="text-gray-500 hover:text-gray-700 text-2xl"
                 >
                   &times;
@@ -226,34 +226,34 @@ export default function DashboardPage() {
               </div>
               <div className="text-gray-600 space-y-3">
                 <p>
-                  At TodoApp, we are committed to protecting your privacy and personal information. 
+                  At TodoApp, we are committed to protecting your privacy and personal information.
                   This Privacy Policy outlines how we collect, use, and protect your data when you use our services.
                 </p>
-                
+
                 <h4 className="font-bold text-lg mt-4">Information We Collect</h4>
                 <p>
-                  We only collect the information necessary for you to use our services, including your email address 
+                  We only collect the information necessary for you to use our services, including your email address
                   and any tasks or personal information you choose to store in your TodoApp account.
                 </p>
-                
+
                 <h4 className="font-bold text-lg mt-4">How We Use Your Information</h4>
                 <p>
-                  Your information is used solely to provide and improve our services, including personalizing your 
+                  Your information is used solely to provide and improve our services, including personalizing your
                   task management experience and communicating with you about your account.
                 </p>
-                
+
                 <h4 className="font-bold text-lg mt-4">Data Security</h4>
                 <p>
-                  We implement appropriate security measures to protect your personal information against 
+                  We implement appropriate security measures to protect your personal information against
                   unauthorized access, alteration, disclosure, or destruction.
                 </p>
-                
+
                 <h4 className="font-bold text-lg mt-4">Third-Party Services</h4>
                 <p>
-                  We do not share your personal information with third parties except as required by law 
+                  We do not share your personal information with third parties except as required by law
                   or to provide our services (e.g., cloud hosting providers).
                 </p>
-                
+
                 <p className="mt-4">
                   For any questions about this Privacy Policy, please contact us through our Contact page.
                 </p>
@@ -262,16 +262,16 @@ export default function DashboardPage() {
           </div>
         </div>
       )}
-      
+
       {/* Terms Modal */}
       {showTerms && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-gray-200 relative">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-2xl font-bold text-gray-800">Terms of Service</h3>
-                <button 
-                  onClick={() => setShowTerms(false)} 
+                <button
+                  onClick={() => setShowTerms(false)}
                   className="text-gray-500 hover:text-gray-700 text-2xl"
                 >
                   &times;
@@ -279,49 +279,49 @@ export default function DashboardPage() {
               </div>
               <div className="text-gray-600 space-y-3">
                 <p>
-                  Welcome to TodoApp. These Terms of Service govern your use of our platform and 
+                  Welcome to TodoApp. These Terms of Service govern your use of our platform and
                   constitute an agreement between you and TodoApp.
                 </p>
-                
+
                 <h4 className="font-bold text-lg mt-4">Acceptance of Terms</h4>
                 <p>
-                  By creating an account and using TodoApp, you agree to be bound by these Terms and 
+                  By creating an account and using TodoApp, you agree to be bound by these Terms and
                   all applicable laws and regulations.
                 </p>
-                
+
                 <h4 className="font-bold text-lg mt-4">User Responsibilities</h4>
                 <p>
-                  You are responsible for maintaining the security of your account and for any 
+                  You are responsible for maintaining the security of your account and for any
                   activities that occur under your account.
                 </p>
-                
+
                 <h4 className="font-bold text-lg mt-4">Account Registration</h4>
                 <p>
-                  You must provide accurate and complete information when registering for TodoApp. 
+                  You must provide accurate and complete information when registering for TodoApp.
                   You are responsible for keeping your account information up-to-date.
                 </p>
-                
+
                 <h4 className="font-bold text-lg mt-4">Acceptable Use</h4>
                 <p>
-                  You agree not to use TodoApp for any unlawful purposes or in any way that 
+                  You agree not to use TodoApp for any unlawful purposes or in any way that
                   could damage or impair our services.
                 </p>
-                
+
                 <h4 className="font-bold text-lg mt-4">Data and Content</h4>
                 <p>
-                  You retain ownership of any content you store in your TodoApp account. 
-                  By using our services, you grant us a limited license to access and use your 
+                  You retain ownership of any content you store in your TodoApp account.
+                  By using our services, you grant us a limited license to access and use your
                   content solely to provide the TodoApp services.
                 </p>
-                
+
                 <h4 className="font-bold text-lg mt-4">Limitation of Liability</h4>
                 <p>
-                  TodoApp shall not be liable for any indirect, incidental, or consequential 
+                  TodoApp shall not be liable for any indirect, incidental, or consequential
                   damages arising from your use of our services.
                 </p>
-                
+
                 <p className="mt-4">
-                  We reserve the right to modify these terms at any time. Continued use of 
+                  We reserve the right to modify these terms at any time. Continued use of
                   TodoApp after such modifications constitutes your acceptance of the updated terms.
                 </p>
               </div>
@@ -329,16 +329,16 @@ export default function DashboardPage() {
           </div>
         </div>
       )}
-      
+
       {/* Contact Modal */}
       {showContact && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-gray-200 relative">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-2xl font-bold text-gray-800">Contact Us</h3>
-                <button 
-                  onClick={() => setShowContact(false)} 
+                <button
+                  onClick={() => setShowContact(false)}
                   className="text-gray-500 hover:text-gray-700 text-2xl"
                 >
                   &times;
@@ -348,7 +348,7 @@ export default function DashboardPage() {
                 <p>
                   Have questions or feedback? We'd love to hear from you! Reach out to us through any of the following channels:
                 </p>
-                
+
                 <div className="space-y-3 mt-6">
                   <div className="flex items-center p-3 bg-gray-50 rounded-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -356,14 +356,14 @@ export default function DashboardPage() {
                     </svg>
                     <a href="mailto:mu.ai.dev@gmail.com" className="text-indigo-600 hover:text-indigo-800">mu.ai.dev@gmail.com</a>
                   </div>
-                  
+
                   <div className="flex items-center p-3 bg-gray-50 rounded-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                     </svg>
                     <a href="https://github.com/MuhammadUsmanGM" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800">github.com/MuhammadUsmanGM</a>
                   </div>
-                  
+
                   <div className="flex items-center p-3 bg-gray-50 rounded-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9" />
@@ -371,11 +371,11 @@ export default function DashboardPage() {
                     <a href="https://www.linkedin.com/in/muhammad-usman-ai-dev" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800">linkedin.com/in/muhammad-usman-ai-dev</a>
                   </div>
                 </div>
-                
+
                 <div className="mt-6">
                   <h4 className="font-bold text-lg mb-3">Connect with Us</h4>
                   <p>
-                    Feel free to reach out for support, feature requests, feedback, or just to say hello. 
+                    Feel free to reach out for support, feature requests, feedback, or just to say hello.
                     We value our community and look forward to connecting with you.
                   </p>
                 </div>
