@@ -1,39 +1,28 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 
 export function proxy(request: NextRequest) {
-  const token = request.cookies.get('token')?.value; // Get token from cookies
+  const token = request.cookies.get('token')?.value;
   const { pathname } = request.nextUrl;
 
-  const publicPaths = ['/login', '/register'];
-  const isPublicPath = publicPaths.includes(pathname);
+  const publicPaths = ['/', '/login', '/register'];
+  const protectedPath = '/dashboard';
 
-  // If the user is authenticated
-  if (token) {
-    // And trying to access a public-only path, redirect to the dashboard
-    if (isPublicPath) {
-      return NextResponse.redirect(new URL('/', request.url));
-    }
-  } 
-  // If the user is not authenticated
-  else {
-    // And trying to access a protected path, redirect to login
-    if (!isPublicPath) {
-      return NextResponse.redirect(new URL('/login', request.url));
-    }
+  // If trying to access the protected dashboard without a token, redirect to login
+  if (pathname.startsWith(protectedPath) && !token) {
+    return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  // Allow the request to proceed if no redirect needed
+  // If authenticated and trying to access a public-only path like login/register, redirect to dashboard
+  if (token && publicPaths.includes(pathname) && pathname !== '/') {
+    return NextResponse.redirect(new URL(protectedPath, request.url));
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
   // Matcher to run on all paths except for API routes, static files, and image optimization.
-  matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
-  ],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
+
 
