@@ -1,7 +1,8 @@
-fastapi
-uvicorn[standard]
-sqlmodel
-psycopg2-binary
-python-jose[cryptography]
-passlib[bcrypt]
-python-dotenv
+fastapi==0.124.2
+uvicorn[standard]==0.38.0
+sqlmodel==0.0.27
+SQLAlchemy==2.0.45
+psycopg2-binary==2.9.11
+python-jose[cryptography]==3.5.0
+passlib[bcrypt]==1.7.4
+python-dotenv==1.2.1
