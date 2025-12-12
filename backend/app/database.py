@@ -7,8 +7,18 @@ load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-# Create the engine
-engine = create_engine(DATABASE_URL, echo=True)
+# Create the engine with connection pooling and SSL settings
+engine = create_engine(
+    DATABASE_URL,
+    echo=True,
+    pool_pre_ping=True,  # Verify connections before use
+    pool_recycle=300,    # Recycle connections after 5 minutes
+    connect_args={
+        "connect_timeout": 10,  # Connection timeout
+        # For PostgreSQL/Neon, you might need to adjust SSL settings
+        # "sslmode": "require"  # Uncomment if needed
+    }
+)
 
 def create_db_and_tables():
     """Create database tables based on SQLModel metadata."""
