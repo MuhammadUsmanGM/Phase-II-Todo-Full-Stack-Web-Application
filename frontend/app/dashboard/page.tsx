@@ -19,7 +19,8 @@ export default function DashboardPage() {
   const [newTaskDueDate, setNewTaskDueDate] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState<"all" | "active" | "completed">("all");
-  const { userId, token, isAuthenticated, isLoading, logout } = useAuth();
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const { userId, userEmail, token, isAuthenticated, isLoading, logout } = useAuth();
   const router = useRouter();
   const [tasks, setTasks] = useState<any[]>([]);
   const [loadingTasks, setLoadingTasks] = useState(true);
@@ -184,10 +185,6 @@ export default function DashboardPage() {
           </div>
           <div className="flex items-center space-x-4">
             <span className="text-gray-600 font-medium">Welcome back!</span>
-            <div className="flex items-center space-x-2 text-sm">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-              <span className="text-gray-500">Online</span>
-            </div>
             <button
               onClick={() => {
                 // Export tasks functionality
@@ -208,12 +205,53 @@ export default function DashboardPage() {
               </svg>
               Export
             </button>
-            <button
-              onClick={logout}
-              className="px-4 py-2 text-sm text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg"
-            >
-              Logout
-            </button>
+            <div className="relative">
+              <button
+                onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                className="flex items-center space-x-1 text-gray-700 hover:text-indigo-600 transition-all duration-300 cursor-pointer"
+              >
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white font-semibold">
+                  {userId ? userId.charAt(0).toUpperCase() : 'U'}
+                </div>
+              </button>
+
+              {/* Profile Dropdown */}
+              {showProfileDropdown && (
+                <div className="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden z-50 animate-fadeIn">
+                  <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-4">
+                    <div className="flex items-center">
+                      <div className="w-12 h-12 rounded-full bg-white bg-opacity-20 flex items-center justify-center text-white font-bold text-lg">
+                        {userId ? userId.charAt(0).toUpperCase() : 'U'}
+                      </div>
+                      <div className="ml-3">
+                        <p className="text-white font-bold text-base">User {userId || 'Guest'}</p>
+                        <p className="text-indigo-100 text-sm truncate">{userEmail || 'user@example.com'}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-2">
+                    <button
+                      onClick={() => alert('Change password functionality coming soon!')}
+                      className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-300 font-medium cursor-pointer flex items-center"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                      </svg>
+                      Change Password
+                    </button>
+                    <button
+                      onClick={logout}
+                      className="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-300 font-medium cursor-pointer flex items-center"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                      </svg>
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </header>
