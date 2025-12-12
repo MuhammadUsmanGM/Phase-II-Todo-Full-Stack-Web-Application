@@ -8,6 +8,7 @@ interface AuthContextType {
   token: string | null;
   userId: string | null;
   userEmail: string | null;
+  userName: string | null;
   isAuthenticated: boolean;
   login: (token: string) => void;
   logout: () => void;
@@ -21,6 +22,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
@@ -34,9 +36,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const decodedPayload = JSON.parse(atob(payloadBase64));
         const sub = decodedPayload.sub; // 'sub' claim holds user ID
         const email = decodedPayload.email; // 'email' claim holds user email if available
+        const name = decodedPayload.name || decodedPayload.firstName || decodedPayload.lastName; // 'name' claim holds user name if available
         setToken(storedToken);
         setUserId(sub);
         setUserEmail(email || null); // Set email if available
+        setUserName(name || null); // Set name if available
         setIsAuthenticated(true);
       } catch (error) {
         console.error("Failed to decode token:", error);
@@ -52,9 +56,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const decodedPayload = JSON.parse(atob(payloadBase64));
     const sub = decodedPayload.sub;
     const email = decodedPayload.email; // Extract email from token
+    const name = decodedPayload.name || decodedPayload.firstName || decodedPayload.lastName; // Extract name from token
     setToken(newToken);
     setUserId(sub);
     setUserEmail(email || null); // Set email if available
+    setUserName(name || null); // Set name if available
     setIsAuthenticated(true);
     router.push("/dashboard"); // Redirect to dashboard after login
   };
@@ -65,6 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const mockPayload = {
       sub: "1", // Mock user ID
       email: "test@gmail.com",
+      name: "Test User", // Mock user name
       exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24) // 24 hours from now
     };
 
@@ -79,6 +86,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setToken(mockToken);
     setUserId("1");
     setUserEmail("test@gmail.com"); // Set mock email
+    setUserName("Test User"); // Set mock name
     setIsAuthenticated(true);
     router.push("/dashboard");
   };
@@ -88,13 +96,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setToken(null);
     setUserId(null);
     setUserEmail(null); // Clear email
+    setUserName(null); // Clear name
     setIsAuthenticated(false);
     router.push("/"); // Redirect to landing page after logout
   };
 
   return (
     <AuthContext.Provider
-      value={{ token, userId, userEmail, isAuthenticated, login, logout, mockLogin, isLoading }}
+      value={{ token, userId, userEmail, userName, isAuthenticated, login, logout, mockLogin, isLoading }}
     >
       {children}
     </AuthContext.Provider>

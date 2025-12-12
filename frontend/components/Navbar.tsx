@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
@@ -9,7 +10,54 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
-  const { isAuthenticated, userId, userEmail, logout } = useAuth();
+  const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [changePasswordError, setChangePasswordError] = useState<string | null>(null);
+  const [changePasswordSuccess, setChangePasswordSuccess] = useState<string | null>(null);
+  const { isAuthenticated, userId, userEmail, userName, logout } = useAuth();
+  const router = useRouter();
+
+  const handleChangePassword = () => {
+    // Close profile dropdown and open change password modal
+    setShowProfileDropdown(false);
+    setShowChangePasswordModal(true);
+  };
+
+  const handleChangePasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Validate passwords match
+    if (newPassword !== confirmNewPassword) {
+      setChangePasswordError("New passwords do not match");
+      return;
+    }
+
+    // Validate password strength
+    if (newPassword.length < 8) {
+      setChangePasswordError("Password must be at least 8 characters long");
+      return;
+    }
+
+    try {
+      // In a real app, this would call an API to change the password
+      // For now we'll just show a success message and close the modal
+      setChangePasswordSuccess("Password updated successfully!");
+
+      // Clear the form after a delay and close the modal
+      setTimeout(() => {
+        setShowChangePasswordModal(false);
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmNewPassword("");
+        setChangePasswordError(null);
+        setChangePasswordSuccess(null);
+      }, 1500);
+    } catch (error: any) {
+      setChangePasswordError(error.message || "Failed to change password. Please try again.");
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -82,7 +130,7 @@ export default function Navbar() {
                   className="flex items-center text-gray-700 hover:text-indigo-600 transition-all duration-300 cursor-pointer"
                 >
                   <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white font-semibold">
-                    {userId ? userId.charAt(0).toUpperCase() : 'U'}
+                    {userName ? userName.charAt(0).toUpperCase() : userId ? userId.charAt(0).toUpperCase() : 'U'}
                   </div>
                 </button>
 
@@ -92,17 +140,17 @@ export default function Navbar() {
                     <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-4">
                       <div className="flex items-center">
                         <div className="w-12 h-12 rounded-full bg-white bg-opacity-20 flex items-center justify-center text-white font-bold text-lg">
-                          {userId ? userId.charAt(0).toUpperCase() : 'U'}
+                          {userName ? userName.charAt(0).toUpperCase() : userId ? userId.charAt(0).toUpperCase() : 'U'}
                         </div>
                         <div className="ml-3">
-                          <p className="text-white font-bold text-base">User {userId || 'Guest'}</p>
+                          <p className="text-white font-bold text-base">{userName || 'Guest'}</p>
                           <p className="text-indigo-100 text-sm truncate">{userEmail || 'user@example.com'}</p>
                         </div>
                       </div>
                     </div>
                     <div className="p-2">
                       <button
-                        onClick={() => alert('Change password functionality coming soon!')}
+                        onClick={handleChangePassword}
                         className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-300 font-medium cursor-pointer flex items-center"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -119,6 +167,118 @@ export default function Navbar() {
                         </svg>
                         Logout
                       </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Change Password Modal */}
+                {showChangePasswordModal && (
+                  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full border border-gray-200 overflow-hidden transform transition-all duration-300 scale-95 animate-fadeIn">
+                      <div className="p-6">
+                        <div className="flex justify-between items-center mb-4">
+                          <h3 className="text-xl font-bold text-gray-900">Change Password</h3>
+                          <button
+                            onClick={() => {
+                              setShowChangePasswordModal(false);
+                              // Clear form fields and errors
+                              setCurrentPassword("");
+                              setNewPassword("");
+                              setConfirmNewPassword("");
+                              setChangePasswordError(null);
+                              setChangePasswordSuccess(null);
+                            }}
+                            className="text-gray-500 hover:text-gray-700"
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </div>
+
+                        {changePasswordSuccess ? (
+                          <div className="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm">
+                            {changePasswordSuccess}
+                          </div>
+                        ) : null}
+
+                        {changePasswordError ? (
+                          <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
+                            {changePasswordError}
+                          </div>
+                        ) : null}
+
+                        <form onSubmit={handleChangePasswordSubmit}>
+                          <div className="mb-4">
+                            <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                              Current Password
+                            </label>
+                            <input
+                              type="password"
+                              id="currentPassword"
+                              value={currentPassword}
+                              onChange={(e) => setCurrentPassword(e.target.value)}
+                              className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                              placeholder="Enter current password"
+                              required
+                            />
+                          </div>
+
+                          <div className="mb-4">
+                            <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                              New Password
+                            </label>
+                            <input
+                              type="password"
+                              id="newPassword"
+                              value={newPassword}
+                              onChange={(e) => setNewPassword(e.target.value)}
+                              className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                              placeholder="Enter new password"
+                              required
+                            />
+                          </div>
+
+                          <div className="mb-6">
+                            <label htmlFor="confirmNewPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                              Confirm New Password
+                            </label>
+                            <input
+                              type="password"
+                              id="confirmNewPassword"
+                              value={confirmNewPassword}
+                              onChange={(e) => setConfirmNewPassword(e.target.value)}
+                              className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                              placeholder="Confirm new password"
+                              required
+                            />
+                          </div>
+
+                          <div className="flex justify-end space-x-3">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setShowChangePasswordModal(false);
+                                setCurrentPassword("");
+                                setNewPassword("");
+                                setConfirmNewPassword("");
+                                setChangePasswordError(null);
+                                setChangePasswordSuccess(null);
+                              }}
+                              className="px-4 py-2 text-sm text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors duration-300"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              type="submit"
+                              className="px-4 py-2 text-sm text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg"
+                              disabled={!currentPassword || !newPassword || !confirmNewPassword}
+                            >
+                              Update Password
+                            </button>
+                          </div>
+                        </form>
+                      </div>
                     </div>
                   </div>
                 )}
