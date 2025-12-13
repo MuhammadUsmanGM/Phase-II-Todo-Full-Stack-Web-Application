@@ -169,54 +169,47 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <Navbar />
-      {/* Dashboard-specific header section with Export button */}
-      <header className="bg-white shadow-sm border-b border-gray-200/60 backdrop-blur-sm sticky top-0 z-40">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center space-x-3">
-            <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-3 rounded-xl">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-                Dashboard
-              </h1>
-              <p className="text-sm text-gray-500">Track your tasks and productivity</p>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            <div className="hidden md:block text-right">
-              <p className="text-sm font-medium text-gray-900">Welcome back, {userEmail || 'User'}!</p>
-              <p className="text-xs text-gray-500">Manage your daily tasks efficiently</p>
-            </div>
-            <button
-              onClick={() => {
-                // Export tasks functionality
-                const dataStr = JSON.stringify(filteredAndSortedTasks, null, 2);
-                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-
-                const exportFileDefaultName = `todoapp-tasks-${new Date().toISOString().slice(0, 10)}.json`;
-
-                const linkElement = document.createElement('a');
-                linkElement.setAttribute('href', dataUri);
-                linkElement.setAttribute('download', exportFileDefaultName);
-                linkElement.click();
-              }}
-              className="px-4 py-2 text-sm text-gray-700 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg hover:from-gray-200 hover:to-gray-300 transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-2 cursor-pointer"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-              </svg>
-              Export Tasks
-            </button>
-          </div>
-        </div>
-      </header>
-
       {/* Main Content */}
       <main className="container mx-auto px-6 py-8">
+        {/* Dashboard-specific content section with Export button */}
+        <div className="mb-10">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div>
+              <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+                Dashboard
+              </h1>
+              <p className="text-gray-600 mt-2">Track your tasks and productivity</p>
+            </div>
+
+            <div className="flex flex-col md:items-end gap-4">
+              <div>
+                <p className="text-sm font-medium text-gray-900">Welcome back, {userEmail || 'User'}!</p>
+                <p className="text-xs text-gray-500">Manage your daily tasks efficiently</p>
+              </div>
+
+              <button
+                onClick={() => {
+                  // Export tasks functionality
+                  const dataStr = JSON.stringify(filteredAndSortedTasks, null, 2);
+                  const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+
+                  const exportFileDefaultName = `todoapp-tasks-${new Date().toISOString().slice(0, 10)}.json`;
+
+                  const linkElement = document.createElement('a');
+                  linkElement.setAttribute('href', dataUri);
+                  linkElement.setAttribute('download', exportFileDefaultName);
+                  linkElement.click();
+                }}
+                className="px-4 py-2 text-sm text-gray-700 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg hover:from-gray-200 hover:to-gray-300 transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-2 cursor-pointer"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Export Tasks
+              </button>
+            </div>
+          </div>
+        </div>
         <div className="max-w-6xl mx-auto">
           <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm bg-gradient-to-br from-white to-indigo-50 dark:from-gray-800 dark:to-gray-900 rounded-3xl shadow-xl p-8 mb-8 border border-gray-100/50 dark:border-gray-700/50">
             <div className="mb-8">
