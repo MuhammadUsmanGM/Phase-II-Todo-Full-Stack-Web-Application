@@ -172,7 +172,7 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <Navbar />
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-8">
+      <main className="container mx-auto px-6 pt-24 pb-8">  {/* Increased top padding to account for fixed navbar */}
         {/* Dashboard-specific content section with Export button */}
         <div className="mb-10">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
