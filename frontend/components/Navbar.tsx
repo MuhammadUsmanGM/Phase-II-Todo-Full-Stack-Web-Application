@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import ProfileIcon from "@/components/ProfileIcon";
 
 export default function Navbar() {
@@ -124,7 +123,6 @@ export default function Navbar() {
               Testimonials
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-500 transition-all duration-300 group-hover:w-full"></span>
             </Link>
-            <ThemeToggle />
 
             {isAuthenticated ? (
               <div className="relative">
@@ -307,7 +305,6 @@ export default function Navbar() {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-2">
-            <ThemeToggle />
             <button
               onClick={toggleMenu}
               className="p-2 rounded-md text-gray-900 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300 cursor-pointer"

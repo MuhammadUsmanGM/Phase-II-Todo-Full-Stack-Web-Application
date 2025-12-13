@@ -87,18 +87,20 @@ export default function TaskStatistics({ tasks }: TaskStatisticsProps) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
       {/* Completion Status Chart */}
-      <Card className="bg-gradient-to-br from-white to-indigo-50 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 shadow-lg">
+      <Card className="bg-gradient-to-br from-white to-indigo-50 border border-gray-200 shadow-lg">
         <CardHeader>
-          <CardTitle className="text-xl font-bold text-gray-800 dark:text-white">Task Completion</CardTitle>
+          <CardTitle className="text-xl font-bold text-gray-800">Task Completion</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="!p-4">
           <div className="flex flex-col items-center">
-            <Pie data={completionData} options={chartOptions} />
-            <div className="mt-4 text-center">
-              <p className="text-2xl font-bold text-gray-800 dark:text-white">
+            <div className="w-full h-48">
+              <Pie data={completionData} options={{...chartOptions, maintainAspectRatio: false}} />
+            </div>
+            <div className="mt-2 text-center">
+              <p className="text-2xl font-bold text-gray-800">
                 {completionRate}%
               </p>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
+              <p className="text-xs text-gray-600">
                 of tasks completed
               </p>
             </div>
@@ -107,25 +109,29 @@ export default function TaskStatistics({ tasks }: TaskStatisticsProps) {
       </Card>
 
       {/* Priority Distribution Chart */}
-      <Card className="bg-gradient-to-br from-white to-indigo-50 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 shadow-lg">
+      <Card className="bg-gradient-to-br from-white to-indigo-50 border border-gray-200 shadow-lg">
         <CardHeader>
-          <CardTitle className="text-xl font-bold text-gray-800 dark:text-white">Task Priority Distribution</CardTitle>
+          <CardTitle className="text-xl font-bold text-gray-800">Task Priority Distribution</CardTitle>
         </CardHeader>
-        <CardContent>
-          <Bar 
-            data={priorityData} 
-            options={{
-              ...chartOptions,
-              scales: {
-                y: {
-                  beginAtZero: true,
-                  ticks: {
-                    precision: 0, // Show whole numbers only
+        <CardContent className="!p-4">
+          <div className="w-full h-48">
+            <Bar
+              data={priorityData}
+              options={{
+                ...chartOptions,
+                maintainAspectRatio: false,
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                    ticks: {
+                      precision: 0, // Show whole numbers only
+                      maxTicksLimit: 5 // Limit number of tick marks to save space
+                    }
                   }
                 }
-              }
-            }} 
-          />
+              }}
+            />
+          </div>
         </CardContent>
       </Card>
     </div>

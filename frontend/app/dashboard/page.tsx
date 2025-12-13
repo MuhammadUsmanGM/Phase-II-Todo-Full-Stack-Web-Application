@@ -8,7 +8,7 @@ import TaskList from "@/components/TaskList";
 import DraggableTaskList from "@/components/DraggableTaskList";
 import { useTaskFiltering } from '@/hooks/useTaskFiltering';
 import { Task, TaskStatus } from '@/types/task';
-import StatisticsDashboard from '@/components/StatisticsDashboard';
+import TaskStatistics from '@/components/TaskStatistics';
 import Navbar from "@/components/Navbar";
 
 export default function DashboardPage() {
@@ -21,6 +21,7 @@ export default function DashboardPage() {
   const [newTaskDescription, setNewTaskDescription] = useState("");
   const [newTaskPriority, setNewTaskPriority] = useState<"low" | "medium" | "high">("medium");
   const [newTaskDueDate, setNewTaskDueDate] = useState("");
+  const [newTaskCategory, setNewTaskCategory] = useState<string>("");
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const { userId, userEmail, token, isAuthenticated, isLoading, logout } = useAuth();
   const router = useRouter();
@@ -103,7 +104,8 @@ export default function DashboardPage() {
         title: newTaskTitle,
         description: newTaskDescription,
         priority: newTaskPriority,
-        due_date: newTaskDueDate || null  // Send null if no date is set
+        due_date: newTaskDueDate || null,  // Send null if no date is set
+        category: newTaskCategory || null  // Send null if no category is selected
       };
 
       const newTask = await tasksApi.createTask(userId, token, taskData);
@@ -211,7 +213,7 @@ export default function DashboardPage() {
           </div>
         </div>
         <div className="max-w-6xl mx-auto">
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm bg-gradient-to-br from-white to-indigo-50 dark:from-gray-800 dark:to-gray-900 rounded-3xl shadow-xl p-8 mb-8 border border-gray-100/50 dark:border-gray-700/50">
+          <div className="bg-gradient-to-br from-white to-indigo-25 rounded-3xl shadow-xl p-8 mb-8 border border-indigo-100/50 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
             <div className="mb-8">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>
@@ -247,20 +249,20 @@ export default function DashboardPage() {
                       placeholder="Search tasks..."
                       value={filterOptions.searchTerm}
                       onChange={(e) => setFilterOptions(prev => ({ ...prev, searchTerm: e.target.value }))}
-                      className="w-full px-5 py-3 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm text-gray-800 dark:text-gray-200 border-2 border-indigo-200/50 dark:border-indigo-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm"
+                      className="w-full px-5 py-3 bg-white/80 backdrop-blur-sm text-gray-800 border-2 border-indigo-200/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm"
                       aria-label="Search tasks"
                     />
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                   </div>
                   <div className="flex space-x-2">
                     <button
                       onClick={() => setFilterOptions(prev => ({ ...prev, status: "all" }))}
-                      className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 ${
                         filterOptions.status === "all"
-                          ? "bg-indigo-600 text-white shadow-md"
-                          : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+                          ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg"
+                          : "bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 shadow-md hover:shadow-lg"
                       }`}
                       aria-pressed={filterOptions.status === "all"}
                     >
@@ -268,10 +270,10 @@ export default function DashboardPage() {
                     </button>
                     <button
                       onClick={() => setFilterOptions(prev => ({ ...prev, status: "active" }))}
-                      className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 ${
                         filterOptions.status === "active"
-                          ? "bg-indigo-600 text-white shadow-md"
-                          : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+                          ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg"
+                          : "bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 shadow-md hover:shadow-lg"
                       }`}
                       aria-pressed={filterOptions.status === "active"}
                     >
@@ -279,10 +281,10 @@ export default function DashboardPage() {
                     </button>
                     <button
                       onClick={() => setFilterOptions(prev => ({ ...prev, status: "completed" }))}
-                      className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 ${
                         filterOptions.status === "completed"
-                          ? "bg-indigo-600 text-white shadow-md"
-                          : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+                          ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg"
+                          : "bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 shadow-md hover:shadow-lg"
                       }`}
                       aria-pressed={filterOptions.status === "completed"}
                     >
@@ -294,11 +296,11 @@ export default function DashboardPage() {
                 {/* Advanced Filters */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Priority</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
                     <select
                       value={filterOptions.priority}
                       onChange={(e) => setFilterOptions(prev => ({ ...prev, priority: e.target.value as 'low' | 'medium' | 'high' | 'all' }))}
-                      className="w-full px-4 py-2 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm text-gray-800 dark:text-gray-200 border-2 border-indigo-200/50 dark:border-indigo-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-2 bg-white/80 backdrop-blur-sm text-gray-800 border-2 border-indigo-200/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
                     >
                       <option value="all">All Priorities</option>
                       <option value="high">High</option>
@@ -307,11 +309,11 @@ export default function DashboardPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Due Date Range</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Due Date Range</label>
                     <select
                       value={filterOptions.dueDateRange}
                       onChange={(e) => setFilterOptions(prev => ({ ...prev, dueDateRange: e.target.value as 'all' | 'overdue' | 'thisWeek' | 'thisMonth' }))}
-                      className="w-full px-4 py-2 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm text-gray-800 dark:text-gray-200 border-2 border-indigo-200/50 dark:border-indigo-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-2 bg-white/80 backdrop-blur-sm text-gray-800 border-2 border-indigo-200/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
                     >
                       <option value="all">All Dates</option>
                       <option value="overdue">Overdue</option>
@@ -320,11 +322,11 @@ export default function DashboardPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sort By</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Sort By</label>
                     <select
                       value={currentSort}
                       onChange={(e) => sortTasks(e.target.value as 'date' | 'priority' | 'title' | 'due_date')}
-                      className="w-full px-4 py-2 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm text-gray-800 dark:text-gray-200 border-2 border-indigo-200/50 dark:border-indigo-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-2 bg-white/80 backdrop-blur-sm text-gray-800 border-2 border-indigo-200/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
                     >
                       <option value="date">Date Added</option>
                       <option value="priority">Priority</option>
@@ -337,55 +339,55 @@ export default function DashboardPage() {
 
               {/* Stats Summary */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                <div className="bg-gradient-to-br from-indigo-50 to-indigo-100/30 dark:from-gray-700/30 dark:to-gray-800/30 p-5 rounded-xl border border-indigo-200/50 dark:border-gray-700/50 shadow-sm">
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 transform cursor-default group">
                   <div className="flex items-center">
-                    <div className="p-3 rounded-xl bg-indigo-500/10 dark:bg-indigo-400/20 mr-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 mr-4 shadow-md group-hover:shadow-lg group-hover:scale-110 transition-all duration-300">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-indigo-600/80 dark:text-indigo-400/80 font-medium">Total Tasks</p>
-                      <p className="text-2xl font-bold text-gray-800 dark:text-gray-200">{tasks.length}</p>
+                      <p className="text-sm text-blue-700 font-medium">Total Tasks</p>
+                      <p className="text-2xl font-bold text-gray-800">{tasks.length}</p>
                     </div>
                   </div>
                 </div>
-                <div className="bg-gradient-to-br from-green-50 to-green-100/30 dark:from-gray-700/30 dark:to-gray-800/30 p-5 rounded-xl border border-green-200/50 dark:border-gray-700/50 shadow-sm">
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 transform cursor-default group">
                   <div className="flex items-center">
-                    <div className="p-3 rounded-xl bg-green-500/10 dark:bg-green-400/20 mr-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 mr-4 shadow-md group-hover:shadow-lg group-hover:scale-110 transition-all duration-300">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-green-600/80 dark:text-green-400/80 font-medium">Completed</p>
-                      <p className="text-2xl font-bold text-gray-800 dark:text-gray-200">{tasks.filter(t => t.completed).length}</p>
+                      <p className="text-sm text-green-700 font-medium">Completed</p>
+                      <p className="text-2xl font-bold text-gray-800">{tasks.filter(t => t.completed).length}</p>
                     </div>
                   </div>
                 </div>
-                <div className="bg-gradient-to-br from-amber-50 to-amber-100/30 dark:from-gray-700/30 dark:to-gray-800/30 p-5 rounded-xl border border-amber-200/50 dark:border-gray-700/50 shadow-sm">
+                <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-2xl border border-amber-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 transform cursor-default group">
                   <div className="flex items-center">
-                    <div className="p-3 rounded-xl bg-amber-500/10 dark:bg-amber-400/20 mr-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 mr-4 shadow-md group-hover:shadow-lg group-hover:scale-110 transition-all duration-300">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-amber-600/80 dark:text-amber-400/80 font-medium">Pending</p>
-                      <p className="text-2xl font-bold text-gray-800 dark:text-gray-200">{tasks.filter(t => !t.completed).length}</p>
+                      <p className="text-sm text-amber-700 font-medium">Pending</p>
+                      <p className="text-2xl font-bold text-gray-800">{tasks.filter(t => !t.completed).length}</p>
                     </div>
                   </div>
                 </div>
-                <div className="bg-gradient-to-br from-purple-50 to-purple-100/30 dark:from-gray-700/30 dark:to-gray-800/30 p-5 rounded-xl border border-purple-200/50 dark:border-gray-700/50 shadow-sm">
+                <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-2xl border border-purple-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 transform cursor-default group">
                   <div className="flex items-center">
-                    <div className="p-3 rounded-xl bg-purple-500/10 dark:bg-purple-400/20 mr-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 mr-4 shadow-md group-hover:shadow-lg group-hover:scale-110 transition-all duration-300">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-purple-600/80 dark:text-purple-400/80 font-medium">Productivity</p>
-                      <p className="text-2xl font-bold text-gray-800 dark:text-gray-200">{tasks.length ? Math.round((tasks.filter(t => t.completed).length / tasks.length) * 100) : 0}%</p>
+                      <p className="text-sm text-purple-700 font-medium">Productivity</p>
+                      <p className="text-2xl font-bold text-gray-800">{tasks.length ? Math.round((tasks.filter(t => t.completed).length / tasks.length) * 100) : 0}%</p>
                     </div>
                   </div>
                 </div>
@@ -393,15 +395,16 @@ export default function DashboardPage() {
 
               {/* Productivity Overview */}
               <div className="mb-6">
-                <div className="flex justify-between mb-2">
+                <div className="flex justify-between items-center mb-2">
                   <span className="text-sm font-medium text-gray-700">Task Completion Rate</span>
                   <span className="text-sm font-bold text-indigo-600">{tasks.length > 0 ? Math.round((tasks.filter(t => t.completed).length / tasks.length) * 100) : 0}%</span>
                 </div>
-                <div className="h-3.5 w-full bg-gradient-to-r from-gray-200 to-gray-300 rounded-full overflow-hidden shadow-inner">
+                <div className="h-4 w-full bg-gradient-to-r from-gray-200 to-gray-300 rounded-full overflow-hidden shadow-sm">
                   <div
-                    className="h-full bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 rounded-full transition-all duration-700 ease-out shadow-md"
+                    className="h-full bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 rounded-full transition-all duration-1000 ease-out shadow-md"
                     style={{
-                      width: tasks.length > 0 ? `${(tasks.filter(t => t.completed).length / tasks.length) * 100}%` : '0%'
+                      width: tasks.length > 0 ? `${(tasks.filter(t => t.completed).length / tasks.length) * 100}%` : '0%',
+                      minWidth: '2%'
                     }}
                   ></div>
                 </div>
@@ -409,17 +412,35 @@ export default function DashboardPage() {
 
               {/* Quick Task Stats */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50/30 dark:from-gray-700/30 dark:to-gray-800/30 p-4 rounded-xl border border-blue-200/50 dark:border-gray-700/50">
-                  <p className="text-sm text-blue-600/80 dark:text-blue-400/80 font-medium mb-1">Top Priority Tasks</p>
-                  <p className="text-lg font-bold text-gray-800 dark:text-gray-200">
-                    {tasks.filter(t => t.priority === 'high').length}
-                  </p>
+                <div className="bg-gradient-to-br from-red-50 to-rose-50 p-5 rounded-2xl border border-red-200/50 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 transform cursor-default group">
+                  <div className="flex items-center">
+                    <div className="p-2.5 rounded-lg bg-red-500/10 mr-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-sm text-red-700/80 font-medium">Top Priority Tasks</p>
+                      <p className="text-xl font-bold text-gray-800">
+                        {tasks.filter(t => t.priority === 'high').length}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="bg-gradient-to-br from-cyan-50 to-teal-50/30 dark:from-gray-700/30 dark:to-gray-800/30 p-4 rounded-xl border border-cyan-200/50 dark:border-gray-700/50">
-                  <p className="text-sm text-cyan-600/80 dark:text-cyan-400/80 font-medium mb-1">Overdue Tasks</p>
-                  <p className="text-lg font-bold text-gray-800 dark:text-gray-200">
-                    {tasks.filter(t => t.due_date && new Date(t.due_date) < new Date() && !t.completed).length}
-                  </p>
+                <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-5 rounded-2xl border border-amber-200/50 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 transform cursor-default group">
+                  <div className="flex items-center">
+                    <div className="p-2.5 rounded-lg bg-amber-500/10 mr-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-1.732-3-3.464-3S7.267 2.667 6.5 4L3.732 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-sm text-amber-700/80 font-medium">Overdue Tasks</p>
+                      <p className="text-xl font-bold text-gray-800">
+                        {tasks.filter(t => t.due_date && new Date(t.due_date) < new Date() && !t.completed).length}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -484,7 +505,7 @@ export default function DashboardPage() {
                       className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer"
                     >
                       <span className="flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 transition-transform duration-300 group-hover:rotate-12" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
                         </svg>
                         Add Your First Task
@@ -496,9 +517,9 @@ export default function DashboardPage() {
                   <div className="flex justify-center mb-8">
                     <button
                       onClick={handleAddTaskClick}
-                      className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center transform hover:scale-105 hover:-translate-y-0.5 cursor-pointer"
+                      className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl transition-all duration-300 shadow-lg hover:shadow-2xl flex items-center transform hover:scale-105 hover:-translate-y-1 cursor-pointer border border-indigo-500/30 hover:border-indigo-500/50 group"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 transition-transform duration-300 group-hover:rotate-12" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
                       </svg>
                       Add New Task
@@ -506,16 +527,15 @@ export default function DashboardPage() {
                   </div>
                 )}
                 {showAddTaskCard && (
-                  <div className="bg-white/95 backdrop-blur-md bg-gradient-to-br from-white to-indigo-50 rounded-2xl shadow-2xl p-8 mb-8 border border-gray-200/50 transform transition-all duration-300 animate-fadeIn z-10">
-                    <div className="flex items-center justify-between mb-6">
+                  <div className="bg-white/95 backdrop-blur-sm bg-gradient-to-br from-white to-indigo-50 rounded-2xl shadow-xl p-6 mb-8 border border-indigo-100/50 transform transition-all duration-300 animate-fadeIn z-10 max-w-2xl mx-auto">
+                    <div className="flex items-center justify-between mb-4">
                       <div>
-                        <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                           </svg>
                           Create New Task
                         </h3>
-                        <p className="text-gray-500 mt-1">Add a new task to your list</p>
                       </div>
                       <button
                         onClick={() => {
@@ -525,7 +545,7 @@ export default function DashboardPage() {
                           setNewTaskPriority("medium");
                           setNewTaskDueDate("");
                         }}
-                        className="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
+                        className="p-1.5 rounded-full hover:bg-gray-100 transition-colors duration-200"
                         aria-label="Close form"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -533,142 +553,121 @@ export default function DashboardPage() {
                         </svg>
                       </button>
                     </div>
-                    <div className="space-y-6">
+                    <div className="space-y-4">
                       <div className="relative">
                         <input
                           type="text"
                           placeholder="Task title *"
                           value={newTaskTitle}
                           onChange={(e) => setNewTaskTitle(e.target.value)}
-                          className="w-full px-5 py-4 text-lg bg-white/80 backdrop-blur-sm text-gray-800 border border-gray-200/60 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-500 transition-all shadow-sm hover:shadow-md focus:shadow-lg"
+                          className="w-full px-4 py-3 text-base bg-white/80 backdrop-blur-sm text-gray-800 border border-gray-200/60 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-500 transition-all shadow-sm"
                           disabled={loadingTasks}
                           autoFocus
                         />
                         {newTaskTitle && (
-                          <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                         )}
                       </div>
 
                       <div className="relative">
                         <textarea
-                          placeholder="Task description (optional)"
+                          placeholder="Description (optional)"
                           value={newTaskDescription}
                           onChange={(e) => setNewTaskDescription(e.target.value)}
-                          className="w-full px-5 py-3 bg-white/80 backdrop-blur-sm text-gray-800 border border-gray-200/60 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-500 transition-all shadow-sm hover:shadow-md focus:shadow-lg resize-none"
-                          rows={3}
+                          className="w-full px-4 py-2 bg-white/80 backdrop-blur-sm text-gray-800 border border-gray-200/60 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-500 transition-all shadow-sm resize-none"
+                          rows={2}
                           disabled={loadingTasks}
                         />
                         {newTaskDescription && (
-                          <div className="absolute right-4 top-3 w-3 h-3 rounded-full bg-indigo-500 animate-pulse"></div>
+                          <div className="absolute right-3 top-2 w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
                         )}
                       </div>
 
-                      {/* Task Options */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
-                          <div className="relative">
-                            <select
-                              value={newTaskPriority}
-                              onChange={(e) => setNewTaskPriority(e.target.value as "low" | "medium" | "high")}
-                              className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm text-gray-800 border border-gray-200/60 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-500 transition-all appearance-none"
-                              disabled={loadingTasks}
-                            >
-                              <option value="low" className="bg-green-100">Low</option>
-                              <option value="medium" className="bg-amber-100">Medium</option>
-                              <option value="high" className="bg-red-100">High</option>
-                            </select>
-                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-700">
-                              <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                              </svg>
-                            </div>
-                          </div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">Priority</label>
+                          <select
+                            value={newTaskPriority}
+                            onChange={(e) => setNewTaskPriority(e.target.value as "low" | "medium" | "high")}
+                            className="w-full px-3 py-2 bg-white/80 backdrop-blur-sm text-gray-800 border border-gray-200/60 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-300 focus:border-indigo-500 transition-all appearance-none text-sm"
+                            disabled={loadingTasks}
+                          >
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                          </select>
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Due Date (optional)</label>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">Due Date</label>
                           <input
                             type="date"
                             value={newTaskDueDate}
                             onChange={(e) => setNewTaskDueDate(e.target.value)}
-                            className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm text-gray-800 border border-gray-200/60 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-500 transition-all"
+                            className="w-full px-3 py-2 bg-white/80 backdrop-blur-sm text-gray-800 border border-gray-200/60 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-300 focus:border-indigo-500 transition-all text-sm"
                             disabled={loadingTasks}
                           />
                         </div>
-                      </div>
 
-                      {/* Category Selection */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                        <div className="flex flex-wrap gap-2">
-                          {['Work', 'Personal', 'Health', 'Shopping'].map((category) => (
-                            <button
-                              key={category}
-                              type="button"
-                              className={`px-3 py-1.5 text-sm rounded-full border transition-colors ${
-                                newTaskTitle.toLowerCase().includes(category.toLowerCase())
-                                  ? 'bg-indigo-100 border-indigo-500 text-indigo-700'
-                                  : 'bg-gray-100 border-gray-300 text-gray-700 hover:bg-gray-200'
-                              }`}
-                              onClick={() => {
-                                if (!newTaskTitle.toLowerCase().includes(category.toLowerCase())) {
-                                  setNewTaskTitle(`${category} - ${newTaskTitle}`);
-                                }
-                              }}
-                            >
-                              {category}
-                            </button>
-                          ))}
+                        <div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">Category</label>
+                          <select
+                            value={newTaskCategory}
+                            onChange={(e) => setNewTaskCategory(e.target.value)}
+                            className="w-full px-3 py-2 bg-white/80 backdrop-blur-sm text-gray-800 border border-gray-200/60 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-300 focus:border-indigo-500 transition-all appearance-none text-sm"
+                            disabled={loadingTasks}
+                          >
+                            <option value="">None</option>
+                            <option value="Work">Work</option>
+                            <option value="Personal">Personal</option>
+                            <option value="Health">Health</option>
+                            <option value="Shopping">Shopping</option>
+                          </select>
                         </div>
                       </div>
                     </div>
 
-                    <div className="flex justify-between items-center mt-8 pt-6 border-t border-gray-100">
-                      <div className="text-sm text-gray-500">
-                        Fields marked with <span className="text-red-500">*</span> are required
-                      </div>
-                      <div className="flex space-x-3">
-                        <button
-                          onClick={() => {
-                            setShowAddTaskCard(false);
-                            setNewTaskTitle("");
-                            setNewTaskDescription("");
-                            setNewTaskPriority("medium");
-                            setNewTaskDueDate("");
-                          }}
-                          className="px-6 py-3 text-gray-700 bg-gradient-to-r from-gray-100 to-gray-200 rounded-xl hover:from-gray-200 hover:to-gray-300 transition-all duration-300 font-medium shadow-sm hover:shadow-md"
-                          disabled={loadingTasks}
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          onClick={handleCreateNewTask}
-                          disabled={loadingTasks || !newTaskTitle.trim()}
-                          className={`px-6 py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center ${
-                            loadingTasks || !newTaskTitle.trim()
-                              ? 'bg-gray-400 cursor-not-allowed'
-                              : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105'
-                          }`}
-                        >
-                          {loadingTasks ? (
-                            <span className="flex items-center">
-                              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                              </svg>
-                              Adding...
-                            </span>
-                          ) : (
-                            <span className="flex items-center">
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                              </svg>
-                              Create Task
-                            </span>
-                          )}
-                        </button>
-                      </div>
+                    <div className="flex justify-end space-x-3 mt-6 pt-4 border-t border-gray-100">
+                      <button
+                        onClick={() => {
+                          setShowAddTaskCard(false);
+                          setNewTaskTitle("");
+                          setNewTaskDescription("");
+                          setNewTaskPriority("medium");
+                          setNewTaskDueDate("");
+                          setNewTaskCategory("");
+                        }}
+                        className="px-4 py-2 text-sm text-gray-700 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg hover:from-gray-200 hover:to-gray-300 transition-all duration-300 font-medium shadow-sm"
+                        disabled={loadingTasks}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleCreateNewTask}
+                        disabled={loadingTasks || !newTaskTitle.trim()}
+                        className={`px-4 py-2 text-sm text-white rounded-lg transition-all duration-300 shadow-md flex items-center ${
+                          loadingTasks || !newTaskTitle.trim()
+                            ? 'bg-gray-400 cursor-not-allowed'
+                            : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700'
+                        }`}
+                      >
+                        {loadingTasks ? (
+                          <span className="flex items-center">
+                            <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Adding...
+                          </span>
+                        ) : (
+                          <span className="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                            Create Task
+                          </span>
+                        )}
+                      </button>
                     </div>
                   </div>
                 )}
@@ -689,9 +688,9 @@ export default function DashboardPage() {
           {/* Recent Activity & Quick Stats */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
             {/* Recent Activity */}
-            <div className="bg-gradient-to-br from-white to-indigo-50 dark:from-gray-800 dark:to-gray-900/50 rounded-2xl shadow-lg p-6 border border-gray-100/50 dark:border-gray-700/50">
-              <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-4 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="bg-gradient-to-br from-white to-indigo-50 rounded-2xl shadow-lg p-6 border border-gray-100/50">
+              <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 Recent Activity
@@ -706,8 +705,8 @@ export default function DashboardPage() {
                     }`}>
                       <div className="flex justify-between items-start">
                         <div>
-                          <p className="font-medium text-gray-900 dark:text-gray-200">{task.title}</p>
-                          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{task.description || 'No description'}</p>
+                          <p className="font-medium text-gray-900">{task.title}</p>
+                          <p className="text-sm text-gray-600 mt-1">{task.description || 'No description'}</p>
                         </div>
                         <span className={`px-2 py-1 text-xs rounded-full ${
                           task.completed
@@ -720,7 +719,7 @@ export default function DashboardPage() {
                         </span>
                       </div>
                       {task.due_date && (
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                        <p className="text-xs text-gray-500 mt-2">
                           Due: {new Date(task.due_date).toLocaleDateString()}
                         </p>
                       )}
@@ -729,15 +728,15 @@ export default function DashboardPage() {
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <p className="text-gray-500 dark:text-gray-400">No recent activity yet. Add your first task!</p>
+                  <p className="text-gray-500">No recent activity yet. Add your first task!</p>
                 </div>
               )}
             </div>
 
             {/* Upcoming Tasks */}
-            <div className="bg-gradient-to-br from-white to-indigo-50 dark:from-gray-800 dark:to-gray-900/50 rounded-2xl shadow-lg p-6 border border-gray-100/50 dark:border-gray-700/50">
-              <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-4 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="bg-gradient-to-br from-white to-indigo-50 rounded-2xl shadow-lg p-6 border border-gray-100/50">
+              <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 Upcoming Tasks
@@ -745,13 +744,13 @@ export default function DashboardPage() {
               {tasks.length > 0 ? (
                 <div className="space-y-4">
                   {tasks.filter(task => !task.completed && task.due_date && new Date(task.due_date).getTime() > new Date().getTime()).sort((a, b) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime()).slice(0, 3).map((task, index) => (
-                    <div key={task.id} className="p-4 rounded-lg border-l-4 border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-900/20">
+                    <div key={task.id} className="p-4 rounded-lg border-l-4 border-blue-500 bg-blue-50">
                       <div className="flex justify-between items-start">
                         <div>
-                          <p className="font-medium text-gray-900 dark:text-gray-200">{task.title}</p>
-                          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{task.description || 'No description'}</p>
+                          <p className="font-medium text-gray-900">{task.title}</p>
+                          <p className="text-sm text-gray-600 mt-1">{task.description || 'No description'}</p>
                         </div>
-                        <span className="px-2 py-1 text-xs rounded-full bg-blue-100 dark:bg-blue-800/50 text-blue-800 dark:text-blue-200">
+                        <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
                           {new Date(task.due_date).toLocaleDateString()}
                         </span>
                       </div>
@@ -759,13 +758,13 @@ export default function DashboardPage() {
                   ))}
                   {tasks.filter(task => !task.completed && task.due_date).length === 0 ? (
                     <div className="text-center py-4">
-                      <p className="text-gray-500 dark:text-gray-400">No upcoming tasks scheduled</p>
+                      <p className="text-gray-500">No upcoming tasks scheduled</p>
                     </div>
                   ) : null}
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <p className="text-gray-500 dark:text-gray-400">No upcoming tasks yet. Add your first task!</p>
+                  <p className="text-gray-500">No upcoming tasks yet. Add your first task!</p>
                 </div>
               )}
             </div>
@@ -773,7 +772,7 @@ export default function DashboardPage() {
 
           {/* Task Statistics Visualization */}
           <div className="mt-12">
-            <StatisticsDashboard tasks={tasks} />
+            <TaskStatistics tasks={tasks} />
           </div>
         </div>
 
@@ -784,16 +783,16 @@ export default function DashboardPage() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
-              <p className="text-gray-700 dark:text-gray-300">&copy; {new Date().getFullYear()} TodoApp. All rights reserved.</p>
+              <p className="text-gray-700">&copy; {new Date().getFullYear()} TodoApp. All rights reserved.</p>
             </div>
             <div className="flex flex-wrap justify-center gap-8 mb-6 md:mb-0">
-              <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1" onClick={(e) => { e.preventDefault(); setShowAbout(true); }}>
+              <a href="#" className="text-gray-700 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1" onClick={(e) => { e.preventDefault(); setShowAbout(true); }}>
                 About
               </a>
-              <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1" onClick={(e) => { e.preventDefault(); setShowPrivacy(true); }}>
+              <a href="#" className="text-gray-700 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1" onClick={(e) => { e.preventDefault(); setShowPrivacy(true); }}>
                 Privacy
               </a>
-              <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1" onClick={(e) => { e.preventDefault(); setShowTerms(true); }}>
+              <a href="#" className="text-gray-700 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1" onClick={(e) => { e.preventDefault(); setShowTerms(true); }}>
                 Terms
               </a>
             </div>
@@ -889,7 +888,7 @@ export default function DashboardPage() {
                 <div className="mt-4 space-y-4">
                   <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
                     <h4 className="font-bold text-lg text-indigo-600 flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                       </svg>
                       Information We Collect
@@ -902,7 +901,7 @@ export default function DashboardPage() {
 
                   <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
                     <h4 className="font-bold text-lg text-indigo-600 flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                       </svg>
                       How We Use Your Information
@@ -915,7 +914,7 @@ export default function DashboardPage() {
 
                   <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
                     <h4 className="font-bold text-lg text-indigo-600 flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                       </svg>
                       Data Security
@@ -928,7 +927,7 @@ export default function DashboardPage() {
 
                   <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
                     <h4 className="font-bold text-lg text-indigo-600 flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9" />
                       </svg>
                       Third-Party Services
@@ -972,7 +971,7 @@ export default function DashboardPage() {
                 <div className="mt-4 space-y-4">
                   <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
                     <h4 className="font-bold text-lg text-indigo-600 flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                       </svg>
                       Acceptance of Terms
@@ -985,7 +984,7 @@ export default function DashboardPage() {
 
                   <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
                     <h4 className="font-bold text-lg text-indigo-600 flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                       User Responsibilities
@@ -998,7 +997,7 @@ export default function DashboardPage() {
 
                   <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
                     <h4 className="font-bold text-lg text-indigo-600 flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                       Account Registration
@@ -1011,7 +1010,7 @@ export default function DashboardPage() {
 
                   <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
                     <h4 className="font-bold text-lg text-indigo-600 flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                       </svg>
                       Acceptable Use
@@ -1024,7 +1023,7 @@ export default function DashboardPage() {
 
                   <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
                     <h4 className="font-bold text-lg text-indigo-600 flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
                       Data and Content
@@ -1038,7 +1037,7 @@ export default function DashboardPage() {
 
                   <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
                     <h4 className="font-bold text-lg text-indigo-600 flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                       </svg>
                       Limitation of Liability

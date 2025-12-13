@@ -38,43 +38,6 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --card-bg: #1f2937;
-    --card-border: #374151;
-    --header-bg: #111827;
-    --header-border: #374151;
-    --button-bg: #60a5fa;
-    --button-text: #ffffff;
-    --btn-primary: #60a5fa;
-    --btn-secondary: #9ca3af;
-    --text-primary: #f9fafb;
-    --text-secondary: #9ca3af;
-    --success: #34d399;
-    --warning: #fbbf24;
-    --error: #f87171;
-  }
-}
-
-.dark:root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --card-bg: #1f2937;
-  --card-border: #374151;
-  --header-bg: #111827;
-  --header-border: #374151;
-  --button-bg: #60a5fa;
-  --button-text: #ffffff;
-  --btn-primary: #60a5fa;
-  --btn-secondary: #9ca3af;
-  --text-primary: #f9fafb;
-  --text-secondary: #9ca3af;
-  --success: #34d399;
-  --warning: #fbbf24;
-  --error: #f87171;
-}
 
 body {
   background: var(--background);
