@@ -3,16 +3,12 @@
 import { useState } from "react";
 import { tasksApi } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
+import { Task } from "@/types/task";
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface TaskItemProps {
-  task: {
-    id: number;
-    title: string;
-    description: string | null;
-    completed: boolean;
-    owner_id: number;
-  };
-  onUpdate: (updatedTask: any) => void;
+  task: Task;
+  onUpdate: (updatedTask: Task) => void;
   onDelete: (taskId: number) => void;
 }
 
@@ -20,6 +16,8 @@ export default function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(task.title);
   const [editedDescription, setEditedDescription] = useState(task.description || "");
+  const [editedPriority, setEditedPriority] = useState<'low' | 'medium' | 'high'>(task.priority || 'medium');
+  const [editedDueDate, setEditedDueDate] = useState(task.due_date || "");
   const [loading, setLoading] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const { token, userId } = useAuth();
@@ -34,6 +32,8 @@ export default function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
         token,
         !task.completed
       );
+      // Add a small delay to show the animation
+      await new Promise(resolve => setTimeout(resolve, 300));
       onUpdate(updated);
     } catch (error) {
       console.error("Failed to toggle task completion:", error);
@@ -51,7 +51,12 @@ export default function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
         userId,
         task.id,
         token,
-        { title: editedTitle, description: editedDescription }
+        {
+          title: editedTitle,
+          description: editedDescription,
+          priority: editedPriority,
+          due_date: editedDueDate || null
+        }
       );
       onUpdate(updated);
       setIsEditing(false);
@@ -98,19 +103,38 @@ export default function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
             className="mt-1 h-6 w-6 text-indigo-600 rounded-full focus:ring-indigo-500 cursor-pointer opacity-0 absolute"
             disabled={loading}
           />
-          <div
-            className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
+          <motion.div
+            className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
               task.completed
                 ? 'border-green-500 bg-gradient-to-r from-green-500 to-emerald-500'
                 : 'border-indigo-400 bg-gradient-to-r from-indigo-100 to-purple-100 hover:border-indigo-500'
             }`}
+            whileTap={{ scale: 0.9 }}
+            animate={{
+              scale: loading ? 1.1 : 1,
+              boxShadow: task.completed
+                ? '0 0 10px rgba(34, 197, 94, 0.5)'
+                : 'none'
+            }}
+            transition={{ duration: 0.2 }}
           >
-            {task.completed && (
-              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
-              </svg>
-            )}
-          </div>
+            <AnimatePresence>
+              {task.completed && (
+                <motion.svg
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  className="w-4 h-4 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
+                </motion.svg>
+              )}
+            </AnimatePresence>
+          </motion.div>
         </div>
         <div className="ml-4 flex-grow">
           {isEditing ? (
@@ -137,6 +161,40 @@ export default function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
                 rows={2}
                 disabled={loading}
               />
+              {/* Priority and Due Date */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Priority</label>
+                  <select
+                    value={editedPriority}
+                    onChange={(e) => setEditedPriority(e.target.value as 'low' | 'medium' | 'high')}
+                    className={`w-full px-3 py-1.5 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-transparent ${
+                      task.completed
+                        ? 'bg-green-100 border border-green-300'
+                        : 'bg-indigo-50 border border-indigo-200'
+                    }`}
+                    disabled={loading}
+                  >
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Due Date</label>
+                  <input
+                    type="date"
+                    value={editedDueDate}
+                    onChange={(e) => setEditedDueDate(e.target.value)}
+                    className={`w-full px-3 py-1.5 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-transparent ${
+                      task.completed
+                        ? 'bg-green-100 border border-green-300'
+                        : 'bg-indigo-50 border border-indigo-200'
+                    }`}
+                    disabled={loading}
+                  />
+                </div>
+              </div>
               <div className="flex space-x-3 mt-4">
                 <button
                   onClick={handleSaveEdit}
@@ -158,6 +216,8 @@ export default function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
                     setIsEditing(false);
                     setEditedTitle(task.title);
                     setEditedDescription(task.description || "");
+                    setEditedPriority(task.priority || 'medium');
+                    setEditedDueDate(task.due_date || "");
                   }}
                   className="px-4 py-2 text-sm text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition duration-300 font-medium"
                   disabled={loading}

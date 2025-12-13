@@ -17,6 +17,35 @@ async function apiFetch<T>(
   const { token, userId, headers, ...rest } = options;
   let url: string;
 
+  // Don't allow requests with invalid mock tokens
+  if (token) {
+    try {
+      const headerBase64 = token.split(".")[0];
+      const payloadBase64 = token.split(".")[1];
+
+      // Check if it's a mock token (algorithm "none" - insecure)
+      const header = JSON.parse(atob(headerBase64));
+      if (header?.alg === "none") {
+        // Check if the payload has the mock flag
+        const payload = JSON.parse(atob(payloadBase64));
+        if (payload?.isMock) {
+          throw new Error("Mock tokens are not allowed for API requests");
+        }
+      }
+    } catch (error) {
+      console.error("Invalid token format:", error);
+      // Attempt to remove invalid token
+      import('js-cookie').then(module => {
+        module.default.remove('token');
+      }).catch(() => {
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('token');
+        }
+      });
+      throw new Error("Invalid token format");
+    }
+  }
+
   if (endpoint.startsWith("/auth/")) { // Special handling for authentication endpoints
     url = `${API_BASE_URL}${endpoint}`;
   } else if (userId) { // Task-related endpoints with userId
@@ -24,7 +53,7 @@ async function apiFetch<T>(
   } else { // Other endpoints relative to API_BASE_URL
     url = `${API_BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
   }
-  
+
   const fetchOptions: RequestInit = {
     ...rest,
     headers: {
@@ -43,6 +72,19 @@ async function apiFetch<T>(
   const response = await fetch(url, fetchOptions);
 
   if (!response.ok) {
+    // If it's an authentication error (401), clear the token to prevent continued attempts with invalid token
+    if (response.status === 401) {
+      // Remove token from cookies if present
+      import('js-cookie').then(module => {
+        module.default.remove('token');
+      }).catch(() => {
+        // Fallback to localStorage if js-cookie is not available
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('token');
+        }
+      });
+    }
+
     const errorData = await response.json().catch(() => ({})); // Try to parse error response
     throw new Error(errorData.detail || `API request failed: ${response.statusText}`);
   }

@@ -4,8 +4,12 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { tasksApi } from "@/lib/api";
-import NewTaskForm from "@/components/NewTaskForm";
 import TaskList from "@/components/TaskList";
+import DraggableTaskList from "@/components/DraggableTaskList";
+import { useTaskFiltering } from '@/hooks/useTaskFiltering';
+import { Task, TaskStatus } from '@/types/task';
+import StatisticsDashboard from '@/components/StatisticsDashboard';
+import Navbar from "@/components/Navbar";
 
 export default function DashboardPage() {
   const [showAbout, setShowAbout] = useState(false);
@@ -17,31 +21,28 @@ export default function DashboardPage() {
   const [newTaskDescription, setNewTaskDescription] = useState("");
   const [newTaskPriority, setNewTaskPriority] = useState<"low" | "medium" | "high">("medium");
   const [newTaskDueDate, setNewTaskDueDate] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filter, setFilter] = useState<"all" | "active" | "completed">("all");
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const { userId, userEmail, token, isAuthenticated, isLoading, logout } = useAuth();
   const router = useRouter();
-  const [tasks, setTasks] = useState<any[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [loadingTasks, setLoadingTasks] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const {
+    filterOptions,
+    setFilterOptions,
+    filteredAndSortedTasks,
+    sortTasks,
+    currentSort
+  } = useTaskFiltering(tasks);
 
   // Ensure the button functionality works even if there are auth issues
   const isUserReady = isAuthenticated && userId && token;
 
-  // Filter tasks based on search term and filter state
-  const filteredTasks = tasks.filter(task => {
-    const matchesSearch = task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         task.description?.toLowerCase().includes(searchTerm.toLowerCase());
-
-    if (filter === "active") {
-      return matchesSearch && !task.completed;
-    } else if (filter === "completed") {
-      return matchesSearch && task.completed;
-    } else {
-      return matchesSearch;
-    }
-  });
+  // Update task order after drag and drop
+  const handleTaskReorder = (reorderedTasks: Task[]) => {
+    setTasks(reorderedTasks);
+  };
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -167,28 +168,19 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Header */}
+      <Navbar />
+      {/* Dashboard-specific header section with Export button */}
       <header className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-40">
-        <div className="container mx-auto px-4 py-6 flex justify-between items-center">
-          <div className="flex items-center space-x-2">
-            <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-2 rounded-lg cursor-pointer hover:from-indigo-700 hover:to-purple-700 transition-all duration-300" onClick={() => router.push('/')}>
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
-            </div>
-            <h1
-              className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 cursor-pointer hover:from-indigo-700 hover:to-purple-700 transition-all duration-300"
-              onClick={() => router.push('/')}
-            >
-              Todo<span className="font-extrabold">App</span>
-            </h1>
-          </div>
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+            Dashboard
+          </h1>
           <div className="flex items-center space-x-4">
             <span className="text-gray-600 font-medium">Welcome back!</span>
             <button
               onClick={() => {
                 // Export tasks functionality
-                const dataStr = JSON.stringify(filteredTasks, null, 2);
+                const dataStr = JSON.stringify(filteredAndSortedTasks, null, 2);
                 const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
 
                 const exportFileDefaultName = `todoapp-tasks-${new Date().toISOString().slice(0, 10)}.json`;
@@ -205,53 +197,6 @@ export default function DashboardPage() {
               </svg>
               Export
             </button>
-            <div className="relative">
-              <button
-                onClick={() => setShowProfileDropdown(!showProfileDropdown)}
-                className="flex items-center space-x-1 text-gray-700 hover:text-indigo-600 transition-all duration-300 cursor-pointer"
-              >
-                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white font-semibold">
-                  {userId ? userId.charAt(0).toUpperCase() : 'U'}
-                </div>
-              </button>
-
-              {/* Profile Dropdown */}
-              {showProfileDropdown && (
-                <div className="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden z-50 animate-fadeIn">
-                  <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-4">
-                    <div className="flex items-center">
-                      <div className="w-12 h-12 rounded-full bg-white bg-opacity-20 flex items-center justify-center text-white font-bold text-lg">
-                        {userId ? userId.charAt(0).toUpperCase() : 'U'}
-                      </div>
-                      <div className="ml-3">
-                        <p className="text-white font-bold text-base">User {userId || 'Guest'}</p>
-                        <p className="text-indigo-100 text-sm truncate">{userEmail || 'user@example.com'}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-2">
-                    <button
-                      onClick={() => alert('Change password functionality coming soon!')}
-                      className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-300 font-medium cursor-pointer flex items-center"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-                      </svg>
-                      Change Password
-                    </button>
-                    <button
-                      onClick={logout}
-                      className="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-300 font-medium cursor-pointer flex items-center"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                      </svg>
-                      Logout
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
           </div>
         </div>
       </header>
@@ -287,50 +232,99 @@ export default function DashboardPage() {
               </div>
 
               {/* Search and Filter Controls */}
-              <div className="flex flex-col md:flex-row gap-4 mb-6">
-                <div className="relative flex-grow">
-                  <input
-                    type="text"
-                    placeholder="Search tasks..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full px-5 py-3 bg-white/80 backdrop-blur-sm text-gray-800 border-2 border-indigo-200/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm"
-                  />
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
+              <div className="flex flex-col gap-4 mb-6">
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="relative flex-grow">
+                    <input
+                      type="text"
+                      placeholder="Search tasks..."
+                      value={filterOptions.searchTerm}
+                      onChange={(e) => setFilterOptions(prev => ({ ...prev, searchTerm: e.target.value }))}
+                      className="w-full px-5 py-3 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm text-gray-800 dark:text-gray-200 border-2 border-indigo-200/50 dark:border-indigo-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm"
+                      aria-label="Search tasks"
+                    />
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </div>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => setFilterOptions(prev => ({ ...prev, status: "all" }))}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                        filterOptions.status === "all"
+                          ? "bg-indigo-600 text-white shadow-md"
+                          : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+                      }`}
+                      aria-pressed={filterOptions.status === "all"}
+                    >
+                      All
+                    </button>
+                    <button
+                      onClick={() => setFilterOptions(prev => ({ ...prev, status: "active" }))}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                        filterOptions.status === "active"
+                          ? "bg-indigo-600 text-white shadow-md"
+                          : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+                      }`}
+                      aria-pressed={filterOptions.status === "active"}
+                    >
+                      Active
+                    </button>
+                    <button
+                      onClick={() => setFilterOptions(prev => ({ ...prev, status: "completed" }))}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                        filterOptions.status === "completed"
+                          ? "bg-indigo-600 text-white shadow-md"
+                          : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+                      }`}
+                      aria-pressed={filterOptions.status === "completed"}
+                    >
+                      Completed
+                    </button>
+                  </div>
                 </div>
-                <div className="flex space-x-2">
-                  <button
-                    onClick={() => setFilter("all")}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                      filter === "all"
-                        ? "bg-indigo-600 text-white shadow-md"
-                        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                    }`}
-                  >
-                    All
-                  </button>
-                  <button
-                    onClick={() => setFilter("active")}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                      filter === "active"
-                        ? "bg-indigo-600 text-white shadow-md"
-                        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                    }`}
-                  >
-                    Active
-                  </button>
-                  <button
-                    onClick={() => setFilter("completed")}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                      filter === "completed"
-                        ? "bg-indigo-600 text-white shadow-md"
-                        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                    }`}
-                  >
-                    Completed
-                  </button>
+
+                {/* Advanced Filters */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Priority</label>
+                    <select
+                      value={filterOptions.priority}
+                      onChange={(e) => setFilterOptions(prev => ({ ...prev, priority: e.target.value as 'low' | 'medium' | 'high' | 'all' }))}
+                      className="w-full px-4 py-2 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm text-gray-800 dark:text-gray-200 border-2 border-indigo-200/50 dark:border-indigo-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                    >
+                      <option value="all">All Priorities</option>
+                      <option value="high">High</option>
+                      <option value="medium">Medium</option>
+                      <option value="low">Low</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Due Date Range</label>
+                    <select
+                      value={filterOptions.dueDateRange}
+                      onChange={(e) => setFilterOptions(prev => ({ ...prev, dueDateRange: e.target.value as 'all' | 'overdue' | 'thisWeek' | 'thisMonth' }))}
+                      className="w-full px-4 py-2 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm text-gray-800 dark:text-gray-200 border-2 border-indigo-200/50 dark:border-indigo-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                    >
+                      <option value="all">All Dates</option>
+                      <option value="overdue">Overdue</option>
+                      <option value="thisWeek">This Week</option>
+                      <option value="thisMonth">This Month</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sort By</label>
+                    <select
+                      value={currentSort}
+                      onChange={(e) => sortTasks(e.target.value as 'date' | 'priority' | 'title' | 'due_date')}
+                      className="w-full px-4 py-2 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm text-gray-800 dark:text-gray-200 border-2 border-indigo-200/50 dark:border-indigo-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                    >
+                      <option value="date">Date Added</option>
+                      <option value="priority">Priority</option>
+                      <option value="title">Title</option>
+                      <option value="due_date">Due Date</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 
@@ -424,7 +418,7 @@ export default function DashboardPage() {
                   ))}
                 </div>
               </div>
-            ) : filteredTasks.length === 0 ? (
+            ) : filteredAndSortedTasks.length === 0 ? (
               <div className="text-center py-20">
                 <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 mb-8 relative overflow-hidden">
                   <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-3.134-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM34 56c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm37 11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-7 30c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z\' fill=\'%2391a0ef\' fill-opacity=\'0.1\' fill-rule=\'evenodd\'/%3E%3C/svg%3E')] opacity-20"></div>
@@ -432,15 +426,15 @@ export default function DashboardPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                   </svg>
                 </div>
-                {searchTerm ? (
+                {filterOptions.searchTerm ? (
                   <>
                     <h3 className="text-3xl font-bold text-gray-800 mb-2">No matching tasks</h3>
-                    <p className="text-gray-600 max-w-md mx-auto mb-8">No tasks match "{searchTerm}". Try different keywords.</p>
+                    <p className="text-gray-600 max-w-md mx-auto mb-8">No tasks match "{filterOptions.searchTerm}". Try different keywords.</p>
                   </>
-                ) : filter !== "all" ? (
+                ) : filterOptions.status !== "all" ? (
                   <>
-                    <h3 className="text-3xl font-bold text-gray-800 mb-2">No {filter} tasks</h3>
-                    <p className="text-gray-600 max-w-md mx-auto mb-8">You have no {filter} tasks. Create one now!</p>
+                    <h3 className="text-3xl font-bold text-gray-800 mb-2">No {filterOptions.status} tasks</h3>
+                    <p className="text-gray-600 max-w-md mx-auto mb-8">You have no {filterOptions.status} tasks. Create one now!</p>
                   </>
                 ) : (
                   <>
@@ -579,122 +573,23 @@ export default function DashboardPage() {
                   </div>
                 )}
                 <div className="space-y-4">
-                  <TaskList
-                    tasks={filteredTasks}
+                  <DraggableTaskList
+                    tasks={filteredAndSortedTasks}
                     onTaskUpdate={handleUpdateTask}
                     onTaskDelete={handleDeleteTask}
+                    onTaskReorder={handleTaskReorder}
                   />
                 </div>
               </>
             )}
           </div>
-        </div>
-        {/* Task creation form - available in both states */}
-        {showAddTaskCard && (
-          <div className="bg-gradient-to-br from-white to-indigo-50 rounded-2xl shadow-xl p-8 mb-8 border border-indigo-100/50 transform transition-all duration-300 animate-fadeIn visible opacity-100 z-10" style={{ display: 'block', visibility: 'visible', opacity: 1, zIndex: 10 }}>
-            <div className="mb-6">
-              <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mb-6 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                </svg>
-                Create New Task
-              </h3>
-              <div className="space-y-6">
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="What needs to be done?"
-                    value={newTaskTitle}
-                    onChange={(e) => setNewTaskTitle(e.target.value)}
-                    className="w-full px-5 py-4 bg-white/80 backdrop-blur-sm text-gray-800 border-2 border-indigo-200/50 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm hover:shadow-md focus:shadow-lg"
-                    disabled={loadingTasks}
-                    autoFocus
-                  />
-                  {newTaskTitle && (
-                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                  )}
-                </div>
-                <div className="relative">
-                  <textarea
-                    placeholder="Add details (optional)..."
-                    value={newTaskDescription}
-                    onChange={(e) => setNewTaskDescription(e.target.value)}
-                    className="w-full px-5 py-3 bg-white/80 backdrop-blur-sm text-gray-800 border-2 border-indigo-200/50 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm hover:shadow-md focus:shadow-lg resize-none"
-                    rows={3}
-                    disabled={loadingTasks}
-                  />
-                  {newTaskDescription && (
-                    <div className="absolute right-3 top-3 w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
-                  )}
-                </div>
 
-                {/* Priority and Due Date */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
-                    <select
-                      value={newTaskPriority}
-                      onChange={(e) => setNewTaskPriority(e.target.value as "low" | "medium" | "high")}
-                      className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm text-gray-800 border-2 border-indigo-200/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                      disabled={loadingTasks}
-                    >
-                      <option value="low">Low</option>
-                      <option value="medium">Medium</option>
-                      <option value="high">High</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Due Date (optional)</label>
-                    <input
-                      type="date"
-                      value={newTaskDueDate}
-                      onChange={(e) => setNewTaskDueDate(e.target.value)}
-                      className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm text-gray-800 border-2 border-indigo-200/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                      disabled={loadingTasks}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-end space-x-4">
-              <button
-                onClick={() => {
-                  setShowAddTaskCard(false);
-                  setNewTaskTitle("");
-                  setNewTaskDescription("");
-                  setNewTaskPriority("medium");
-                  setNewTaskDueDate("");
-                }}
-                className="px-6 py-3 text-gray-700 bg-gradient-to-r from-gray-100 to-gray-200 rounded-xl hover:from-gray-200 hover:to-gray-300 transition-all duration-300 font-medium shadow-sm hover:shadow-md"
-                disabled={loadingTasks}
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleCreateNewTask}
-                className="px-6 py-3 text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg flex items-center transform hover:scale-105"
-                disabled={loadingTasks || !newTaskTitle.trim()}
-              >
-                {loadingTasks ? (
-                  <span className="flex items-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Adding...
-                  </span>
-                ) : (
-                  <span className="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                    Add Task
-                  </span>
-                )}
-              </button>
-            </div>
+          {/* Task Statistics Visualization */}
+          <div className="mt-12">
+            <StatisticsDashboard tasks={tasks} />
           </div>
-        )}
+        </div>
+
       </main>
 
       {/* Footer */}

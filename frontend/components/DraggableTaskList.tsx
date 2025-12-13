@@ -1,15 +1,30 @@
-"use client";
+'use client';
 
-import TaskItem from "./TaskItem";
-import { Task } from "@/types/task";
+import { Task } from '@/types/task';
+import { useDragAndDrop } from '@/hooks/useDragAndDrop';
+import TaskItem from './TaskItem';
 
-interface TaskListProps {
+interface DraggableTaskListProps {
   tasks: Task[];
   onTaskUpdate: (updatedTask: Task) => void;
   onTaskDelete: (taskId: number) => void;
+  onTaskReorder: (tasks: Task[]) => void;
 }
 
-export default function TaskList({ tasks, onTaskUpdate, onTaskDelete }: TaskListProps) {
+export default function DraggableTaskList({ 
+  tasks, 
+  onTaskUpdate, 
+  onTaskDelete,
+  onTaskReorder
+}: DraggableTaskListProps) {
+  const { 
+    draggedTask, 
+    handleDragStart, 
+    handleDragOver, 
+    handleDrop,
+    handleDragEnd
+  } = useDragAndDrop();
+
   if (tasks.length === 0) {
     return (
       <div className="text-center py-12">
@@ -28,12 +43,21 @@ export default function TaskList({ tasks, onTaskUpdate, onTaskDelete }: TaskList
   return (
     <div className="space-y-4">
       {tasks.map((task) => (
-        <TaskItem
+        <div 
           key={task.id}
-          task={task}
-          onUpdate={onTaskUpdate}
-          onDelete={onTaskDelete}
-        />
+          draggable
+          onDragStart={() => handleDragStart(task)}
+          onDragOver={handleDragOver}
+          onDrop={() => handleDrop(task, tasks, onTaskReorder)}
+          onDragEnd={handleDragEnd}
+          className={`transition-all duration-200 ${draggedTask?.id === task.id ? 'opacity-50' : 'opacity-100'}`}
+        >
+          <TaskItem
+            task={task}
+            onUpdate={onTaskUpdate}
+            onDelete={onTaskDelete}
+          />
+        </div>
       ))}
     </div>
   );

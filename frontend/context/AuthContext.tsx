@@ -32,11 +32,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const storedToken = Cookies.get("token"); // Use js-cookie to get token
     if (storedToken) {
       try {
+        const headerBase64 = storedToken.split(".")[0];
         const payloadBase64 = storedToken.split(".")[1];
+
+        // Check if it's a mock token (algorithm "none" - insecure)
+        const header = JSON.parse(atob(headerBase64));
+        if (header?.alg === "none") {
+          console.warn("Invalid mock token detected, removing it");
+          Cookies.remove("token");
+          return;
+        }
+
         const decodedPayload = JSON.parse(atob(payloadBase64));
         const sub = decodedPayload.sub; // 'sub' claim holds user ID
         const email = decodedPayload.email; // 'email' claim holds user email if available
         const name = decodedPayload.name || decodedPayload.firstName || decodedPayload.lastName; // 'name' claim holds user name if available
+        const exp = decodedPayload.exp; // 'exp' claim holds expiration time
+
+        // Check if token is expired
+        if (exp && Date.now() >= exp * 1000) {
+          console.warn("Token is expired, removing it");
+          Cookies.remove("token");
+          return;
+        }
+
         setToken(storedToken);
         setUserId(sub);
         setUserEmail(email || null); // Set email if available
@@ -67,12 +86,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Mock login for testing without backend
   const mockLogin = () => {
+    // Only allow mock login in development environment
+    if (process.env.NODE_ENV !== "development" && !process.env.NEXT_PUBLIC_ALLOW_MOCK_LOGIN) {
+      console.error("Mock login is only allowed in development");
+      return;
+    }
+
     // Create a mock JWT with a fake user ID
     const mockPayload = {
       sub: "1", // Mock user ID
       email: "test@gmail.com",
       name: "Test User", // Mock user name
-      exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24) // 24 hours from now
+      exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24), // 24 hours from now
+      isMock: true // Add a flag to indicate this is a mock token
     };
 
     // Encode the payload as base64 (simplified - not a true JWT but works for testing)
