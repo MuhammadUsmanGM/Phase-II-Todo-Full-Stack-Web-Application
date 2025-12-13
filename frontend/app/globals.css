@@ -3,11 +3,37 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --card-bg: #ffffff;
+  --card-border: #e5e7eb;
+  --header-bg: #ffffff;
+  --header-border: #e5e7eb;
+  --button-bg: #3b82f6;
+  --button-text: #ffffff;
+  --btn-primary: #3b82f6;
+  --btn-secondary: #6b7280;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
+  --color-header-bg: var(--header-bg);
+  --color-header-border: var(--header-border);
+  --color-button-bg: var(--button-bg);
+  --color-button-text: var(--button-text);
+  --color-btn-primary: var(--btn-primary);
+  --color-btn-secondary: var(--btn-secondary);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -16,7 +42,38 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --card-bg: #1f2937;
+    --card-border: #374151;
+    --header-bg: #111827;
+    --header-border: #374151;
+    --button-bg: #60a5fa;
+    --button-text: #ffffff;
+    --btn-primary: #60a5fa;
+    --btn-secondary: #9ca3af;
+    --text-primary: #f9fafb;
+    --text-secondary: #9ca3af;
+    --success: #34d399;
+    --warning: #fbbf24;
+    --error: #f87171;
   }
+}
+
+.dark:root {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --card-bg: #1f2937;
+  --card-border: #374151;
+  --header-bg: #111827;
+  --header-border: #374151;
+  --button-bg: #60a5fa;
+  --button-text: #ffffff;
+  --btn-primary: #60a5fa;
+  --btn-secondary: #9ca3af;
+  --text-primary: #f9fafb;
+  --text-secondary: #9ca3af;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --error: #f87171;
 }
 
 body {

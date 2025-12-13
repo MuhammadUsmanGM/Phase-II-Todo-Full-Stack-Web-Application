@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import ProfileIcon from "@/components/ProfileIcon";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -131,8 +132,8 @@ export default function Navbar() {
                   onClick={() => setShowProfileDropdown(!showProfileDropdown)}
                   className="flex items-center text-gray-900 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300 cursor-pointer"
                 >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white font-semibold">
-                    {userName ? userName.charAt(0).toUpperCase() : userId ? userId.charAt(0).toUpperCase() : 'U'}
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white">
+                    <ProfileIcon size={20} />
                   </div>
                 </button>
 
@@ -141,12 +142,12 @@ export default function Navbar() {
                   <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden z-50 animate-fadeIn">
                     <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-4">
                       <div className="flex items-center">
-                        <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-200 bg-opacity-20 flex items-center justify-center text-white font-bold text-lg">
-                          {userName ? userName.charAt(0).toUpperCase() : userId ? userId.charAt(0).toUpperCase() : 'U'}
+                        <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-200 bg-opacity-20 flex items-center justify-center text-white">
+                          <ProfileIcon size={24} />
                         </div>
                         <div className="ml-3">
-                          <p className="text-white font-bold text-base">{userName || 'Guest'}</p>
-                          <p className="text-indigo-100 text-sm truncate">{userEmail || 'user@example.com'}</p>
+                          <p className="text-white font-bold text-base">{userName || 'User'}</p>
+                          <p className="text-indigo-100 text-sm truncate">{userEmail || 'Account@email.com'}</p>
                         </div>
                       </div>
                     </div>
@@ -354,8 +355,8 @@ export default function Navbar() {
                 <>
                   <div className="px-4 py-2">
                     <div className="flex items-center space-x-3 p-3 bg-indigo-50 dark:bg-gray-700/50 rounded-lg">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white font-semibold text-sm">
-                        {userId ? userId.charAt(0).toUpperCase() : 'U'}
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white">
+                        <ProfileIcon size={24} />
                       </div>
                       <div>
                         <p className="text-sm font-medium text-gray-900 dark:text-gray-100">User ID: {userId || 'Unknown'}</p>

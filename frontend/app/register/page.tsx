@@ -14,7 +14,7 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const { login, mockLogin } = useAuth();
+  const { login } = useAuth();
   const router = useRouter();
 
   // Function to check password strength

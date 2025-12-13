@@ -45,8 +45,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         const decodedPayload = JSON.parse(atob(payloadBase64));
         const sub = decodedPayload.sub; // 'sub' claim holds user ID
-        const email = decodedPayload.email; // 'email' claim holds user email if available
-        const name = decodedPayload.name || decodedPayload.firstName || decodedPayload.lastName; // 'name' claim holds user name if available
+        // Try multiple common JWT claims for email
+        const email = decodedPayload.email || decodedPayload.user_email || decodedPayload.email_address || decodedPayload.mail;
+        // Try multiple common JWT claims for name
+        const name = decodedPayload.name || decodedPayload.full_name || decodedPayload.firstName || decodedPayload.first_name || decodedPayload.lastName || decodedPayload.last_name || decodedPayload.user_name;
         const exp = decodedPayload.exp; // 'exp' claim holds expiration time
 
         // Check if token is expired
@@ -74,8 +76,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const payloadBase64 = newToken.split(".")[1];
     const decodedPayload = JSON.parse(atob(payloadBase64));
     const sub = decodedPayload.sub;
-    const email = decodedPayload.email; // Extract email from token
-    const name = decodedPayload.name || decodedPayload.firstName || decodedPayload.lastName; // Extract name from token
+    // Try multiple common JWT claims for email
+    const email = decodedPayload.email || decodedPayload.user_email || decodedPayload.email_address || decodedPayload.mail;
+    // Try multiple common JWT claims for name
+    const name = decodedPayload.name || decodedPayload.full_name || decodedPayload.firstName || decodedPayload.first_name || decodedPayload.lastName || decodedPayload.last_name || decodedPayload.user_name;
     setToken(newToken);
     setUserId(sub);
     setUserEmail(email || null); // Set email if available
@@ -84,38 +88,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     router.push("/dashboard"); // Redirect to dashboard after login
   };
 
-  // Mock login for testing without backend
-  const mockLogin = () => {
-    // Only allow mock login in development environment
-    if (process.env.NODE_ENV !== "development" && !process.env.NEXT_PUBLIC_ALLOW_MOCK_LOGIN) {
-      console.error("Mock login is only allowed in development");
-      return;
-    }
-
-    // Create a mock JWT with a fake user ID
-    const mockPayload = {
-      sub: "1", // Mock user ID
-      email: "test@gmail.com",
-      name: "Test User", // Mock user name
-      exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24), // 24 hours from now
-      isMock: true // Add a flag to indicate this is a mock token
-    };
-
-    // Encode the payload as base64 (simplified - not a true JWT but works for testing)
-    const header = btoa(JSON.stringify({ alg: "none", typ: "JWT" }));
-    const payload = btoa(JSON.stringify(mockPayload));
-    const signature = btoa("fake-signature"); // In a real JWT, signature would be calculated
-
-    const mockToken = `${header}.${payload}.${signature}`;
-
-    Cookies.set("token", mockToken, { expires: 7 });
-    setToken(mockToken);
-    setUserId("1");
-    setUserEmail("test@gmail.com"); // Set mock email
-    setUserName("Test User"); // Set mock name
-    setIsAuthenticated(true);
-    router.push("/dashboard");
-  };
 
   const logout = () => {
     Cookies.remove("token"); // Remove token from cookies
@@ -129,7 +101,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ token, userId, userEmail, userName, isAuthenticated, login, logout, mockLogin, isLoading }}
+      value={{ token, userId, userEmail, userName, isAuthenticated, login, logout, isLoading }}
     >
       {children}
     </AuthContext.Provider>

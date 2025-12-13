@@ -218,7 +218,7 @@ export default function DashboardPage() {
       {/* Main Content */}
       <main className="container mx-auto px-6 py-8">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-white/90 backdrop-blur-sm bg-gradient-to-br from-white to-indigo-50 rounded-3xl shadow-xl p-8 mb-8 border border-gray-100/50">
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm bg-gradient-to-br from-white to-indigo-50 dark:from-gray-800 dark:to-gray-900 rounded-3xl shadow-xl p-8 mb-8 border border-gray-100/50 dark:border-gray-700/50">
             <div className="mb-8">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>
@@ -344,55 +344,55 @@ export default function DashboardPage() {
 
               {/* Stats Summary */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                <div className="bg-gradient-to-br from-indigo-50 to-indigo-100/30 p-5 rounded-xl border border-indigo-200/50 shadow-sm">
+                <div className="bg-gradient-to-br from-indigo-50 to-indigo-100/30 dark:from-gray-700/30 dark:to-gray-800/30 p-5 rounded-xl border border-indigo-200/50 dark:border-gray-700/50 shadow-sm">
                   <div className="flex items-center">
-                    <div className="p-3 rounded-xl bg-indigo-500/10 mr-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="p-3 rounded-xl bg-indigo-500/10 dark:bg-indigo-400/20 mr-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-indigo-600/80 font-medium">Total Tasks</p>
-                      <p className="text-2xl font-bold text-gray-800">{tasks.length}</p>
+                      <p className="text-sm text-indigo-600/80 dark:text-indigo-400/80 font-medium">Total Tasks</p>
+                      <p className="text-2xl font-bold text-gray-800 dark:text-gray-200">{tasks.length}</p>
                     </div>
                   </div>
                 </div>
-                <div className="bg-gradient-to-br from-green-50 to-green-100/30 p-5 rounded-xl border border-green-200/50 shadow-sm">
+                <div className="bg-gradient-to-br from-green-50 to-green-100/30 dark:from-gray-700/30 dark:to-gray-800/30 p-5 rounded-xl border border-green-200/50 dark:border-gray-700/50 shadow-sm">
                   <div className="flex items-center">
-                    <div className="p-3 rounded-xl bg-green-500/10 mr-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="p-3 rounded-xl bg-green-500/10 dark:bg-green-400/20 mr-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-green-600/80 font-medium">Completed</p>
-                      <p className="text-2xl font-bold text-gray-800">{tasks.filter(t => t.completed).length}</p>
+                      <p className="text-sm text-green-600/80 dark:text-green-400/80 font-medium">Completed</p>
+                      <p className="text-2xl font-bold text-gray-800 dark:text-gray-200">{tasks.filter(t => t.completed).length}</p>
                     </div>
                   </div>
                 </div>
-                <div className="bg-gradient-to-br from-amber-50 to-amber-100/30 p-5 rounded-xl border border-amber-200/50 shadow-sm">
+                <div className="bg-gradient-to-br from-amber-50 to-amber-100/30 dark:from-gray-700/30 dark:to-gray-800/30 p-5 rounded-xl border border-amber-200/50 dark:border-gray-700/50 shadow-sm">
                   <div className="flex items-center">
-                    <div className="p-3 rounded-xl bg-amber-500/10 mr-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="p-3 rounded-xl bg-amber-500/10 dark:bg-amber-400/20 mr-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-amber-600/80 font-medium">Pending</p>
-                      <p className="text-2xl font-bold text-gray-800">{tasks.filter(t => !t.completed).length}</p>
+                      <p className="text-sm text-amber-600/80 dark:text-amber-400/80 font-medium">Pending</p>
+                      <p className="text-2xl font-bold text-gray-800 dark:text-gray-200">{tasks.filter(t => !t.completed).length}</p>
                     </div>
                   </div>
                 </div>
-                <div className="bg-gradient-to-br from-purple-50 to-purple-100/30 p-5 rounded-xl border border-purple-200/50 shadow-sm">
+                <div className="bg-gradient-to-br from-purple-50 to-purple-100/30 dark:from-gray-700/30 dark:to-gray-800/30 p-5 rounded-xl border border-purple-200/50 dark:border-gray-700/50 shadow-sm">
                   <div className="flex items-center">
-                    <div className="p-3 rounded-xl bg-purple-500/10 mr-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="p-3 rounded-xl bg-purple-500/10 dark:bg-purple-400/20 mr-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-purple-600/80 font-medium">Productivity</p>
-                      <p className="text-2xl font-bold text-gray-800">{tasks.length ? Math.round((tasks.filter(t => t.completed).length / tasks.length) * 100) : 0}%</p>
+                      <p className="text-sm text-purple-600/80 dark:text-purple-400/80 font-medium">Productivity</p>
+                      <p className="text-2xl font-bold text-gray-800 dark:text-gray-200">{tasks.length ? Math.round((tasks.filter(t => t.completed).length / tasks.length) * 100) : 0}%</p>
                     </div>
                   </div>
                 </div>
@@ -416,15 +416,15 @@ export default function DashboardPage() {
 
               {/* Quick Task Stats */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-xl border border-blue-200/50">
-                  <p className="text-sm text-blue-600 font-medium mb-1">Top Priority Tasks</p>
-                  <p className="text-lg font-bold text-gray-800">
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50/30 dark:from-gray-700/30 dark:to-gray-800/30 p-4 rounded-xl border border-blue-200/50 dark:border-gray-700/50">
+                  <p className="text-sm text-blue-600/80 dark:text-blue-400/80 font-medium mb-1">Top Priority Tasks</p>
+                  <p className="text-lg font-bold text-gray-800 dark:text-gray-200">
                     {tasks.filter(t => t.priority === 'high').length}
                   </p>
                 </div>
-                <div className="bg-gradient-to-br from-cyan-50 to-teal-50 p-4 rounded-xl border border-cyan-200/50">
-                  <p className="text-sm text-cyan-600 font-medium mb-1">Overdue Tasks</p>
-                  <p className="text-lg font-bold text-gray-800">
+                <div className="bg-gradient-to-br from-cyan-50 to-teal-50/30 dark:from-gray-700/30 dark:to-gray-800/30 p-4 rounded-xl border border-cyan-200/50 dark:border-gray-700/50">
+                  <p className="text-sm text-cyan-600/80 dark:text-cyan-400/80 font-medium mb-1">Overdue Tasks</p>
+                  <p className="text-lg font-bold text-gray-800 dark:text-gray-200">
                     {tasks.filter(t => t.due_date && new Date(t.due_date) < new Date() && !t.completed).length}
                   </p>
                 </div>
@@ -696,8 +696,8 @@ export default function DashboardPage() {
           {/* Recent Activity & Quick Stats */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
             {/* Recent Activity */}
-            <div className="bg-gradient-to-br from-white to-indigo-50 rounded-2xl shadow-lg p-6 border border-gray-100">
-              <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mb-4 flex items-center">
+            <div className="bg-gradient-to-br from-white to-indigo-50 dark:from-gray-800 dark:to-gray-900/50 rounded-2xl shadow-lg p-6 border border-gray-100/50 dark:border-gray-700/50">
+              <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-4 flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -706,24 +706,28 @@ export default function DashboardPage() {
               {tasks.length > 0 ? (
                 <div className="space-y-4">
                   {tasks.slice(0, 3).map((task, index) => (
-                    <div key={task.id} className={`p-4 rounded-lg border-l-4 ${task.completed ? 'border-green-500 bg-green-50' : 'border-amber-500 bg-amber-50'}`}>
+                    <div key={task.id} className={`p-4 rounded-lg border-l-4 ${
+                      task.completed
+                        ? 'border-green-500 dark:border-green-400 bg-green-50 dark:bg-green-900/20'
+                        : 'border-amber-500 dark:border-amber-400 bg-amber-50 dark:bg-amber-900/20'
+                    }`}>
                       <div className="flex justify-between items-start">
                         <div>
-                          <p className="font-medium text-gray-900">{task.title}</p>
-                          <p className="text-sm text-gray-600 mt-1">{task.description || 'No description'}</p>
+                          <p className="font-medium text-gray-900 dark:text-gray-200">{task.title}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{task.description || 'No description'}</p>
                         </div>
                         <span className={`px-2 py-1 text-xs rounded-full ${
                           task.completed
-                            ? 'bg-green-100 text-green-800'
+                            ? 'bg-green-100 dark:bg-green-800/50 text-green-800 dark:text-green-200'
                             : task.due_date && new Date(task.due_date) < new Date() && !task.completed
-                              ? 'bg-red-100 text-red-800'
-                              : 'bg-amber-100 text-amber-800'
+                              ? 'bg-red-100 dark:bg-red-800/50 text-red-800 dark:text-red-200'
+                              : 'bg-amber-100 dark:bg-amber-800/50 text-amber-800 dark:text-amber-200'
                         }`}>
                           {task.completed ? 'Completed' : 'Pending'}
                         </span>
                       </div>
                       {task.due_date && (
-                        <p className="text-xs text-gray-500 mt-2">
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                           Due: {new Date(task.due_date).toLocaleDateString()}
                         </p>
                       )}
@@ -732,14 +736,14 @@ export default function DashboardPage() {
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <p className="text-gray-500">No recent activity yet. Add your first task!</p>
+                  <p className="text-gray-500 dark:text-gray-400">No recent activity yet. Add your first task!</p>
                 </div>
               )}
             </div>
 
             {/* Upcoming Tasks */}
-            <div className="bg-gradient-to-br from-white to-indigo-50 rounded-2xl shadow-lg p-6 border border-gray-100">
-              <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mb-4 flex items-center">
+            <div className="bg-gradient-to-br from-white to-indigo-50 dark:from-gray-800 dark:to-gray-900/50 rounded-2xl shadow-lg p-6 border border-gray-100/50 dark:border-gray-700/50">
+              <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-4 flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
@@ -748,13 +752,13 @@ export default function DashboardPage() {
               {tasks.length > 0 ? (
                 <div className="space-y-4">
                   {tasks.filter(task => !task.completed && task.due_date && new Date(task.due_date).getTime() > new Date().getTime()).sort((a, b) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime()).slice(0, 3).map((task, index) => (
-                    <div key={task.id} className="p-4 rounded-lg border-l-4 border-blue-500 bg-blue-50">
+                    <div key={task.id} className="p-4 rounded-lg border-l-4 border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-900/20">
                       <div className="flex justify-between items-start">
                         <div>
-                          <p className="font-medium text-gray-900">{task.title}</p>
-                          <p className="text-sm text-gray-600 mt-1">{task.description || 'No description'}</p>
+                          <p className="font-medium text-gray-900 dark:text-gray-200">{task.title}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{task.description || 'No description'}</p>
                         </div>
-                        <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
+                        <span className="px-2 py-1 text-xs rounded-full bg-blue-100 dark:bg-blue-800/50 text-blue-800 dark:text-blue-200">
                           {new Date(task.due_date).toLocaleDateString()}
                         </span>
                       </div>
@@ -762,13 +766,13 @@ export default function DashboardPage() {
                   ))}
                   {tasks.filter(task => !task.completed && task.due_date).length === 0 ? (
                     <div className="text-center py-4">
-                      <p className="text-gray-500">No upcoming tasks scheduled</p>
+                      <p className="text-gray-500 dark:text-gray-400">No upcoming tasks scheduled</p>
                     </div>
                   ) : null}
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <p className="text-gray-500">No upcoming tasks yet. Add your first task!</p>
+                  <p className="text-gray-500 dark:text-gray-400">No upcoming tasks yet. Add your first task!</p>
                 </div>
               )}
             </div>
@@ -787,16 +791,16 @@ export default function DashboardPage() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
-              <p className="text-gray-600">&copy; {new Date().getFullYear()} TodoApp. All rights reserved.</p>
+              <p className="text-gray-700 dark:text-gray-300">&copy; {new Date().getFullYear()} TodoApp. All rights reserved.</p>
             </div>
             <div className="flex flex-wrap justify-center gap-8 mb-6 md:mb-0">
-              <a href="#" className="text-gray-600 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1" onClick={(e) => { e.preventDefault(); setShowAbout(true); }}>
+              <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1" onClick={(e) => { e.preventDefault(); setShowAbout(true); }}>
                 About
               </a>
-              <a href="#" className="text-gray-600 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1" onClick={(e) => { e.preventDefault(); setShowPrivacy(true); }}>
+              <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1" onClick={(e) => { e.preventDefault(); setShowPrivacy(true); }}>
                 Privacy
               </a>
-              <a href="#" className="text-gray-600 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1" onClick={(e) => { e.preventDefault(); setShowTerms(true); }}>
+              <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 font-medium transition-all duration-300 transform hover:scale-110 hover:-translate-y-1" onClick={(e) => { e.preventDefault(); setShowTerms(true); }}>
                 Terms
               </a>
             </div>
