@@ -170,13 +170,27 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <Navbar />
       {/* Dashboard-specific header section with Export button */}
-      <header className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-40">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-            Dashboard
-          </h1>
+      <header className="bg-white shadow-sm border-b border-gray-200/60 backdrop-blur-sm sticky top-0 z-40">
+        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="flex items-center space-x-3">
+            <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-3 rounded-xl">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+                Dashboard
+              </h1>
+              <p className="text-sm text-gray-500">Track your tasks and productivity</p>
+            </div>
+          </div>
+
           <div className="flex items-center space-x-4">
-            <span className="text-gray-600 font-medium">Welcome back!</span>
+            <div className="hidden md:block text-right">
+              <p className="text-sm font-medium text-gray-900">Welcome back, {userEmail || 'User'}!</p>
+              <p className="text-xs text-gray-500">Manage your daily tasks efficiently</p>
+            </div>
             <button
               onClick={() => {
                 // Export tasks functionality
@@ -190,21 +204,21 @@ export default function DashboardPage() {
                 linkElement.setAttribute('download', exportFileDefaultName);
                 linkElement.click();
               }}
-              className="px-4 py-2 text-sm text-gray-700 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg hover:from-gray-200 hover:to-gray-300 transition-all duration-300 shadow-md hover:shadow-lg flex items-center cursor-pointer"
+              className="px-4 py-2 text-sm text-gray-700 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg hover:from-gray-200 hover:to-gray-300 transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-2 cursor-pointer"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
               </svg>
-              Export
+              Export Tasks
             </button>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white/90 backdrop-blur-sm bg-gradient-to-br from-white to-indigo-50 rounded-3xl shadow-2xl p-8 mb-8 border border-gray-100">
+      <main className="container mx-auto px-6 py-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-white/90 backdrop-blur-sm bg-gradient-to-br from-white to-indigo-50 rounded-3xl shadow-xl p-8 mb-8 border border-gray-100/50">
             <div className="mb-8">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>
@@ -329,63 +343,91 @@ export default function DashboardPage() {
               </div>
 
               {/* Stats Summary */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 p-4 rounded-xl border border-indigo-200/50">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div className="bg-gradient-to-br from-indigo-50 to-indigo-100/30 p-5 rounded-xl border border-indigo-200/50 shadow-sm">
                   <div className="flex items-center">
-                    <div className="p-2 rounded-lg bg-indigo-500/10 mr-3">
+                    <div className="p-3 rounded-xl bg-indigo-500/10 mr-4">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-indigo-600 font-medium">Total Tasks</p>
+                      <p className="text-sm text-indigo-600/80 font-medium">Total Tasks</p>
                       <p className="text-2xl font-bold text-gray-800">{tasks.length}</p>
                     </div>
                   </div>
                 </div>
-                <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl border border-green-200/50">
+                <div className="bg-gradient-to-br from-green-50 to-green-100/30 p-5 rounded-xl border border-green-200/50 shadow-sm">
                   <div className="flex items-center">
-                    <div className="p-2 rounded-lg bg-green-500/10 mr-3">
+                    <div className="p-3 rounded-xl bg-green-500/10 mr-4">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-green-600 font-medium">Completed</p>
+                      <p className="text-sm text-green-600/80 font-medium">Completed</p>
                       <p className="text-2xl font-bold text-gray-800">{tasks.filter(t => t.completed).length}</p>
                     </div>
                   </div>
                 </div>
-                <div className="bg-gradient-to-br from-amber-50 to-amber-100 p-4 rounded-xl border border-amber-200/50">
+                <div className="bg-gradient-to-br from-amber-50 to-amber-100/30 p-5 rounded-xl border border-amber-200/50 shadow-sm">
                   <div className="flex items-center">
-                    <div className="p-2 rounded-lg bg-amber-500/10 mr-3">
+                    <div className="p-3 rounded-xl bg-amber-500/10 mr-4">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-amber-600 font-medium">Pending</p>
+                      <p className="text-sm text-amber-600/80 font-medium">Pending</p>
                       <p className="text-2xl font-bold text-gray-800">{tasks.filter(t => !t.completed).length}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-gradient-to-br from-purple-50 to-purple-100/30 p-5 rounded-xl border border-purple-200/50 shadow-sm">
+                  <div className="flex items-center">
+                    <div className="p-3 rounded-xl bg-purple-500/10 mr-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-sm text-purple-600/80 font-medium">Productivity</p>
+                      <p className="text-2xl font-bold text-gray-800">{tasks.length ? Math.round((tasks.filter(t => t.completed).length / tasks.length) * 100) : 0}%</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Progress Bar */}
-              <div className="h-3.5 w-full bg-gradient-to-r from-gray-200 to-gray-300 rounded-full overflow-hidden shadow-inner">
-                <div
-                  className="h-full bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 rounded-full transition-all duration-700 ease-out shadow-md"
-                  style={{
-                    width: tasks.length > 0 ? `${(tasks.filter(t => t.completed).length / tasks.length) * 100}%` : '0%'
-                  }}
-                ></div>
+              {/* Productivity Overview */}
+              <div className="mb-6">
+                <div className="flex justify-between mb-2">
+                  <span className="text-sm font-medium text-gray-700">Task Completion Rate</span>
+                  <span className="text-sm font-bold text-indigo-600">{tasks.length > 0 ? Math.round((tasks.filter(t => t.completed).length / tasks.length) * 100) : 0}%</span>
+                </div>
+                <div className="h-3.5 w-full bg-gradient-to-r from-gray-200 to-gray-300 rounded-full overflow-hidden shadow-inner">
+                  <div
+                    className="h-full bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 rounded-full transition-all duration-700 ease-out shadow-md"
+                    style={{
+                      width: tasks.length > 0 ? `${(tasks.filter(t => t.completed).length / tasks.length) * 100}%` : '0%'
+                    }}
+                  ></div>
+                </div>
               </div>
 
-              {/* Productivity Stats */}
-              <div className="flex justify-between mt-2 text-xs text-gray-500">
-                <span>0%</span>
-                <span>{tasks.length > 0 ? Math.round((tasks.filter(t => t.completed).length / tasks.length) * 100) : 0}% completed</span>
-                <span>100%</span>
+              {/* Quick Task Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-xl border border-blue-200/50">
+                  <p className="text-sm text-blue-600 font-medium mb-1">Top Priority Tasks</p>
+                  <p className="text-lg font-bold text-gray-800">
+                    {tasks.filter(t => t.priority === 'high').length}
+                  </p>
+                </div>
+                <div className="bg-gradient-to-br from-cyan-50 to-teal-50 p-4 rounded-xl border border-cyan-200/50">
+                  <p className="text-sm text-cyan-600 font-medium mb-1">Overdue Tasks</p>
+                  <p className="text-lg font-bold text-gray-800">
+                    {tasks.filter(t => t.due_date && new Date(t.due_date) < new Date() && !t.completed).length}
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -418,45 +460,46 @@ export default function DashboardPage() {
                   ))}
                 </div>
               </div>
-            ) : filteredAndSortedTasks.length === 0 ? (
-              <div className="text-center py-20">
-                <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 mb-8 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-3.134-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM34 56c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm37 11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-7 30c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z\' fill=\'%2391a0ef\' fill-opacity=\'0.1\' fill-rule=\'evenodd\'/%3E%3C/svg%3E')] opacity-20"></div>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-indigo-500 relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                  </svg>
-                </div>
-                {filterOptions.searchTerm ? (
-                  <>
-                    <h3 className="text-3xl font-bold text-gray-800 mb-2">No matching tasks</h3>
-                    <p className="text-gray-600 max-w-md mx-auto mb-8">No tasks match "{filterOptions.searchTerm}". Try different keywords.</p>
-                  </>
-                ) : filterOptions.status !== "all" ? (
-                  <>
-                    <h3 className="text-3xl font-bold text-gray-800 mb-2">No {filterOptions.status} tasks</h3>
-                    <p className="text-gray-600 max-w-md mx-auto mb-8">You have no {filterOptions.status} tasks. Create one now!</p>
-                  </>
-                ) : (
-                  <>
-                    <h3 className="text-3xl font-bold text-gray-800 mb-2">No tasks yet</h3>
-                    <p className="text-gray-600 max-w-md mx-auto mb-8">Get started by adding your first task and boost your productivity!</p>
-                  </>
-                )}
-                <button
-                  onClick={handleAddTaskClick}
-                  className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer"
-                >
-                  <span className="flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
-                    </svg>
-                    Add Your First Task
-                  </span>
-                </button>
-              </div>
             ) : (
               <>
-                {!showAddTaskCard && (
+                {!showAddTaskCard && filteredAndSortedTasks.length === 0 && (
+                  <div className="text-center py-20">
+                    <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 mb-8 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-3.134-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM34 56c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm37 11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-7 30c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z\' fill=\'%2391a0ef\' fill-opacity=\'0.1\' fill-rule=\'evenodd\'/%3E%3C/svg%3E')] opacity-20"></div>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-indigo-500 relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                      </svg>
+                    </div>
+                    {filterOptions.searchTerm ? (
+                      <>
+                        <h3 className="text-3xl font-bold text-gray-800 mb-2">No matching tasks</h3>
+                        <p className="text-gray-600 max-w-md mx-auto mb-8">No tasks match "{filterOptions.searchTerm}". Try different keywords.</p>
+                      </>
+                    ) : filterOptions.status !== "all" ? (
+                      <>
+                        <h3 className="text-3xl font-bold text-gray-800 mb-2">No {filterOptions.status} tasks</h3>
+                        <p className="text-gray-600 max-w-md mx-auto mb-8">You have no {filterOptions.status} tasks. Create one now!</p>
+                      </>
+                    ) : (
+                      <>
+                        <h3 className="text-3xl font-bold text-gray-800 mb-2">No tasks yet</h3>
+                        <p className="text-gray-600 max-w-md mx-auto mb-8">Get started by adding your first task and boost your productivity!</p>
+                      </>
+                    )}
+                    <button
+                      onClick={handleAddTaskClick}
+                      className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+                    >
+                      <span className="flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+                        </svg>
+                        Add Your First Task
+                      </span>
+                    </button>
+                  </div>
+                )}
+                {!showAddTaskCard && filteredAndSortedTasks.length > 0 && (
                   <div className="flex justify-center mb-8">
                     <button
                       onClick={handleAddTaskClick}
@@ -470,118 +513,265 @@ export default function DashboardPage() {
                   </div>
                 )}
                 {showAddTaskCard && (
-                  <div className="bg-gradient-to-br from-white to-indigo-50 rounded-2xl shadow-xl p-8 mb-8 border border-indigo-100/50 transform transition-all duration-300 animate-fadeIn visible opacity-100 z-10" style={{ display: 'block', visibility: 'visible', opacity: 1, zIndex: 10 }}>
-                    <div className="mb-6">
-                      <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mb-6 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                        </svg>
-                        Create New Task
-                      </h3>
-                      <div className="space-y-6">
-                        <div className="relative">
-                          <input
-                            type="text"
-                            placeholder="What needs to be done?"
-                            value={newTaskTitle}
-                            onChange={(e) => setNewTaskTitle(e.target.value)}
-                            className="w-full px-5 py-4 bg-white/80 backdrop-blur-sm text-gray-800 border-2 border-indigo-200/50 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm hover:shadow-md focus:shadow-lg"
-                            disabled={loadingTasks}
-                            autoFocus
-                          />
-                          {newTaskTitle && (
-                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                          )}
-                        </div>
-                        <div className="relative">
-                          <textarea
-                            placeholder="Add details (optional)..."
-                            value={newTaskDescription}
-                            onChange={(e) => setNewTaskDescription(e.target.value)}
-                            className="w-full px-5 py-3 bg-white/80 backdrop-blur-sm text-gray-800 border-2 border-indigo-200/50 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm hover:shadow-md focus:shadow-lg resize-none"
-                            rows={3}
-                            disabled={loadingTasks}
-                          />
-                          {newTaskDescription && (
-                            <div className="absolute right-3 top-3 w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
-                          )}
-                        </div>
-
-                        {/* Priority and Due Date */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
-                            <select
-                              value={newTaskPriority}
-                              onChange={(e) => setNewTaskPriority(e.target.value as "low" | "medium" | "high")}
-                              className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm text-gray-800 border-2 border-indigo-200/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                              disabled={loadingTasks}
-                            >
-                              <option value="low">Low</option>
-                              <option value="medium">Medium</option>
-                              <option value="high">High</option>
-                            </select>
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Due Date (optional)</label>
-                            <input
-                              type="date"
-                              value={newTaskDueDate}
-                              onChange={(e) => setNewTaskDueDate(e.target.value)}
-                              className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm text-gray-800 border-2 border-indigo-200/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                              disabled={loadingTasks}
-                            />
-                          </div>
-                        </div>
+                  <div className="bg-white/95 backdrop-blur-md bg-gradient-to-br from-white to-indigo-50 rounded-2xl shadow-2xl p-8 mb-8 border border-gray-200/50 transform transition-all duration-300 animate-fadeIn z-10">
+                    <div className="flex items-center justify-between mb-6">
+                      <div>
+                        <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                          </svg>
+                          Create New Task
+                        </h3>
+                        <p className="text-gray-500 mt-1">Add a new task to your list</p>
                       </div>
-                    </div>
-                    <div className="flex justify-end space-x-4">
                       <button
                         onClick={() => {
                           setShowAddTaskCard(false);
                           setNewTaskTitle("");
                           setNewTaskDescription("");
+                          setNewTaskPriority("medium");
+                          setNewTaskDueDate("");
                         }}
-                        className="px-6 py-3 text-gray-700 bg-gradient-to-r from-gray-100 to-gray-200 rounded-xl hover:from-gray-200 hover:to-gray-300 transition-all duration-300 font-medium shadow-sm hover:shadow-md"
-                        disabled={loadingTasks}
+                        className="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
+                        aria-label="Close form"
                       >
-                        Cancel
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
                       </button>
-                      <button
-                        onClick={handleCreateNewTask}
-                        className="px-6 py-3 text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg flex items-center transform hover:scale-105"
-                        disabled={loadingTasks || !newTaskTitle.trim()}
-                      >
-                        {loadingTasks ? (
-                          <span className="flex items-center">
-                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            Adding...
-                          </span>
-                        ) : (
-                          <span className="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                            </svg>
-                            Add Task
-                          </span>
+                    </div>
+                    <div className="space-y-6">
+                      <div className="relative">
+                        <input
+                          type="text"
+                          placeholder="Task title *"
+                          value={newTaskTitle}
+                          onChange={(e) => setNewTaskTitle(e.target.value)}
+                          className="w-full px-5 py-4 text-lg bg-white/80 backdrop-blur-sm text-gray-800 border border-gray-200/60 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-500 transition-all shadow-sm hover:shadow-md focus:shadow-lg"
+                          disabled={loadingTasks}
+                          autoFocus
+                        />
+                        {newTaskTitle && (
+                          <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
                         )}
-                      </button>
+                      </div>
+
+                      <div className="relative">
+                        <textarea
+                          placeholder="Task description (optional)"
+                          value={newTaskDescription}
+                          onChange={(e) => setNewTaskDescription(e.target.value)}
+                          className="w-full px-5 py-3 bg-white/80 backdrop-blur-sm text-gray-800 border border-gray-200/60 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-500 transition-all shadow-sm hover:shadow-md focus:shadow-lg resize-none"
+                          rows={3}
+                          disabled={loadingTasks}
+                        />
+                        {newTaskDescription && (
+                          <div className="absolute right-4 top-3 w-3 h-3 rounded-full bg-indigo-500 animate-pulse"></div>
+                        )}
+                      </div>
+
+                      {/* Task Options */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+                          <div className="relative">
+                            <select
+                              value={newTaskPriority}
+                              onChange={(e) => setNewTaskPriority(e.target.value as "low" | "medium" | "high")}
+                              className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm text-gray-800 border border-gray-200/60 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-500 transition-all appearance-none"
+                              disabled={loadingTasks}
+                            >
+                              <option value="low" className="bg-green-100">Low</option>
+                              <option value="medium" className="bg-amber-100">Medium</option>
+                              <option value="high" className="bg-red-100">High</option>
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-700">
+                              <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Due Date (optional)</label>
+                          <input
+                            type="date"
+                            value={newTaskDueDate}
+                            onChange={(e) => setNewTaskDueDate(e.target.value)}
+                            className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm text-gray-800 border border-gray-200/60 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-500 transition-all"
+                            disabled={loadingTasks}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Category Selection */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                        <div className="flex flex-wrap gap-2">
+                          {['Work', 'Personal', 'Health', 'Shopping'].map((category) => (
+                            <button
+                              key={category}
+                              type="button"
+                              className={`px-3 py-1.5 text-sm rounded-full border transition-colors ${
+                                newTaskTitle.toLowerCase().includes(category.toLowerCase())
+                                  ? 'bg-indigo-100 border-indigo-500 text-indigo-700'
+                                  : 'bg-gray-100 border-gray-300 text-gray-700 hover:bg-gray-200'
+                              }`}
+                              onClick={() => {
+                                if (!newTaskTitle.toLowerCase().includes(category.toLowerCase())) {
+                                  setNewTaskTitle(`${category} - ${newTaskTitle}`);
+                                }
+                              }}
+                            >
+                              {category}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-center mt-8 pt-6 border-t border-gray-100">
+                      <div className="text-sm text-gray-500">
+                        Fields marked with <span className="text-red-500">*</span> are required
+                      </div>
+                      <div className="flex space-x-3">
+                        <button
+                          onClick={() => {
+                            setShowAddTaskCard(false);
+                            setNewTaskTitle("");
+                            setNewTaskDescription("");
+                            setNewTaskPriority("medium");
+                            setNewTaskDueDate("");
+                          }}
+                          className="px-6 py-3 text-gray-700 bg-gradient-to-r from-gray-100 to-gray-200 rounded-xl hover:from-gray-200 hover:to-gray-300 transition-all duration-300 font-medium shadow-sm hover:shadow-md"
+                          disabled={loadingTasks}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          onClick={handleCreateNewTask}
+                          disabled={loadingTasks || !newTaskTitle.trim()}
+                          className={`px-6 py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center ${
+                            loadingTasks || !newTaskTitle.trim()
+                              ? 'bg-gray-400 cursor-not-allowed'
+                              : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105'
+                          }`}
+                        >
+                          {loadingTasks ? (
+                            <span className="flex items-center">
+                              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                              </svg>
+                              Adding...
+                            </span>
+                          ) : (
+                            <span className="flex items-center">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                              </svg>
+                              Create Task
+                            </span>
+                          )}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 )}
-                <div className="space-y-4">
-                  <DraggableTaskList
-                    tasks={filteredAndSortedTasks}
-                    onTaskUpdate={handleUpdateTask}
-                    onTaskDelete={handleDeleteTask}
-                    onTaskReorder={handleTaskReorder}
-                  />
-                </div>
+                {!showAddTaskCard && filteredAndSortedTasks.length > 0 && (
+                  <div className="space-y-4">
+                    <DraggableTaskList
+                      tasks={filteredAndSortedTasks}
+                      onTaskUpdate={handleUpdateTask}
+                      onTaskDelete={handleDeleteTask}
+                      onTaskReorder={handleTaskReorder}
+                    />
+                  </div>
+                )}
               </>
             )}
+          </div>
+
+          {/* Recent Activity & Quick Stats */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
+            {/* Recent Activity */}
+            <div className="bg-gradient-to-br from-white to-indigo-50 rounded-2xl shadow-lg p-6 border border-gray-100">
+              <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Recent Activity
+              </h3>
+              {tasks.length > 0 ? (
+                <div className="space-y-4">
+                  {tasks.slice(0, 3).map((task, index) => (
+                    <div key={task.id} className={`p-4 rounded-lg border-l-4 ${task.completed ? 'border-green-500 bg-green-50' : 'border-amber-500 bg-amber-50'}`}>
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <p className="font-medium text-gray-900">{task.title}</p>
+                          <p className="text-sm text-gray-600 mt-1">{task.description || 'No description'}</p>
+                        </div>
+                        <span className={`px-2 py-1 text-xs rounded-full ${
+                          task.completed
+                            ? 'bg-green-100 text-green-800'
+                            : task.due_date && new Date(task.due_date) < new Date() && !task.completed
+                              ? 'bg-red-100 text-red-800'
+                              : 'bg-amber-100 text-amber-800'
+                        }`}>
+                          {task.completed ? 'Completed' : 'Pending'}
+                        </span>
+                      </div>
+                      {task.due_date && (
+                        <p className="text-xs text-gray-500 mt-2">
+                          Due: {new Date(task.due_date).toLocaleDateString()}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-gray-500">No recent activity yet. Add your first task!</p>
+                </div>
+              )}
+            </div>
+
+            {/* Upcoming Tasks */}
+            <div className="bg-gradient-to-br from-white to-indigo-50 rounded-2xl shadow-lg p-6 border border-gray-100">
+              <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Upcoming Tasks
+              </h3>
+              {tasks.length > 0 ? (
+                <div className="space-y-4">
+                  {tasks.filter(task => !task.completed && task.due_date && new Date(task.due_date).getTime() > new Date().getTime()).sort((a, b) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime()).slice(0, 3).map((task, index) => (
+                    <div key={task.id} className="p-4 rounded-lg border-l-4 border-blue-500 bg-blue-50">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <p className="font-medium text-gray-900">{task.title}</p>
+                          <p className="text-sm text-gray-600 mt-1">{task.description || 'No description'}</p>
+                        </div>
+                        <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
+                          {new Date(task.due_date).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                  {tasks.filter(task => !task.completed && task.due_date).length === 0 ? (
+                    <div className="text-center py-4">
+                      <p className="text-gray-500">No upcoming tasks scheduled</p>
+                    </div>
+                  ) : null}
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-gray-500">No upcoming tasks yet. Add your first task!</p>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Task Statistics Visualization */}
