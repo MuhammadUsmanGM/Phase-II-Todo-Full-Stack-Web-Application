@@ -156,6 +156,16 @@ export default function DashboardPage() {
     );
   };
 
+  // Helper function to safely create a Date object from a potentially null due_date
+  const safeDate = (dateString: string | null | undefined): Date | null => {
+    if (!dateString) return null;
+    try {
+      return new Date(dateString);
+    } catch {
+      return null;
+    }
+  };
+
   const handleDeleteTask = (taskId: number) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
   };
@@ -437,7 +447,10 @@ export default function DashboardPage() {
                     <div>
                       <p className="text-sm text-amber-700/80 font-medium">Overdue Tasks</p>
                       <p className="text-xl font-bold text-gray-800">
-                        {tasks.filter(t => t.due_date && new Date(t.due_date) < new Date() && !t.completed).length}
+                        {tasks.filter(t => {
+                        const dueDate = safeDate(t.due_date);
+                        return dueDate && dueDate < new Date() && !t.completed;
+                      }).length}
                       </p>
                     </div>
                   </div>
@@ -711,7 +724,10 @@ export default function DashboardPage() {
                         <span className={`px-2 py-1 text-xs rounded-full ${
                           task.completed
                             ? 'bg-green-100 dark:bg-green-800/50 text-green-800 dark:text-green-200'
-                            : task.due_date && new Date(task.due_date) < new Date() && !task.completed
+                            : task.due_date && (() => {
+                              const dueDate = safeDate(task.due_date);
+                              return dueDate && dueDate < new Date() && !task.completed;
+                            })()
                               ? 'bg-red-100 dark:bg-red-800/50 text-red-800 dark:text-red-200'
                               : 'bg-amber-100 dark:bg-amber-800/50 text-amber-800 dark:text-amber-200'
                         }`}>
@@ -720,7 +736,7 @@ export default function DashboardPage() {
                       </div>
                       {task.due_date && (
                         <p className="text-xs text-gray-500 mt-2">
-                          Due: {new Date(task.due_date).toLocaleDateString()}
+                          Due: {safeDate(task.due_date)?.toLocaleDateString() || 'No due date'}
                         </p>
                       )}
                     </div>
@@ -743,7 +759,19 @@ export default function DashboardPage() {
               </h3>
               {tasks.length > 0 ? (
                 <div className="space-y-4">
-                  {tasks.filter(task => !task.completed && task.due_date && new Date(task.due_date).getTime() > new Date().getTime()).sort((a, b) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime()).slice(0, 3).map((task, index) => (
+                  {tasks
+                    .filter(task => {
+                      const dueDate = safeDate(task.due_date);
+                      return !task.completed && dueDate && dueDate.getTime() > new Date().getTime();
+                    })
+                    .sort((a, b) => {
+                      const dateA = safeDate(a.due_date);
+                      const dateB = safeDate(b.due_date);
+                      if (!dateA || !dateB) return 0;
+                      return dateA.getTime() - dateB.getTime();
+                    })
+                    .slice(0, 3)
+                    .map((task, index) => (
                     <div key={task.id} className="p-4 rounded-lg border-l-4 border-blue-500 bg-blue-50">
                       <div className="flex justify-between items-start">
                         <div>
@@ -751,7 +779,7 @@ export default function DashboardPage() {
                           <p className="text-sm text-gray-600 mt-1">{task.description || 'No description'}</p>
                         </div>
                         <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
-                          {new Date(task.due_date).toLocaleDateString()}
+                          {safeDate(task.due_date)?.toLocaleDateString() || 'No due date'}
                         </span>
                       </div>
                     </div>
