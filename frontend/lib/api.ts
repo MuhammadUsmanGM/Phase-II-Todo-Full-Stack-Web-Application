@@ -1,7 +1,12 @@
 import { GetServerSidePropsContext } from "next";
 import { Task } from "@/types/task";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+let API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+// Remove trailing slash if present to prevent double slashes in URLs
+if (API_BASE_URL && API_BASE_URL.endsWith('/')) {
+  API_BASE_URL = API_BASE_URL.slice(0, -1);
+}
 
 interface RequestOptions extends RequestInit {
   token?: string | null;
@@ -49,8 +54,8 @@ async function apiFetch<T>(
 
   if (endpoint.startsWith("/auth/")) { // Special handling for authentication endpoints
     url = `${API_BASE_URL}${endpoint}`;
-  } else if (userId) { // Task-related endpoints with userId
-    url = `${API_BASE_URL}/api/${userId}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
+  } else if (options.userId) { // Task-related endpoints with userId
+    url = `${API_BASE_URL}/api/${options.userId}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
   } else { // Other endpoints relative to API_BASE_URL
     url = `${API_BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
   }
