@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState, ReactNode } from 'react
 import { useTheme } from 'next-themes';
 
 interface ThemeContextType {
-  theme: string;
+  theme: string | undefined;
   toggleTheme: () => void;
   isDark: boolean;
 }
