@@ -44,10 +44,17 @@ export default function StatisticsDashboard({ tasks }: StatisticsDashboardProps)
     const completionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
     // Calculate overdue tasks
-    const overdueTasks = tasks.filter(task => 
-      task.due_date && 
-      !task.completed && 
-      new Date(task.due_date) < today
+    const overdueTasks = tasks.filter(task =>
+      task.due_date &&
+      !task.completed &&
+      (() => {
+        try {
+          const dueDate = new Date(task.due_date);
+          return dueDate < today;
+        } catch {
+          return false;
+        }
+      })()
     ).length;
 
     // Calculate tasks created in the last week/month

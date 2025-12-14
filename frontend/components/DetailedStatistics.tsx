@@ -82,10 +82,17 @@ export default function DetailedStatistics({ tasks }: { tasks: Task[] }) {
 
     // Count overdue tasks
     const today = new Date();
-    const overdueTasks = tasks.filter(task => 
-      task.due_date && 
-      !task.completed && 
-      new Date(task.due_date) < today
+    const overdueTasks = tasks.filter(task =>
+      task.due_date &&
+      !task.completed &&
+      (() => {
+        try {
+          const dueDate = new Date(task.due_date);
+          return dueDate < today;
+        } catch {
+          return false;
+        }
+      })()
     ).length;
 
     setStats({
