@@ -5,12 +5,231 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { useAuth } from "@/context/AuthContext";
 
+// Define task type
+interface Task {
+  id: number;
+  title: string;
+  completed: boolean;
+  createdAt: Date;
+}
+
+// Define animation type
+interface AnimatedTask {
+  task: Task;
+  animation: string;
+}
+
 export default function Home() {
   const [showAbout, setShowAbout] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
   const [showContact, setShowContact] = useState(false);
+  const [animatedTasks, setAnimatedTasks] = useState<AnimatedTask[]>([]);
   const { isAuthenticated } = useAuth();
+
+  // Initialize with sample tasks
+  useEffect(() => {
+    // Predefined list of realistic task examples
+    const realisticTasks = [
+      "Design the new landing page",
+      "Create API endpoints for user authentication",
+      "Setup database schema for tasks",
+      "Implement JWT token authentication",
+      "Add drag-and-drop functionality",
+      "Create responsive mobile layout",
+      "Implement task filtering and sorting",
+      "Setup deployment pipeline",
+      "Add user profile management",
+      "Implement task reminder notifications",
+      "Create data export functionality",
+      "Add keyboard shortcuts",
+      "Setup automated testing suite",
+      "Optimize database queries",
+      "Implement search functionality",
+    ];
+
+    // Initialize with 2 random tasks from the list to avoid always showing the same ones
+    const randomIdx1 = Math.floor(Math.random() * realisticTasks.length);
+    let randomIdx2 = Math.floor(Math.random() * realisticTasks.length);
+    // Make sure we get different tasks
+    while (randomIdx2 === randomIdx1) {
+      randomIdx2 = Math.floor(Math.random() * realisticTasks.length);
+    }
+
+    // Initial tasks - using exactly 2 tasks with random selections
+    const initialTasks: Task[] = [
+      { id: 1, title: realisticTasks[randomIdx1], completed: false, createdAt: new Date() },
+      { id: 2, title: realisticTasks[randomIdx2], completed: false, createdAt: new Date() }
+    ];
+
+    const initialAnimatedTasks: AnimatedTask[] = initialTasks.map(task => ({
+      task,
+      animation: "animate-taskAdd" // Start with add animation for both
+    }));
+
+    setAnimatedTasks(initialAnimatedTasks);
+  }, []);
+
+  // Simulate dynamic task animations with realistic examples and limited to 2 tasks cycling through 10 options
+  useEffect(() => {
+    // Predefined list of realistic task examples
+    const realisticTasks = [
+      "Design the new landing page",
+      "Create API endpoints for user authentication",
+      "Setup database schema for tasks",
+      "Implement JWT token authentication",
+      "Add drag-and-drop functionality",
+      "Create responsive mobile layout",
+      "Implement task filtering and sorting",
+      "Setup deployment pipeline",
+      "Add user profile management",
+      "Implement task reminder notifications",
+      "Create data export functionality",
+      "Add keyboard shortcuts",
+      "Setup automated testing suite",
+      "Optimize database queries",
+      "Implement search functionality",
+    ];
+
+    // Only run animations in browser environment (not on the server)
+    if (typeof window !== 'undefined') {
+      // Task simulation interval
+      const taskInterval = setInterval(() => {
+        // Actions: complete task, mark as active, update task text
+        const actions = ['complete', 'activate', 'switch']; // Added 'switch' to change task text
+        const randomAction = actions[Math.floor(Math.random() * actions.length)];
+
+        setAnimatedTasks(prevTasks => {
+          // Make sure we always have exactly 2 tasks
+          let newTasks = [...prevTasks];
+
+          if (newTasks.length < 2) {
+            // If we have less than 2 tasks, add some (we want exactly 2 animated tasks + input field = 3 total elements)
+            const missingCount = 2 - newTasks.length;
+            for (let i = 0; i < missingCount; i++) {
+              const randomTask = realisticTasks[Math.floor(Math.random() * realisticTasks.length)];
+              const newTask: Task = {
+                id: Date.now() + i,
+                title: randomTask,
+                completed: false,
+                createdAt: new Date()
+              };
+
+              const newAnimatedTask: AnimatedTask = {
+                task: newTask,
+                animation: "animate-taskAdd"
+              };
+
+              newTasks.push(newAnimatedTask);
+            }
+          }
+
+          if (randomAction === 'complete' && newTasks.some(t => !t.task.completed)) {
+            // Find an incomplete task to complete
+            newTasks = newTasks.map(t => {
+              // Randomly pick an incomplete task (but only if there are incomplete tasks)
+              if (!t.task.completed && Math.random() > 0.6) {
+                return {
+                  ...t,
+                  task: { ...t.task, completed: true },
+                  animation: "animate-taskComplete"
+                };
+              }
+              // Add default animation to other tasks
+              return {
+                ...t,
+                animation: "animate-taskActive"
+              };
+            });
+          }
+          else if (randomAction === 'activate' && newTasks.some(t => t.task.completed)) {
+            // Find a completed task to mark as active
+            newTasks = newTasks.map(t => {
+              // Randomly pick a completed task to make active
+              if (t.task.completed && Math.random() > 0.6) {
+                return {
+                  ...t,
+                  task: { ...t.task, completed: false },
+                  animation: "animate-taskAdd"
+                };
+              }
+              // Add default animation to other tasks
+              return {
+                ...t,
+                animation: "animate-taskActive"
+              };
+            });
+          }
+          else if (randomAction === 'switch') {
+            // Randomly replace one or both tasks with new ones from the list
+            newTasks = newTasks.map(t => {
+              if (Math.random() > 0.7) { // 30% chance to replace each task
+                // Find a new random task that's different from current
+                let newRandomTask = realisticTasks[Math.floor(Math.random() * realisticTasks.length)];
+
+                // Make sure it's different from current task
+                while (newRandomTask === t.task.title) {
+                  newRandomTask = realisticTasks[Math.floor(Math.random() * realisticTasks.length)];
+                }
+
+                const newTaskId = Date.now() + Math.random(); // Generate unique ID for new task
+
+                return {
+                  task: {
+                    id: newTaskId,
+                    title: newRandomTask,
+                    completed: false, // Reset to not completed when switching
+                    createdAt: new Date()
+                  },
+                  animation: "animate-taskAdd"
+                };
+              }
+              return {
+                ...t,
+                animation: "animate-taskActive"
+              };
+            });
+          }
+
+          // Ensure we only have exactly 2 tasks at all times (never exceed 2)
+          while (newTasks.length > 2) {
+            newTasks.pop(); // Remove excess tasks from the end
+          }
+
+          // Ensure we always have exactly 2 tasks (never go below 2)
+          while (newTasks.length < 2) {
+            let randomTask = realisticTasks[Math.floor(Math.random() * realisticTasks.length)];
+
+            // Make sure the new task is different from existing ones
+            const existingTitles = newTasks.map(t => t.task.title);
+            while (existingTitles.includes(randomTask)) {
+              randomTask = realisticTasks[Math.floor(Math.random() * realisticTasks.length)];
+            }
+
+            const newTask: Task = {
+              id: Date.now() + newTasks.length,
+              title: randomTask,
+              completed: false,
+              createdAt: new Date()
+            };
+
+            const newAnimatedTask: AnimatedTask = {
+              task: newTask,
+              animation: "animate-taskAdd"
+            };
+
+            newTasks.push(newAnimatedTask);
+          }
+
+          return newTasks;
+        });
+      }, 3000); // Every 3 seconds
+
+      // Cleanup interval on unmount
+      return () => clearInterval(taskInterval);
+    }
+  }, []);
+
   // Handle scroll-based animations
   useEffect(() => {
     const handleScroll = () => {
@@ -28,6 +247,60 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <style jsx global>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeOut {
+          from { opacity: 1; transform: translateY(0); }
+          to { opacity: 0; transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+
+        @keyframes slideInRight {
+          from { opacity: 0; transform: translateX(20px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInLeft {
+          from { opacity: 0; transform: translateX(-20px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+
+        .animate-taskAdd {
+          animation: slideInRight 0.5s ease-out forwards;
+        }
+
+        .animate-taskComplete {
+          animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        .animate-taskRemoved {
+          animation: fadeOut 0.3s ease-out forwards;
+        }
+
+        .animate-taskActive {
+          animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        .animate-pulse {
+          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .animate-inputFocus {
+          animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .animate-typing {
+          animation: slideInLeft 0.3s ease-out forwards;
+        }
+      `}</style>
       <Navbar />
       {/* Hero Section */}
       <section className="relative pt-32 pb-32 flex content-center items-center justify-center min-h-screen overflow-hidden">
@@ -130,40 +403,55 @@ export default function Home() {
                       <div className="flex justify-between items-center">
                         <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">My Tasks</h3>
                         <div className="px-3 py-1 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs font-bold rounded-full shadow">
-                          1 Remaining
+                          {animatedTasks.filter(t => !t.task.completed).length} Remaining
                         </div>
                       </div>
                       <p className="text-gray-500 text-xs mt-1">Today, {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
                     </div>
 
-                    {/* Task List with Enhanced Styling */}
+                    {/* Task List with Enhanced Styling - Animated Version */}
                     <div className="p-5 space-y-4">
-                      {/* Task Item 1 - Completed */}
-                      <div className="flex items-center p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200/50 shadow-sm group hover:shadow-md transition-shadow duration-300">
-                        <div className="flex items-center justify-center w-6 h-6 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 border-2 border-transparent mr-3 flex-shrink-0">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                          </svg>
+                      {animatedTasks.slice(0, 2).map((animatedTask) => (
+                        <div
+                          key={animatedTask.task.id}
+                          className={`flex items-center p-4 rounded-xl border shadow-md group hover:shadow-lg transition-all duration-300 ${animatedTask.animation} ${
+                            animatedTask.task.completed
+                              ? 'bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200/50'
+                              : 'bg-gradient-to-r from-indigo-50 to-purple-50 border-2 border-indigo-300/50'
+                          }`}
+                        >
+                          <div className="flex items-center justify-center w-6 h-6 rounded-full mr-3 flex-shrink-0">
+                            {animatedTask.task.completed ? (
+                              <div className="rounded-full bg-gradient-to-r from-green-500 to-emerald-500 border-2 border-transparent">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                </svg>
+                              </div>
+                            ) : (
+                              <div className="rounded-full border-2 border-indigo-400">
+                                <div className="w-2 h-2 bg-indigo-400 rounded-full opacity-100 animate-pulse"></div>
+                              </div>
+                            )}
+                          </div>
+                          <span
+                            className={`text-sm ${
+                              animatedTask.task.completed
+                                ? 'text-gray-500 line-through'
+                                : 'text-gray-800 font-medium'
+                            }`}
+                          >
+                            {animatedTask.task.title}
+                          </span>
                         </div>
-                        <span className="text-gray-500 line-through text-sm">Design the new landing page</span>
-                      </div>
-
-                      {/* Task Item 2 - Active */}
-                      <div className="flex items-center p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border-2 border-indigo-300/50 shadow-md transform -translate-y-0.5 group hover:shadow-lg transition-all duration-300">
-                        <div className="flex items-center justify-center w-6 h-6 rounded-full border-2 border-indigo-400 mr-3 flex-shrink-0">
-                          <div className="w-2 h-2 bg-indigo-400 rounded-full opacity-100"></div>
-                        </div>
-                        <span className="text-gray-800 font-medium text-sm">Implement backend API endpoints</span>
-                      </div>
-
-                      {/* Task Item 3 - Input field styled as a task */}
-                      <div className="flex items-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border-2 border-dashed border-indigo-300/50 group hover:shadow-sm transition-shadow duration-300">
+                      ))}
+                      {/* Input field for new tasks - always present */}
+                      <div className="flex items-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border-2 border-dashed border-indigo-300/50 group hover:shadow-sm transition-shadow duration-300 animate-inputFocus">
                         <div className="flex items-center justify-center w-6 h-6 rounded-full border-2 border-gray-300 mr-3 flex-shrink-0 opacity-60">
                         </div>
                         <input
                           type="text"
                           placeholder="Add a new task..."
-                          className="w-full bg-transparent focus:outline-none text-gray-700 placeholder-gray-500 text-sm"
+                          className="w-full bg-transparent focus:outline-none text-gray-700 placeholder-gray-500 text-sm animate-typing"
                         />
                       </div>
                     </div>
