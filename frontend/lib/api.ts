@@ -104,7 +104,7 @@ interface AuthResponse {
 
 // --- Auth Endpoints ---
 export const authApi = {
-  register: (data: any) => apiFetch("/auth/register", { method: "POST", body: JSON.stringify(data) }),
+  register: (data: any) => apiFetch<AuthResponse>("/auth/register", { method: "POST", body: JSON.stringify(data) }),
   login: (data: string) => // data should be URLSearchParams for form-urlencoded
     apiFetch<AuthResponse>("/auth/login", {
       method: "POST",
