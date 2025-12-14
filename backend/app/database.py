@@ -7,6 +7,14 @@ load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
+if DATABASE_URL is None:
+    # Fallback to a default value for development, but this should be set in production
+    DATABASE_URL = os.getenv("DATABASE_URL_DEFAULT", "")
+
+if not DATABASE_URL:
+    # Raise an error if no database URL is provided
+    raise ValueError("DATABASE_URL environment variable is not set. Please configure it in your deployment platform.")
+
 # Create the engine with connection pooling and SSL settings
 engine = create_engine(
     DATABASE_URL,
