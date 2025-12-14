@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from "next";
+import { Task } from "@/types/task";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
