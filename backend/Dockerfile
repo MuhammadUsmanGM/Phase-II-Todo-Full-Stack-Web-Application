@@ -20,8 +20,11 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code (before creating non-root user)
+# Copy application code
 COPY . .
+
+# Make the start script executable (before creating non-root user)
+RUN chmod +x /app/start.sh
 
 # Create non-root user
 RUN useradd --create-home --shell /bin/bash app \
