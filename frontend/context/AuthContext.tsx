@@ -99,9 +99,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     router.push("/"); // Redirect to landing page after logout
   };
 
+  const mockLogin = () => {
+    // Create a mock token with "none" algorithm (insecure, for testing only)
+    // Format: header.payload.signature
+    const header = btoa(JSON.stringify({ alg: "none", typ: "JWT", isMock: true }));
+    const payload = btoa(JSON.stringify({
+      sub: "1",
+      email: "mock@example.com",
+      name: "Mock User",
+      exp: Math.floor(Date.now() / 1000) + 3600 // Expires in 1 hour
+    }));
+    const mockToken = `${header}.${payload}.`; // Empty signature
+
+    login(mockToken);
+  };
+
   return (
     <AuthContext.Provider
-      value={{ token, userId, userEmail, userName, isAuthenticated, login, logout, isLoading }}
+      value={{ token, userId, userEmail, userName, isAuthenticated, login, logout, mockLogin, isLoading }}
     >
       {children}
     </AuthContext.Provider>
