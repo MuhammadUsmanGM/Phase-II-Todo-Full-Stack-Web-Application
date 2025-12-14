@@ -36,4 +36,4 @@ ENV PYTHONPATH=/app
 ENV PORT=8000
 
 # Run the application
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+CMD ["python", "run_server.py"]
