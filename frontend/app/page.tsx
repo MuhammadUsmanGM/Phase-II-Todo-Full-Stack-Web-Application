@@ -327,16 +327,38 @@ export default function Home() {
                   <span className="text-indigo-800 font-medium text-sm">Boost your productivity today</span>
                 </div>
                 <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight animate-slideUp delay-200 tracking-tight">
-                  <span className="block">Organize Your Life</span>
-                  <span className="block bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-                    One Task at a Time
+                  <span className="block relative">
+                    <span className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 font-extrabold">
+                      Organize Your Life
+                    </span>
+                    <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-indigo-500/10 to-purple-500/10 text-7xl md:text-8xl -z-10 transform translate-y-1">
+                      Organize Your Life
+                    </span>
+                  </span>
+                  <span className="block relative mt-2">
+                    <span className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 font-extrabold">
+                      One Task at a Time
+                    </span>
+                    <span className="absolute inset-0 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500/10 to-pink-500/10 text-7xl md:text-8xl -z-10 transform translate-y-1">
+                      One Task at a Time
+                    </span>
                   </span>
                 </h1>
-                <p className="mt-6 text-xl text-gray-800 max-w-lg mx-auto lg:mx-0 animate-slideUp delay-300 leading-relaxed">
+                <p className="mt-6 text-xl text-gray-700 max-w-2xl mx-auto lg:mx-0 animate-slideUp delay-300 leading-relaxed font-medium">
                   {isAuthenticated ? (
-                    "Welcome back! Manage your tasks and boost your productivity with our powerful tools."
+                    <span className="relative">
+                      <span className="relative z-10">
+                        Welcome back! Effortlessly <span className="text-indigo-600 font-bold">manage your tasks</span>, <span className="text-purple-600 font-bold">boost productivity</span>, and <span className="text-pink-500 font-bold">achieve your goals</span> with our intuitive tools.
+                      </span>
+                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-indigo-400/30 to-purple-400/30 -z-10"></span>
+                    </span>
                   ) : (
-                    "A powerful and intuitive task management application designed to boost your productivity and simplify your daily routine."
+                    <span className="relative">
+                      <span className="relative z-10">
+                        The ultimate <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 font-bold">task management solution</span> designed to <span className="text-indigo-600 font-bold">streamline your workflow</span> and <span className="text-purple-600 font-bold">elevate your productivity</span> to new heights.
+                      </span>
+                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-indigo-400/30 to-purple-400/30 -z-10"></span>
+                    </span>
                   )}
                 </p>
                 <div className="mt-10 flex flex-col sm:flex-row justify-center lg:justify-start gap-4 animate-slideUp delay-400">
