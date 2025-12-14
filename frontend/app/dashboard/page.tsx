@@ -150,7 +150,7 @@ export default function DashboardPage() {
     console.log("Set showAddTaskCard to true");
   };
 
-  const handleUpdateTask = (updatedTask: any) => {
+  const handleUpdateTask = (updatedTask: Task) => {
     setTasks((prevTasks) =>
       prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task))
     );
