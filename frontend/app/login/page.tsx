@@ -26,7 +26,7 @@ export default function LoginPage() {
       formData.append("username", email);
       formData.append("password", password);
 
-      const response: { access_token: string; token_type: string } = await authApi.login(formData.toString());
+      const response = await authApi.login(formData.toString());
       login(response.access_token);
       router.push("/dashboard"); // Redirect to dashboard
     } catch (err: any) {
