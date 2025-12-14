@@ -63,15 +63,15 @@ export const useTaskFiltering = (tasks: Task[]): UseTaskFilteringResult => {
 
         switch (filterOptions.dueDateRange) {
           case 'overdue':
-            return dueDate < now && !task.completed;
+            return dueDate && dueDate < now && !task.completed;
           case 'thisWeek':
             const oneWeekFromNow = new Date(now);
             oneWeekFromNow.setDate(oneWeekFromNow.getDate() + 7);
-            return dueDate >= now && dueDate <= oneWeekFromNow;
+            return dueDate && dueDate >= now && dueDate <= oneWeekFromNow;
           case 'thisMonth':
             const oneMonthFromNow = new Date(now);
             oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
-            return dueDate >= now && dueDate <= oneMonthFromNow;
+            return dueDate && dueDate >= now && dueDate <= oneMonthFromNow;
           default:
             return true;
         }
@@ -100,7 +100,11 @@ export const useTaskFiltering = (tasks: Task[]): UseTaskFilteringResult => {
           if (!a.due_date && !b.due_date) return 0;
           if (!a.due_date) return 1;
           if (!b.due_date) return -1;
-          return new Date(a.due_date).getTime() - new Date(b.due_date).getTime();
+          if (a.due_date && !b.due_date) return -1;
+          if (!a.due_date && b.due_date) return 1;
+          const dateA = new Date(a.due_date!);
+          const dateB = new Date(b.due_date!);
+          return dateA.getTime() - dateB.getTime();
         case 'date':
         default:
           return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
