@@ -20,13 +20,15 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy application code (before creating non-root user)
+COPY . .
+
 # Create non-root user
 RUN useradd --create-home --shell /bin/bash app \
     && chown -R app:app /app
-USER app
 
-# Copy application code
-COPY . .
+# Switch to non-root user
+USER app
 
 # Expose port
 EXPOSE 8000
@@ -35,8 +37,5 @@ EXPOSE 8000
 ENV PYTHONPATH=/app
 ENV PORT=8000
 
-# Make the start script executable and use it
-RUN chmod +x /app/start.sh
-
-# Run the application
+# Run the application using the start script
 CMD ["/app/start.sh"]
