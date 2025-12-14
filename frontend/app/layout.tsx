@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "../context/AuthContext"; // Import AuthProvider
 import { ThemeProvider } from "next-themes";
 import { AccessibilityProvider } from "../context/AccessibilityContext";
+import AuthExpirationNotification from "@/components/AuthExpirationNotification"; // Import the auth expiration notification
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,7 +52,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AccessibilityProvider>
-            <AuthProvider>{children}</AuthProvider> {/* Wrap children with AuthProvider */}
+            <AuthProvider>
+              <AuthExpirationNotification />
+              {children}
+            </AuthProvider> {/* Wrap children with AuthProvider */}
           </AccessibilityProvider>
         </ThemeProvider>
         <Script
