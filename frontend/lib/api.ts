@@ -111,17 +111,17 @@ export const authApi = {
 // --- Task Endpoints ---
 export const tasksApi = {
   getTasks: (userId: string, token: string) =>
-    apiFetch(`/tasks`, { method: "GET", token, userId }),
+    apiFetch<Task[]>(`/tasks`, { method: "GET", token, userId }),
   createTask: (userId: string, token: string, data: any) =>
-    apiFetch(`/tasks`, { method: "POST", token, userId, body: JSON.stringify(data) }),
+    apiFetch<Task>(`/tasks`, { method: "POST", token, userId, body: JSON.stringify(data) }),
   getTask: (userId: string, taskId: number, token: string) =>
-    apiFetch(`/tasks/${taskId}`, { method: "GET", token, userId }),
+    apiFetch<Task>(`/tasks/${taskId}`, { method: "GET", token, userId }),
   updateTask: (userId: string, taskId: number, token: string, data: any) =>
-    apiFetch(`/tasks/${taskId}`, { method: "PUT", token, userId, body: JSON.stringify(data) }),
+    apiFetch<Task>(`/tasks/${taskId}`, { method: "PUT", token, userId, body: JSON.stringify(data) }),
   deleteTask: (userId: string, taskId: number, token: string) =>
     apiFetch(`/tasks/${taskId}`, { method: "DELETE", token, userId }),
   toggleTaskCompletion: (userId: string, taskId: number, token: string, completed: boolean) =>
-    apiFetch(`/tasks/${taskId}/complete`, {
+    apiFetch<Task>(`/tasks/${taskId}/complete`, {
       method: "PATCH",
       token,
       userId,
