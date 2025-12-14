@@ -92,8 +92,8 @@ export const useTaskFiltering = (tasks: Task[]): UseTaskFilteringResult => {
     result.sort((a, b) => {
       switch (currentSort) {
         case 'priority':
-          const priorityOrder: Record<'low' | 'medium' | 'high' | undefined, number> = { high: 3, medium: 2, low: 1, undefined: 2 };
-          return priorityOrder[b.priority || 'medium'] - priorityOrder[a.priority || 'medium'];
+          const priorityOrder: { [key: string]: number } = { high: 3, medium: 2, low: 1 };
+          return (priorityOrder[b.priority || 'medium'] || 2) - (priorityOrder[a.priority || 'medium'] || 2);
         case 'title':
           return a.title.localeCompare(b.title);
         case 'due_date':
