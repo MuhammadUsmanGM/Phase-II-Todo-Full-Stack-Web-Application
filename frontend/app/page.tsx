@@ -133,7 +133,7 @@ export default function Home() {
                           1 Remaining
                         </div>
                       </div>
-                      <p className="text-gray-500 text-xs mt-1">Today, December 11</p>
+                      <p className="text-gray-500 text-xs mt-1">Today, {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
                     </div>
 
                     {/* Task List with Enhanced Styling */}
