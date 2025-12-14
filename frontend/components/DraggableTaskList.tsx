@@ -1,7 +1,7 @@
 'use client';
 
 import { Task } from '@/types/task';
-import { useDragAndDrop } from '@/hooks/useDragAndDrop';
+import { useDragAndDrop } from '../hooks/useDragAndDrop';
 import TaskItem from './TaskItem';
 
 interface DraggableTaskListProps {
