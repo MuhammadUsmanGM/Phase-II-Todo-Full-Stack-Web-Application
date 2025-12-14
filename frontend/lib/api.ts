@@ -97,11 +97,16 @@ async function apiFetch<T>(
   return response.json();
 }
 
+interface AuthResponse {
+  access_token: string;
+  token_type: string;
+}
+
 // --- Auth Endpoints ---
 export const authApi = {
   register: (data: any) => apiFetch("/auth/register", { method: "POST", body: JSON.stringify(data) }),
   login: (data: string) => // data should be URLSearchParams for form-urlencoded
-    apiFetch("/auth/login", {
+    apiFetch<AuthResponse>("/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: data,
