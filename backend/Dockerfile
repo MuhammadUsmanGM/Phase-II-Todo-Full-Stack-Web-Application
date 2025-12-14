@@ -35,5 +35,8 @@ EXPOSE 8000
 ENV PYTHONPATH=/app
 ENV PORT=8000
 
+# Make the start script executable and use it
+RUN chmod +x /app/start.sh
+
 # Run the application
-CMD ["python", "run_server.py"]
+CMD ["/app/start.sh"]
